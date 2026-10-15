@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Opportunity Scout — Student Opportunities Portal</title>
+  <meta name="description" content="Discover verified scholarships, internships, research programs, fellowships and hackathons curated daily by AI agents. Chat with your 24/7 student advisor." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── Design tokens ──────────────────────────────────────────────────── */
+    :root {
+      --bg:          #08081a;
+      --bg-card:     rgba(255,255,255,0.04);
+      --bg-card-h:   rgba(255,255,255,0.07);
+      --border:      rgba(255,255,255,0.08);
+      --border-h:    rgba(99,102,241,0.45);
+      --primary:     #6366f1;
+      --primary-d:   #4f46e5;
+      --violet:      #8b5cf6;
+      --text:        #e2e8f0;
+      --text-2:      #94a3b8;
+      --text-3:      #475569;
+      --radius:      14px;
+      --radius-sm:   8px;
+      --transition:  0.2s ease;
+
+      /* Category colors */
+      --c-scholarship: #f59e0b;
+      --c-internship:  #3b82f6;
+      --c-research:    #8b5cf6;
+      --c-hackathon:   #10b981;
+      --c-fellowship:  #f97316;
+      --c-grant:       #ec4899;
+
+      /* Compensation colors */
+      --comp-funded:  #4ade80;
+      --comp-stipend: #60a5fa;
+      --comp-unpaid:  #94a3b8;
+      --comp-prize:   #fbbf24;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ── Animated background ────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 10% 0%, rgba(99,102,241,0.12) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 90% 100%, rgba(139,92,246,0.10) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Layout ─────────────────────────────────────────────────────────── */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Header ─────────────────────────────────────────────────────────── */
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(8,8,26,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 0;
+    }
+
+    .logo {
+      width: 42px;
+      height: 42px;
+      background: linear-gradient(135deg, var(--primary-d) 0%, var(--violet) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+      box-shadow: 0 4px 16px rgba(99,102,241,0.4);
+    }
+
+    .logo-text { flex: 1; min-width: 0; }
+    .logo-text h1 {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(90deg, #e0e7ff 0%, #c4b5fd 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.2;
+    }
+    .logo-text p {
+      font-size: 12px;
+      color: var(--text-2);
+      font-weight: 400;
+    }
+
+    .header-badge {
+      padding: 5px 12px;
+      background: rgba(99,102,241,0.15);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #a5b4fc;
+      white-space: nowrap;
+    }
+    .header-badge span {
+      display: inline-block;
+      width: 7px;
+      height: 7px;
+      background: #4ade80;
+      border-radius: 50%;
+      margin-right: 6px;
+      animation: blink 2s ease-in-out infinite;
+    }
+
+    /* ── Hero ───────────────────────────────────────────────────────────── */
+    .hero {
+      text-align: center;
+      padding: 64px 0 48px;
+    }
+    .hero-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(99,102,241,0.1);
+      border: 1px solid rgba(99,102,241,0.25);
+      border-radius: 20px;
+      padding: 6px 14px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #a5b4fc;
+      margin-bottom: 20px;
+    }
+    .hero h2 {
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 800;
+      line-height: 1.15;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #fff 0%, #c4b5fd 60%, #818cf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 16px;
+      color: var(--text-2);
+      max-width: 540px;
+      margin: 0 auto 36px;
+    }
+
+    /* ── Stats bar ──────────────────────────────────────────────────────── */
+    .stats-bar {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+    }
+    .stat-chip {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 13px;
+      color: var(--text-2);
+      transition: border-color var(--transition);
+    }
+    .stat-chip:hover { border-color: var(--border-h); }
+    .stat-chip strong { color: var(--text); font-weight: 700; font-size: 18px; }
+    .stat-chip .stat-icon { font-size: 18px; }
+
+    /* ── Search & Filters ───────────────────────────────────────────────── */
+    .controls {
+      max-width: 860px;
+      margin: 0 auto 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .search-wrap {
+      position: relative;
+    }
+    .search-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-3);
+      pointer-events: none;
+    }
+    #search {
+      width: 100%;
+      padding: 14px 16px 14px 48px;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 15px;
+      font-family: inherit;
+      outline: none;
+      transition: border-color var(--transition), box-shadow var(--transition);
+    }
+    #search::placeholder { color: var(--text-3); }
+    #search:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(99,102,241,0.15);
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .filter-label {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      white-space: nowrap;
+    }
+
+    .filter-btn {
+      padding: 7px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+      color: var(--text-2);
+      transition: all var(--transition);
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .filter-btn:hover {
+      border-color: var(--primary);
+      color: var(--text);
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--primary-d), var(--violet));
+      border-color: transparent;
+      color: white;
+      font-weight: 600;
+    }
+
+    /* ── Results bar ────────────────────────────────────────────────────── */
+    .results-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .results-count { font-size: 14px; color: var(--text-2); }
+    .results-count strong { color: var(--text); font-weight: 700; }
+
+    .sort-select {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      color: var(--text-2);
+      font-size: 13px;
+      padding: 6px 12px;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ── Cards grid ─────────────────────────────────────────────────────── */
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 80px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+      animation: fadeUp 0.4s ease both;
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(99,102,241,0.04) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity var(--transition);
+      pointer-events: none;
+    }
+    .card:hover {
+      border-color: var(--border-h);
+      transform: translateY(-3px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.35);
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-top {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+    }
+    .card-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      flex-shrink: 0;
+    }
+    .card-meta { flex: 1; min-width: 0; }
+    .card-org {
+      font-size: 12px;
+      color: var(--text-3);
+      font-weight: 500;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .card-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    /* Category badge colors */
+    .badge-cat { background: rgba(255,255,255,0.07); color: var(--text-2); }
+    .badge-scholarship { background: rgba(245,158,11,0.15); color: #fbbf24; border: 1px solid rgba(245,158,11,0.2); }
+    .badge-internship  { background: rgba(59,130,246,0.15); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+    .badge-research    { background: rgba(139,92,246,0.15); color: #a78bfa; border: 1px solid rgba(139,92,246,0.2); }
+    .badge-hackathon   { background: rgba(16,185,129,0.15); color: #34d399; border: 1px solid rgba(16,185,129,0.2); }
+    .badge-fellowship  { background: rgba(249,115,22,0.15); color: #fb923c; border: 1px solid rgba(249,115,22,0.2); }
+    .badge-grant       { background: rgba(236,72,153,0.15); color: #f472b6; border: 1px solid rgba(236,72,153,0.2); }
+
+    /* Compensation badge */
+    .badge-comp {
+      background: rgba(74,222,128,0.1);
+      color: #4ade80;
+      border: 1px solid rgba(74,222,128,0.2);
+    }
+    .badge-comp.unpaid    { background: rgba(148,163,184,0.1); color: var(--text-2); border-color: rgba(148,163,184,0.2); }
+    .badge-comp.prize     { background: rgba(251,191,36,0.1);  color: #fbbf24; border-color: rgba(251,191,36,0.2); }
+    .badge-comp.stipend   { background: rgba(96,165,250,0.1);  color: #60a5fa; border-color: rgba(96,165,250,0.2); }
+
+    .card-pitch {
+      font-size: 13px;
+      color: var(--text-2);
+      line-height: 1.5;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    .card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+      padding-top: 12px;
+      border-top: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+    .deadline {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12.5px;
+      color: var(--text-2);
+    }
+    .deadline.urgent { color: #f87171; }
+    .deadline svg { opacity: 0.7; }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: -6px;
+    }
+    .tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text-3);
+      font-weight: 500;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .apply-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      background: linear-gradient(135deg, var(--primary-d), var(--violet));
+      color: white;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: opacity var(--transition), transform var(--transition);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .apply-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+
+    /* ── Empty / Loading states ─────────────────────────────────────────── */
+    .state-box {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 72px 24px;
+    }
+    .state-icon { font-size: 56px; margin-bottom: 20px; display: block; }
+    .state-title { font-size: 20px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .state-sub   { font-size: 14px; color: var(--text-2); max-width: 400px; margin: 0 auto 24px; }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid var(--border);
+      border-top-color: var(--primary);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 20px;
+    }
+
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 24px;
+      background: linear-gradient(135deg, var(--primary-d), var(--violet));
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity var(--transition);
+    }
+    .cta-btn:hover { opacity: 0.88; }
+
+    /* ── Animations ─────────────────────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; } 50% { opacity: 0.35; }
+    }
+
+    /* ── Responsive ─────────────────────────────────────────────────────── */
+    @media (max-width: 600px) {
+      .container { padding: 0 16px; }
+      .hero { padding: 36px 0 28px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .stats-bar { gap: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════ HEADER ══════════════════ -->
+<header>
+  <div class="container">
+    <div class="header-inner">
+      <div class="logo">🎓</div>
+      <div class="logo-text">
+        <h1>Opportunity Scout</h1>
+        <p>AI-curated student opportunities, updated daily</p>
+      </div>
+      <div class="header-badge">
+        <span></span>
+        <span id="header-count">Loading…</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ══════════════════ HERO ══════════════════ -->
+<main class="container">
+  <section class="hero">
+    <div class="hero-eyebrow">
+      🤖 Powered by AI Agents — Scout → Gatekeeper → Curator
+    </div>
+    <h2>Find Your Next Big<br/>Student Opportunity</h2>
+    <p>
+      Verified scholarships, internships, research programs, fellowships &amp;
+      hackathons — discovered and vetted by AI agents every day.
+    </p>
+  </section>
+
+  <!-- Stats -->
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat-chip"><span class="stat-icon">📋</span> <strong id="stat-total">—</strong> total</div>
+    <div class="stat-chip"><span class="stat-icon">🎓</span> <strong id="stat-scholarship">—</strong> scholarships</div>
+    <div class="stat-chip"><span class="stat-icon">💼</span> <strong id="stat-internship">—</strong> internships</div>
+    <div class="stat-chip"><span class="stat-icon">🔬</span> <strong id="stat-research">—</strong> research</div>
+    <div class="stat-chip"><span class="stat-icon">⚡</span> <strong id="stat-hackathon">—</strong> hackathons</div>
+    <div class="stat-chip"><span class="stat-icon">🏆</span> <strong id="stat-fellowship">—</strong> fellowships</div>
+  </div>
+
+  <!-- Search & Filters -->
+  <div class="controls">
+    <div class="search-wrap">
+      <svg class="search-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input
+        type="search"
+        id="search"
+        placeholder="Search by title, organization, tag, or keyword…"
+        aria-label="Search opportunities"
+        autocomplete="off"
+      />
+    </div>
+
+    <div class="filter-row">
+      <span class="filter-label">Category:</span>
+      <button class="filter-btn active" data-filter="all">All</button>
+      <button class="filter-btn" data-filter="Scholarship">🎓 Scholarship</button>
+      <button class="filter-btn" data-filter="Internship">💼 Internship</button>
+      <button class="filter-btn" data-filter="Research">🔬 Research</button>
+      <button class="filter-btn" data-filter="Hackathon">⚡ Hackathon</button>
+      <button class="filter-btn" data-filter="Fellowship">🏆 Fellowship</button>
+      <button class="filter-btn" data-filter="Grant">💰 Grant</button>
+    </div>
+
+    <div class="filter-row">
+      <span class="filter-label">Compensation:</span>
+      <button class="filter-btn active" data-comp="all">All</button>
+      <button class="filter-btn" data-comp="Fully Funded">✅ Fully Funded</button>
+      <button class="filter-btn" data-comp="Paid Stipend">💵 Paid Stipend</button>
+      <button class="filter-btn" data-comp="Cash Prize">🏅 Cash Prize</button>
+      <button class="filter-btn" data-comp="Unpaid">Unpaid</button>
+    </div>
+  </div>
+
+  <!-- Results bar -->
+  <div class="results-bar">
+    <p class="results-count" id="results-count"></p>
+    <select class="sort-select" id="sort-select" aria-label="Sort opportunities">
+      <option value="deadline">Sort: Deadline (soonest)</option>
+      <option value="title">Sort: Title (A–Z)</option>
+      <option value="compensation">Sort: Compensation</option>
+    </select>
+  </div>
+
+  <!-- Cards -->
+  <div class="cards-grid" id="cards-grid">
+    <div class="state-box">
+      <div class="spinner"></div>
+      <div class="state-title">Loading opportunities…</div>
+      <div class="state-sub">Fetching the latest curated opportunities from the database.</div>
+    </div>
+  </div>
+</main>
+
+<!-- ══════════════════ CHAT WIDGET ══════════════════ -->
+<script src="/widget.js" data-api-url="/api/chat"></script>
+
+<!-- ══════════════════ PORTAL LOGIC ══════════════════ -->
+<script>
+  // ── Config ──────────────────────────────────────────────────────────────
+  const API_OPPORTUNITIES = "/api/opportunities";
+
+  // Emoji & class maps
+  const CAT_EMOJI  = { Scholarship:"🎓", Internship:"💼", Research:"🔬", Hackathon:"⚡", Fellowship:"🏆", Grant:"💰" };
+  const CAT_CLASS  = { Scholarship:"scholarship", Internship:"internship", Research:"research", Hackathon:"hackathon", Fellowship:"fellowship", Grant:"grant" };
+  const COMP_CLASS = { "Fully Funded":"", "Paid Stipend":"stipend", "Unpaid":"unpaid", "Cash Prize":"prize", "N/A":"unpaid" };
+  const CAT_BG    = {
+    Scholarship: "rgba(245,158,11,0.12)",
+    Internship:  "rgba(59,130,246,0.12)",
+    Research:    "rgba(139,92,246,0.12)",
+    Hackathon:   "rgba(16,185,129,0.12)",
+    Fellowship:  "rgba(249,115,22,0.12)",
+    Grant:       "rgba(236,72,153,0.12)",
+  };
+
+  // ── State ────────────────────────────────────────────────────────────────
+  let allOpportunities = [];
+  let activeCategory   = "all";
+  let activeComp       = "all";
+  let searchQuery      = "";
+  let sortBy           = "deadline";
+
+  // ── Helpers ──────────────────────────────────────────────────────────────
+  function daysUntil(dateStr) {
+    if (!dateStr || dateStr === "Rolling") return null;
+    const diff = new Date(dateStr) - new Date();
+    return Math.ceil(diff / 86400000);
+  }
+
+  function deadlineLabel(dateStr) {
+    if (!dateStr || dateStr === "Rolling") return { text: "🔄 Rolling deadline", urgent: false };
+    const days = daysUntil(dateStr);
+    if (days < 0)  return { text: "Deadline passed", urgent: true };
+    if (days === 0) return { text: "⚠️ Closes today!", urgent: true };
+    if (days <= 7)  return { text: `⚠️ ${days}d left`, urgent: true };
+    if (days <= 30) return { text: `📅 ${days}d left`, urgent: false };
+    return { text: `📅 ${dateStr}`, urgent: false };
+  }
+
+  function esc(str) {
+    return String(str || "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  // ── Render ───────────────────────────────────────────────────────────────
+  function renderCard(opp, idx) {
+    const dl    = deadlineLabel(opp.deadline);
+    const cat   = opp.category || "Other";
+    const emoji = CAT_EMOJI[cat] || "📌";
+    const bg    = CAT_BG[cat]    || "rgba(255,255,255,0.06)";
+    const comp  = opp.compensation || "N/A";
+    const compCls = COMP_CLASS[comp] ?? "";
+    const tags  = (opp.tags || []).slice(0, 4);
+
+    return `
+      <article class="card" style="animation-delay:${Math.min(idx * 0.05, 0.5)}s" aria-label="${esc(opp.title)}">
+        <div class="card-top">
+          <div class="card-icon" style="background:${bg}">${emoji}</div>
+          <div class="card-meta">
+            <div class="card-org">${esc(opp.host_organization)}</div>
+            <div class="card-title">${esc(opp.title)}</div>
+          </div>
+        </div>
+
+        <div class="badge-row">
+          <span class="badge badge-${CAT_CLASS[cat] || "cat"}">${emoji} ${esc(cat)}</span>
+          <span class="badge badge-comp ${compCls}">${comp === "Fully Funded" ? "✅ " : comp === "Paid Stipend" ? "💵 " : comp === "Cash Prize" ? "🏅 " : ""}${esc(comp)}</span>
+          ${opp.location_type ? `<span class="badge badge-cat">📍 ${esc(opp.location_type)}</span>` : ""}
+        </div>
+
+        ${opp.one_line_pitch ? `<p class="card-pitch">${esc(opp.one_line_pitch)}</p>` : ""}
+
+        ${tags.length ? `<div class="tags">${tags.map(t => `<span class="tag">${esc(t)}</span>`).join("")}</div>` : ""}
+
+        <div class="card-footer">
+          <div class="deadline ${dl.urgent ? "urgent" : ""}">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+            </svg>
+            ${dl.text}
+          </div>
+          <a href="${esc(opp.apply_url)}" target="_blank" rel="noopener" class="apply-btn" id="apply-${esc(opp.id)}">
+            Apply
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </a>
+        </div>
+      </article>`;
+  }
+
+  function getFiltered() {
+    let data = [...allOpportunities];
+
+    if (activeCategory !== "all")
+      data = data.filter(o => (o.category || "").toLowerCase() === activeCategory.toLowerCase());
+
+    if (activeComp !== "all")
+      data = data.filter(o => o.compensation === activeComp);
+
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      data = data.filter(o =>
+        (o.title            || "").toLowerCase().includes(q) ||
+        (o.host_organization|| "").toLowerCase().includes(q) ||
+        (o.one_line_pitch   || "").toLowerCase().includes(q) ||
+        (o.tags || []).some(t => t.toLowerCase().includes(q)) ||
+        (o.location         || "").toLowerCase().includes(q)
+      );
+    }
+
+    // Sort
+    if (sortBy === "deadline") {
+      data.sort((a,b) => {
+        const da = a.deadline === "Rolling" ? 9999 : daysUntil(a.deadline) ?? 9999;
+        const db = b.deadline === "Rolling" ? 9999 : daysUntil(b.deadline) ?? 9999;
+        return da - db;
+      });
+    } else if (sortBy === "title") {
+      data.sort((a,b) => (a.title||"").localeCompare(b.title||""));
+    } else if (sortBy === "compensation") {
+      const order = { "Fully Funded":0, "Paid Stipend":1, "Cash Prize":2, "Unpaid":3, "N/A":4 };
+      data.sort((a,b) => (order[a.compensation]??5) - (order[b.compensation]??5));
+    }
+    return data;
+  }
+
+  function render() {
+    const grid    = document.getElementById("cards-grid");
+    const countEl = document.getElementById("results-count");
+    const data    = getFiltered();
+
+    countEl.innerHTML = data.length
+      ? `Showing <strong>${data.length}</strong> of <strong>${allOpportunities.length}</strong> opportunities`
+      : "";
+
+    if (!data.length) {
+      grid.innerHTML = `
+        <div class="state-box">
+          <span class="state-icon">🔍</span>
+          <div class="state-title">No opportunities found</div>
+          <div class="state-sub">Try adjusting your filters or search term. Or ask the Opportunity Scout chat for help!</div>
+          <button class="cta-btn" onclick="resetFilters()">Clear filters</button>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = data.map((opp, i) => renderCard(opp, i)).join("");
+  }
+
+  function updateStats() {
+    const d = allOpportunities;
+    document.getElementById("stat-total").textContent = d.length;
+    document.getElementById("stat-scholarship").textContent = d.filter(o=>o.category==="Scholarship").length;
+    document.getElementById("stat-internship").textContent  = d.filter(o=>o.category==="Internship").length;
+    document.getElementById("stat-research").textContent    = d.filter(o=>o.category==="Research").length;
+    document.getElementById("stat-hackathon").textContent   = d.filter(o=>o.category==="Hackathon").length;
+    document.getElementById("stat-fellowship").textContent  = d.filter(o=>o.category==="Fellowship").length;
+    document.getElementById("header-count").textContent = `${d.length} live opportunities`;
+  }
+
+  function resetFilters() {
+    activeCategory = "all";
+    activeComp = "all";
+    searchQuery = "";
+    document.getElementById("search").value = "";
+    document.querySelectorAll("[data-filter]").forEach(b => b.classList.toggle("active", b.dataset.filter === "all"));
+    document.querySelectorAll("[data-comp]").forEach(b => b.classList.toggle("active", b.dataset.comp === "all"));
+    render();
+  }
+
+  // ── Event listeners ──────────────────────────────────────────────────────
+  document.addEventListener("DOMContentLoaded", () => {
+    // Search
+    document.getElementById("search").addEventListener("input", e => {
+      searchQuery = e.target.value.trim();
+      render();
+    });
+
+    // Category filters
+    document.querySelectorAll("[data-filter]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        activeCategory = btn.dataset.filter;
+        document.querySelectorAll("[data-filter]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        render();
+      });
+    });
+
+    // Compensation filters
+    document.querySelectorAll("[data-comp]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        activeComp = btn.dataset.comp;
+        document.querySelectorAll("[data-comp]").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        render();
+      });
+    });
+
+    // Sort
+    document.getElementById("sort-select").addEventListener("change", e => {
+      sortBy = e.target.value;
+      render();
+    });
+
+    // Fetch opportunities
+    fetch(API_OPPORTUNITIES)
+      .then(r => r.json())
+      .then(data => {
+        if (!Array.isArray(data) || data.length === 0) throw new Error("empty");
+        allOpportunities = data;
+        updateStats();
+        render();
+      })
+      .catch(() => {
+        document.getElementById("header-count").textContent = "Pipeline pending";
+        document.getElementById("cards-grid").innerHTML = `
+          <div class="state-box">
+            <span class="state-icon">🤖</span>
+            <div class="state-title">Pipeline hasn't run yet</div>
+            <div class="state-sub">
+              The AI agents run daily at 04:00 UTC to discover and verify new opportunities.
+              Check back tomorrow — or ask the <strong>Opportunity Scout</strong> chat (bottom-right) for general advice right now!
+            </div>
+          </div>`;
+        document.querySelectorAll(".stat-chip strong").forEach(el => el.textContent = "0");
+      });
+  });
+</script>
+</body>
+</html>
