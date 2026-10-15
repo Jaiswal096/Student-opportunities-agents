@@ -1,0 +1,73 @@
+name: Daily Opportunity Pipeline
+
+on:
+  schedule:
+    # Runs every day at 04:00 UTC
+    - cron: "0 4 * * *"
+  workflow_dispatch:
+    # Allows manual triggering from the GitHub Actions UI
+
+permissions:
+  contents: write  # Required to commit and push opportunities.json
+
+jobs:
+  run-pipeline:
+    name: Scout -> Gatekeeper -> Curator
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      # -----------------------------------------------------------------------
+      # 1. Check out the repository
+      # -----------------------------------------------------------------------
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      # -----------------------------------------------------------------------
+      # 2. Set up Python 3.11 with pip dependency caching
+      # -----------------------------------------------------------------------
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      # -----------------------------------------------------------------------
+      # 3. Install pipeline dependencies
+      # -----------------------------------------------------------------------
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install google-genai pydantic
+
+      # -----------------------------------------------------------------------
+      # 4. Run the opportunity pipeline
+      # -----------------------------------------------------------------------
+      - name: Run opportunity pipeline
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: python pipeline.py
+
+      # -----------------------------------------------------------------------
+      # 5. Commit and push opportunities.json if it was updated
+      #    [skip ci] prevents this commit from re-triggering the workflow
+      # -----------------------------------------------------------------------
+      - name: Commit updated opportunities.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add opportunities.json
+
+          # Only commit if there are staged changes
+          if git diff --cached --quiet; then
+            echo "No changes to opportunities.json -- skipping commit."
+          else
+            git commit -m "data: update opportunities.json [skip ci]"
+            git push
+            echo "opportunities.json pushed successfully."
+          fi
+
+
