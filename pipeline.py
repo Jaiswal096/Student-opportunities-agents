@@ -177,10 +177,17 @@ def update_opportunities_database(new_opportunities: List[Opportunity], db_path:
             existing_urls.add(opp_url)
             added_count += 1
 
-    with open(db_path, "w", encoding="utf-8") as f:
+    # Write to both root folder and public/ directory for CDN sync
+    root_path = Path(__file__).resolve().parent / "opportunities.json"
+    public_path = Path(__file__).resolve().parent / "public" / "opportunities.json"
+    public_path.parent.mkdir(parents=True, exist_ok=True)
+
+    with open(root_path, "w", encoding="utf-8") as f:
+        json.dump(existing_items, f, indent=2, ensure_ascii=False)
+    with open(public_path, "w", encoding="utf-8") as f:
         json.dump(existing_items, f, indent=2, ensure_ascii=False)
 
-    logger.info(f"Database sync complete: {added_count} new entries added, {updated_count} existing records updated. Total records: {len(existing_items)}")
+    logger.info(f"Database sync complete: {added_count} new entries added, {updated_count} existing records updated. Synced to both root and public/. Total records: {len(existing_items)}")
 
 
 # ---------------------------------------------------------------------------

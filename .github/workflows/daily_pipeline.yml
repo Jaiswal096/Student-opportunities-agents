@@ -58,21 +58,17 @@ jobs:
           git config user.name  "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # Only stage if the file actually exists (skip on first run with no results)
-          if [ -f opportunities.json ]; then
-            git add opportunities.json
-          else
-            echo "opportunities.json not found -- nothing to commit."
-            exit 0
-          fi
+          # Stage opportunities and broadcasts across root and public/
+          git add opportunities.json public/opportunities.json broadcasts.json public/broadcasts.json 2>/dev/null || true
 
           # Only commit if there are staged changes
           if git diff --cached --quiet; then
-            echo "No changes to opportunities.json -- skipping commit."
+            echo "No data changes -- skipping commit."
           else
-            git commit -m "data: update opportunities.json [skip ci]"
+            git commit -m "data: update opportunities and broadcasts [skip ci]"
             git push
-            echo "opportunities.json pushed successfully."
+            echo "Opportunities data pushed successfully."
           fi
+
 
 

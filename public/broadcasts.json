@@ -1,0 +1,10 @@
+[
+  {
+    "id": "broadcast-001",
+    "title": "Welcome to Opportunity Scout Live!",
+    "message": "AI-curated student opportunities updated daily at 04:00 UTC. Use 'Match My Profile' in the chat to rank your top opportunities.",
+    "category": "Announcement",
+    "timestamp": "2026-10-23T12:00:00Z",
+    "is_active": true
+  }
+]

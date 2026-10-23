@@ -213,8 +213,36 @@ class ChatRequest(BaseModel):
 
 
 # ---------------------------------------------------------------------------
-# Dynamic Opportunities Loading
+# Dynamic Opportunities & Broadcasts Loading
 # ---------------------------------------------------------------------------
+def get_file_candidate_paths(filename: str) -> List[Path]:
+    """Search for a JSON data file across root and public/ across environments."""
+    return [
+        _PUBLIC / filename,
+        _ROOT / "public" / filename,
+        _ROOT / filename,
+        Path("public") / filename,
+        Path(filename),
+        Path("/var/task/public") / filename,
+        Path("/var/task") / filename,
+        Path(__file__).resolve().parent.parent / "public" / filename,
+        Path(__file__).resolve().parent.parent / filename,
+    ]
+
+
+def get_broadcasts_list() -> list:
+    """Return parsed list of active announcements/broadcasts."""
+    for path in get_file_candidate_paths("broadcasts.json"):
+        try:
+            if path.exists() and path.is_file():
+                data = json.loads(path.read_text(encoding="utf-8"))
+                if isinstance(data, list):
+                    return data
+        except Exception:
+            continue
+    return []
+
+
 def fetch_github_opportunities(url: Optional[str] = None) -> Optional[list]:
     """Fetch opportunities from GitHub raw URL."""
     target_url = url or GITHUB_RAW_URL
@@ -243,7 +271,7 @@ def get_active_opportunities_list() -> list:
     Return parsed list of active opportunities.
     Reloads dynamically:
     1. If GITHUB_RAW_URL is set in environment, fetches latest from GitHub (cached with 60s TTL).
-    2. Otherwise dynamically checks local file mtime and reloads immediately if modified.
+    2. Otherwise dynamically checks local file mtime (checking root and public/) and reloads immediately.
     3. Falls back to default GitHub raw URL if local file is missing.
     """
     global _cache_opportunities, _cache_time, _cache_mtime, _cache_source
@@ -261,16 +289,10 @@ def get_active_opportunities_list() -> list:
             _cache_source = "github_env"
             return [o for o in remote_data if o.get("is_active", True)]
 
-    # 2. Dynamic local file reload (checks mtime dynamically on each call)
-    candidates = [
-        _ROOT / "opportunities.json",
-        Path(__file__).parent.parent / "opportunities.json",
-        Path("/var/task/opportunities.json"),
-        Path("opportunities.json"),
-    ]
-    for path in candidates:
+    # 2. Dynamic local file reload (checks root and public/ paths)
+    for path in get_file_candidate_paths("opportunities.json"):
         try:
-            if path.exists():
+            if path.exists() and path.is_file():
                 mtime = path.stat().st_mtime
                 if _cache_opportunities and _cache_source == "local" and mtime == _cache_mtime:
                     return [o for o in _cache_opportunities if o.get("is_active", True)]
@@ -453,13 +475,15 @@ def generate_local_fallback_reply(query: str, opps: list) -> str:
 # ---------------------------------------------------------------------------
 # Routes
 # ---------------------------------------------------------------------------
+@app.get("/api/health")
+@app.get("/health")
 @app.get("/api/chat")
 async def health():
     return {
         "status": "ok",
+        "api_key_configured": bool(os.environ.get("GEMINI_API_KEY")),
         "agent": "Opportunity Scout",
         "model": DEFAULT_MODEL,
-        "api_key_configured": bool(os.environ.get("GEMINI_API_KEY")),
         "rate_limit_per_minute": RATE_LIMIT_MAX_REQUESTS,
         "max_message_chars": MAX_MESSAGE_LENGTH,
     }
@@ -473,6 +497,16 @@ async def get_opportunities():
     Pulls freshest data from GitHub Action raw updates or local updates.
     """
     return JSONResponse(get_active_opportunities_list())
+
+
+@app.get("/broadcasts.json")
+@app.get("/api/broadcasts")
+async def get_broadcasts():
+    """
+    Serve announcements and broadcasts list to frontend.
+    """
+    return JSONResponse(get_broadcasts_list())
+
 
 
 @app.post("/api/chat")
