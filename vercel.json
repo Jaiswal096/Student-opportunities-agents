@@ -1,6 +1,30 @@
 {
   "version": 2,
-  "rewrites": [
-    { "source": "/api/:path*", "destination": "/api/chat.py" }
-  ]
+  "builds": [
+    {
+      "src": "api/chat.py",
+      "use": "@vercel/python"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "/api/chat.py"
+    },
+    {
+      "src": "/opportunities.json",
+      "dest": "/opportunities.json"
+    },
+    {
+      "src": "/widget.js",
+      "dest": "/public/widget.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/public/$1"
+    }
+  ],
+  "env": {
+    "GEMINI_API_KEY": "@gemini_api_key"
+  }
 }
