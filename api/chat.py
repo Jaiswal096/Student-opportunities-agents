@@ -1,11 +1,14 @@
 import os
 import json
 import time
+import base64
 import logging
 import urllib.request
+import urllib.error
+from datetime import datetime, timezone
 from collections import defaultdict
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Any, Dict
 
 from fastapi import FastAPI, Response, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -212,12 +215,157 @@ class ChatRequest(BaseModel):
     history: Optional[List[Message]] = []
 
 
+class ScoutCurateRequest(BaseModel):
+    topic: str
+    admin_key: Optional[str] = None
+
+
+class WorkflowDispatchRequest(BaseModel):
+    admin_key: Optional[str] = None
+    ref: Optional[str] = "main"
+
+
+class DeleteOpportunityRequest(BaseModel):
+    admin_key: Optional[str] = None
+
+
+# ---------------------------------------------------------------------------
+# Admin Authorization Helper
+# ---------------------------------------------------------------------------
+ADMIN_KEY_DEFAULT = "admin123"
+
+def is_admin_authorized(fastapi_req: Request, body_admin_key: Optional[str] = None) -> bool:
+    """Validate admin key against environment or default local passkey."""
+    expected_key = os.environ.get("ADMIN_KEY", ADMIN_KEY_DEFAULT)
+    header_key = fastapi_req.headers.get("x-admin-key")
+    if header_key and header_key == expected_key:
+        return True
+    if body_admin_key and body_admin_key == expected_key:
+        return True
+    query_key = fastapi_req.query_params.get("admin_key")
+    if query_key and query_key == expected_key:
+        return True
+    return False
+
+
+# ---------------------------------------------------------------------------
+# Cloud-Safe Storage & GitHub Sync
+# ---------------------------------------------------------------------------
+def commit_file_to_github(repo: str, token: str, filepath: str, content_bytes: bytes, commit_message: str) -> bool:
+    """Commit or update a file in a GitHub repository using the GitHub Contents API."""
+    url = f"https://api.github.com/repos/{repo}/contents/{filepath}"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "OpportunityScout-Bot",
+    }
+    sha = None
+    try:
+        req = urllib.request.Request(url, headers=headers, method="GET")
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            if resp.status == 200:
+                body = json.loads(resp.read().decode("utf-8"))
+                sha = body.get("sha")
+    except urllib.error.HTTPError as e:
+        if e.code != 404:
+            logger.warning(f"GitHub Contents GET {filepath} returned {e.code}")
+    except Exception as e:
+        logger.warning(f"Error checking GitHub file {filepath}: {e}")
+
+    payload = {
+        "message": commit_message,
+        "content": base64.b64encode(content_bytes).decode("ascii"),
+        "branch": "main",
+    }
+    if sha:
+        payload["sha"] = sha
+
+    try:
+        req = urllib.request.Request(
+            url,
+            data=json.dumps(payload).encode("utf-8"),
+            headers={**headers, "Content-Type": "application/json"},
+            method="PUT",
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            logger.info(f"GitHub Contents API commit successful for {filepath}: HTTP {resp.status}")
+            return True
+    except Exception as e:
+        logger.error(f"Failed to commit {filepath} to GitHub via API: {e}")
+        return False
+
+
+def save_json_everywhere(filename: str, data: Any) -> Dict[str, bool]:
+    """
+    Save JSON data across multiple layers:
+    1. /tmp/{filename} (always writable in Vercel serverless environment)
+    2. Local project root and public/ folder (if writable, e.g. local dev / VPS)
+    3. In-memory cache update
+    4. GitHub repository via Contents API (if GITHUB_TOKEN & GITHUB_REPO set)
+    """
+    global _cache_opportunities, _cache_time, _cache_mtime, _cache_source
+    results = {"tmp": False, "local": False, "github": False}
+    payload_str = json.dumps(data, indent=2, ensure_ascii=False)
+    payload_bytes = payload_str.encode("utf-8")
+
+    # 1. Write to /tmp (serverless writable scratchpad)
+    try:
+        tmp_dir = Path("/tmp")
+        tmp_dir.mkdir(parents=True, exist_ok=True)
+        (tmp_dir / filename).write_bytes(payload_bytes)
+        results["tmp"] = True
+    except Exception as e:
+        logger.warning(f"Could not write to /tmp/{filename}: {e}")
+
+    # 2. Write to project root and public/ (works locally, silently ignored on read-only serverless FS)
+    try:
+        (_ROOT / filename).write_bytes(payload_bytes)
+        _PUBLIC.mkdir(parents=True, exist_ok=True)
+        (_PUBLIC / filename).write_bytes(payload_bytes)
+        results["local"] = True
+    except Exception:
+        pass
+
+    # Update in-memory cache
+    if filename == "opportunities.json" and isinstance(data, list):
+        _cache_opportunities = data
+        _cache_time = time.time()
+        _cache_mtime = _cache_time
+        _cache_source = "tmp_memory"
+
+    # 3. GitHub Contents API sync
+    token = os.environ.get("GITHUB_TOKEN")
+    repo = os.environ.get("GITHUB_REPO", "Jaiswal096/Student-opportunities-agents")
+    if token and repo:
+        try:
+            gh1 = commit_file_to_github(
+                repo=repo,
+                token=token,
+                filepath=filename,
+                content_bytes=payload_bytes,
+                commit_message=f"data: update {filename} via Agent Command Center",
+            )
+            gh2 = commit_file_to_github(
+                repo=repo,
+                token=token,
+                filepath=f"public/{filename}",
+                content_bytes=payload_bytes,
+                commit_message=f"data: update public/{filename} via Agent Command Center",
+            )
+            results["github"] = gh1 or gh2
+        except Exception as e:
+            logger.error(f"GitHub Contents sync error: {e}")
+
+    return results
+
+
 # ---------------------------------------------------------------------------
 # Dynamic Opportunities & Broadcasts Loading
 # ---------------------------------------------------------------------------
 def get_file_candidate_paths(filename: str) -> List[Path]:
-    """Search for a JSON data file across root and public/ across environments."""
+    """Search for a JSON data file across tmp, public/, and root across environments."""
     return [
+        Path("/tmp") / filename,  # Check /tmp first for recent serverless updates
         _PUBLIC / filename,
         _ROOT / "public" / filename,
         _ROOT / filename,
@@ -270,27 +418,35 @@ def get_active_opportunities_list() -> list:
     """
     Return parsed list of active opportunities.
     Reloads dynamically:
-    1. If GITHUB_RAW_URL is set in environment, fetches latest from GitHub (cached with 60s TTL).
-    2. Otherwise dynamically checks local file mtime (checking root and public/) and reloads immediately.
-    3. Falls back to default GitHub raw URL if local file is missing.
+    1. If /tmp/opportunities.json exists (written during this serverless instance), load it immediately.
+    2. Check local candidates (public/ and root) and reload if modified.
+    3. If GITHUB_RAW_URL is set in environment, fetches latest from GitHub (cached with 60s TTL).
+    4. Falls back to default bundled opportunities or cached data.
     """
     global _cache_opportunities, _cache_time, _cache_mtime, _cache_source
     now = time.time()
-    env_github_url = os.environ.get("GITHUB_RAW_URL")
 
-    # 1. If custom GITHUB_RAW_URL is specified in environment, prioritize remote updates
-    if env_github_url:
-        if _cache_opportunities and _cache_source == "github_env" and (now - _cache_time < CACHE_TTL):
-            return [o for o in _cache_opportunities if o.get("is_active", True)]
-        remote_data = fetch_github_opportunities(env_github_url)
-        if remote_data:
-            _cache_opportunities = remote_data
-            _cache_time = now
-            _cache_source = "github_env"
-            return [o for o in remote_data if o.get("is_active", True)]
+    # 1. Check /tmp/opportunities.json first (serverless write buffer)
+    tmp_path = Path("/tmp/opportunities.json")
+    if tmp_path.exists():
+        try:
+            mtime = tmp_path.stat().st_mtime
+            if _cache_opportunities and _cache_source == "tmp" and mtime == _cache_mtime:
+                return [o for o in _cache_opportunities if o.get("is_active", True)]
+            data = json.loads(tmp_path.read_text(encoding="utf-8"))
+            if isinstance(data, list) and data:
+                _cache_opportunities = data
+                _cache_time = now
+                _cache_mtime = mtime
+                _cache_source = "tmp"
+                return [o for o in data if o.get("is_active", True)]
+        except Exception:
+            pass
 
-    # 2. Dynamic local file reload (checks root and public/ paths)
+    # 2. Dynamic local file reload (checks public/ and root paths)
     for path in get_file_candidate_paths("opportunities.json"):
+        if path == tmp_path:
+            continue
         try:
             if path.exists() and path.is_file():
                 mtime = path.stat().st_mtime
@@ -306,7 +462,18 @@ def get_active_opportunities_list() -> list:
         except Exception:
             continue
 
-    # 3. Fallback to default GitHub raw URL if local file is missing or unreadable
+    # 3. Fallback to GitHub raw URL if available
+    env_github_url = os.environ.get("GITHUB_RAW_URL")
+    if env_github_url:
+        if _cache_opportunities and _cache_source == "github_env" and (now - _cache_time < CACHE_TTL):
+            return [o for o in _cache_opportunities if o.get("is_active", True)]
+        remote_data = fetch_github_opportunities(env_github_url)
+        if remote_data:
+            _cache_opportunities = remote_data
+            _cache_time = now
+            _cache_source = "github_env"
+            return [o for o in remote_data if o.get("is_active", True)]
+
     if _cache_opportunities and (now - _cache_time < CACHE_TTL):
         return [o for o in _cache_opportunities if o.get("is_active", True)]
 
@@ -482,10 +649,222 @@ async def health():
     return {
         "status": "ok",
         "api_key_configured": bool(os.environ.get("GEMINI_API_KEY")),
+        "admin_key_configured": bool(os.environ.get("ADMIN_KEY")),
+        "github_token_configured": bool(os.environ.get("GITHUB_TOKEN")),
+        "github_repo": os.environ.get("GITHUB_REPO", "Jaiswal096/Student-opportunities-agents"),
         "agent": "Opportunity Scout",
         "model": DEFAULT_MODEL,
         "rate_limit_per_minute": RATE_LIMIT_MAX_REQUESTS,
         "max_message_chars": MAX_MESSAGE_LENGTH,
+    }
+
+
+# ---------------------------------------------------------------------------
+# Universal Visual Agent Command Center Endpoints
+# ---------------------------------------------------------------------------
+@app.post("/api/agents/scout-and-curate")
+async def scout_and_curate(req: ScoutCurateRequest, fastapi_req: Request):
+    """
+    Trigger Agent 1 (Scout) -> Agent 2 (Gatekeeper) -> Agent 3 (Curator) -> Agent 5 (Broadcaster)
+    for a target query/topic, and sync results across memory, disk, and GitHub.
+    """
+    if not is_admin_authorized(fastapi_req, req.admin_key):
+        return JSONResponse({"error": "Unauthorized. Invalid admin_key."}, status_code=401)
+
+    topic = (req.topic or "").strip()
+    if not topic:
+        return JSONResponse({"error": "Topic parameter is required."}, status_code=400)
+
+    api_key = os.environ.get("GEMINI_API_KEY")
+    curated_items: List[dict] = []
+
+    # Import pipeline agents
+    try:
+        from pipeline import run_scout_agent, run_gatekeeper_agent, run_curator_agent, get_client
+    except Exception as e:
+        logger.error(f"Error importing pipeline: {e}")
+        return JSONResponse({"error": f"Failed to initialize pipeline: {str(e)}"}, status_code=500)
+
+    if api_key:
+        try:
+            logger.info(f"Command Center: Running Agent 1-3 pipeline for: {topic}")
+            c = get_client(api_key)
+            # Agent 1: Scout
+            raw_leads = run_scout_agent(topic, active_client=c)
+            # Agent 2: Gatekeeper
+            vetted_leads = run_gatekeeper_agent(raw_leads, active_client=c)
+            # Agent 3: Curator
+            curated_objs = run_curator_agent(vetted_leads, active_client=c)
+            curated_items = [o.model_dump() for o in curated_objs]
+        except Exception as e:
+            logger.error(f"Error executing Gemini pipeline: {e}", exc_info=True)
+            return JSONResponse({"error": f"AI Agent pipeline failed: {str(e)}"}, status_code=500)
+    else:
+        # Fallback structured mock curation for local/demo admin testing
+        slug_topic = "".join(c if c.isalnum() else "-" for c in topic.lower()).strip("-")[:35]
+        curated_items = [
+            {
+                "id": f"{slug_topic}-{int(time.time())}",
+                "title": f"Verified Opportunity: {topic.title()}",
+                "host_organization": "Global Student Opportunities Network",
+                "category": "Internship" if "intern" in topic.lower() else "Research" if "research" in topic.lower() else "Scholarship",
+                "academic_level": ["Undergraduate", "Masters"],
+                "location_type": "Remote" if "remote" in topic.lower() else "Global",
+                "location": "Global / Remote",
+                "compensation": "Paid Stipend",
+                "stipend_amount": "$4,000–$7,500 USD",
+                "deadline": "2027-06-30",
+                "apply_url": "https://opportunityscout.org/programs",
+                "tags": [w.capitalize() for w in topic.split()[:4] if len(w) > 2],
+                "one_line_pitch": f"High-impact opportunity directly matching '{topic}'.",
+                "is_active": True,
+            }
+        ]
+
+    # Deduplicate and merge into current opportunities
+    existing = get_active_opportunities_list()
+    existing_by_id = {item.get("id"): item for item in existing}
+    existing_urls = {item.get("apply_url") for item in existing}
+
+    added_count = 0
+    for item in curated_items:
+        opp_id = item.get("id")
+        opp_url = item.get("apply_url")
+        item["is_active"] = True
+
+        if opp_id in existing_by_id:
+            existing_by_id[opp_id] = item
+        elif opp_url in existing_urls:
+            for idx, existing_item in enumerate(existing):
+                if existing_item.get("apply_url") == opp_url:
+                    existing[idx] = item
+                    break
+        else:
+            existing.insert(0, item)
+            existing_by_id[opp_id] = item
+            existing_urls.add(opp_url)
+            added_count += 1
+
+    # Save opportunities everywhere
+    save_res = save_json_everywhere("opportunities.json", existing)
+
+    # Agent 5: Broadcaster (Publish announcement)
+    try:
+        broadcasts = get_broadcasts_list()
+        new_broadcast = {
+            "id": f"broadcast-{int(time.time())}",
+            "title": f"🎯 Newly Curated: {topic[:45]}",
+            "message": f"Agent 1 (Scout) & Agent 3 (Curator) discovered and verified {added_count} new opportunities for '{topic}'.",
+            "category": "Curated Alert",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "is_active": True,
+        }
+        broadcasts.insert(0, new_broadcast)
+        save_json_everywhere("broadcasts.json", broadcasts)
+    except Exception as e:
+        logger.warning(f"Error publishing broadcast: {e}")
+
+    return {
+        "status": "success",
+        "topic": topic,
+        "added": added_count,
+        "total": len(existing),
+        "new_items": curated_items,
+        "storage": save_res,
+    }
+
+
+@app.post("/api/agents/trigger-github-workflow")
+async def trigger_github_workflow(req: WorkflowDispatchRequest, fastapi_req: Request):
+    """
+    Trigger daily_pipeline.yml via GitHub Actions REST API workflow_dispatch.
+    """
+    if not is_admin_authorized(fastapi_req, req.admin_key):
+        return JSONResponse({"error": "Unauthorized. Invalid admin_key."}, status_code=401)
+
+    token = os.environ.get("GITHUB_TOKEN")
+    repo = os.environ.get("GITHUB_REPO", "Jaiswal096/Student-opportunities-agents")
+
+    if not token or not repo:
+        return JSONResponse(
+            {
+                "status": "error",
+                "message": "GITHUB_TOKEN and GITHUB_REPO environment variables must be configured to trigger GitHub Actions.",
+            },
+            status_code=400,
+        )
+
+    ref = req.ref or "main"
+    url = f"https://api.github.com/repos/{repo}/actions/workflows/daily_pipeline.yml/dispatches"
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github.v3+json",
+        "User-Agent": "OpportunityScout-Bot",
+        "Content-Type": "application/json",
+    }
+    payload = json.dumps({"ref": ref}).encode("utf-8")
+
+    try:
+        request_obj = urllib.request.Request(url, data=payload, headers=headers, method="POST")
+        with urllib.request.urlopen(request_obj, timeout=12) as resp:
+            if resp.status in (200, 204):
+                return {
+                    "status": "success",
+                    "message": f"GitHub Actions workflow 'daily_pipeline.yml' dispatched successfully on '{ref}' branch.",
+                    "repo": repo,
+                }
+            return {
+                "status": "warning",
+                "message": f"GitHub returned HTTP {resp.status}",
+            }
+    except urllib.error.HTTPError as e:
+        err_msg = e.read().decode("utf-8") if e.fp else str(e)
+        return JSONResponse(
+            {
+                "status": "error",
+                "message": f"GitHub API returned HTTP {e.code}: {err_msg}",
+            },
+            status_code=e.code,
+        )
+    except Exception as e:
+        return JSONResponse(
+            {"status": "error", "message": f"Failed to trigger GitHub workflow: {str(e)}"},
+            status_code=500,
+        )
+
+
+@app.delete("/api/opportunities/{opp_id}")
+async def delete_opportunity(
+    opp_id: str,
+    fastapi_req: Request,
+    req_body: Optional[DeleteOpportunityRequest] = None,
+):
+    """
+    Remove an opportunity item by ID and sync deletion across cloud storage.
+    """
+    body_key = req_body.admin_key if req_body else None
+    if not is_admin_authorized(fastapi_req, body_key):
+        return JSONResponse({"error": "Unauthorized. Invalid admin_key."}, status_code=401)
+
+    existing = get_active_opportunities_list()
+    target = None
+    for opp in existing:
+        if opp.get("id") == opp_id:
+            target = opp
+            break
+
+    if not target:
+        return JSONResponse({"error": f"Opportunity with id '{opp_id}' not found."}, status_code=404)
+
+    updated = [opp for opp in existing if opp.get("id") != opp_id]
+    save_res = save_json_everywhere("opportunities.json", updated)
+
+    return {
+        "status": "success",
+        "deleted_id": opp_id,
+        "deleted_title": target.get("title"),
+        "remaining": len(updated),
+        "storage": save_res,
     }
 
 

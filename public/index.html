@@ -215,6 +215,18 @@
           <span id="saved-count-badge" class="px-1.5 py-0.5 rounded-full dark:bg-amber-400/20 bg-amber-100 text-amber-500 dark:text-amber-300 text-[11px] font-bold">0</span>
         </button>
 
+        <!-- ⚙️ Agent Command Center Navbar Button -->
+        <button
+          id="admin-command-toggle"
+          aria-label="Open Agent Command Center"
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-indigo-950/50 bg-indigo-50 hover:dark:bg-indigo-900/60 hover:bg-indigo-100 border dark:border-indigo-500/30 border-indigo-200 text-xs font-semibold dark:text-indigo-300 text-indigo-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer"
+        >
+          <i data-lucide="cpu" class="w-3.5 h-3.5 text-indigo-400"></i>
+          <span class="hidden sm:inline">⚙️ Agent Control</span>
+          <span class="sm:hidden">⚙️ Agents</span>
+          <span id="admin-badge-indicator" class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        </button>
+
         <!-- Dark/Light Toggle -->
         <button
           id="theme-toggle"
@@ -629,6 +641,20 @@
                 class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 hover:-translate-y-px transition-all"
                 id="apply-${esc(opp.id)}"
               >Apply <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+
+              ${isAdminModeActive() ? `
+                <button
+                  type="button"
+                  class="delete-opp-btn inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold dark:bg-rose-500/10 bg-rose-50 dark:text-rose-400 text-rose-600 hover:dark:bg-rose-500/20 hover:bg-rose-100 border dark:border-rose-500/30 border-rose-200 transition-colors cursor-pointer"
+                  data-id="${esc(opp.id)}"
+                  data-title="${esc(opp.title)}"
+                  title="Remove opportunity from live portal"
+                  aria-label="Remove opportunity"
+                >
+                  <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-400"></i>
+                  <span class="hidden sm:inline">Remove</span>
+                </button>
+              ` : ''}
             </div>
           </div>
 
@@ -721,6 +747,16 @@
           if (window.askAdvisor) {
             window.askAdvisor(prompt);
           }
+        });
+      });
+
+      // Attach Delete click listeners (Admin Mode)
+      grid.querySelectorAll('.delete-opp-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.dataset.id;
+          const title = btn.dataset.title;
+          handleDeleteOpportunity(id, title);
         });
       });
     }
@@ -984,8 +1020,224 @@
       document.getElementById('filter-comp').addEventListener('change', e => { activeComp = e.target.value; render(); });
       document.getElementById('sort-select').addEventListener('change', e => { sortBy = e.target.value; render(); });
 
-      // Fetch opportunities
-      fetch(OPPORTUNITIES_URL)
+    // ── Admin Command Center Logic ───────────────────────────────────────────
+    const ADMIN_STORAGE_KEY = 'opportunity_scout_admin_key';
+
+    function getAdminKey() {
+      return sessionStorage.getItem(ADMIN_STORAGE_KEY) || 'admin123';
+    }
+
+    function setAdminKey(key) {
+      sessionStorage.setItem(ADMIN_STORAGE_KEY, key);
+      updateAdminStatusUI();
+      render();
+    }
+
+    function isAdminModeActive() {
+      return Boolean(getAdminKey());
+    }
+
+    function updateAdminStatusUI() {
+      const isUnlocked = isAdminModeActive();
+      const badge = document.getElementById('admin-status-badge');
+      const indicator = document.getElementById('admin-badge-indicator');
+      if (badge) {
+        badge.textContent = isUnlocked ? 'Unlocked' : 'Locked';
+        badge.className = isUnlocked
+          ? 'px-2 py-0.5 rounded-full text-[11px] font-bold dark:bg-emerald-400/20 bg-emerald-100 text-emerald-500 dark:text-emerald-300'
+          : 'px-2 py-0.5 rounded-full text-[11px] font-bold dark:bg-amber-400/20 bg-amber-100 text-amber-500 dark:text-amber-400';
+      }
+      if (indicator) {
+        indicator.className = isUnlocked ? 'w-2 h-2 rounded-full bg-emerald-400' : 'w-2 h-2 rounded-full bg-slate-400';
+      }
+    }
+
+    function openAdminModal() {
+      const modal = document.getElementById('admin-modal');
+      const backdrop = document.getElementById('admin-modal-backdrop');
+      const passkeyInput = document.getElementById('admin-passkey-input');
+      if (passkeyInput) passkeyInput.value = getAdminKey();
+      updateAdminStatusUI();
+
+      if (backdrop) {
+        backdrop.classList.remove('opacity-0', 'pointer-events-none');
+        backdrop.classList.add('opacity-100');
+      }
+      if (modal) {
+        modal.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+        modal.classList.add('opacity-100', 'scale-100');
+      }
+      lucide.createIcons();
+    }
+
+    function closeAdminModal() {
+      const modal = document.getElementById('admin-modal');
+      const backdrop = document.getElementById('admin-modal-backdrop');
+      if (backdrop) {
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+      }
+      if (modal) {
+        modal.classList.remove('opacity-100', 'scale-100');
+        modal.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      }
+    }
+
+    async function handleDeleteOpportunity(id, title) {
+      if (!confirm(`Are you sure you want to remove "${title}" from the live database?\n\nThis will remove it from the portal, /tmp cache, and GitHub repository.`)) {
+        return;
+      }
+      const adminKey = getAdminKey();
+      try {
+        const res = await fetch(`/api/opportunities/${encodeURIComponent(id)}`, {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey,
+          },
+          body: JSON.stringify({ admin_key: adminKey })
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          alert(`Error deleting opportunity: ${data.error || 'Request failed'}`);
+          return;
+        }
+        allOpportunities = allOpportunities.filter(o => o.id !== id);
+        updateStats();
+        render();
+        showToast(`Removed "${title.slice(0, 25)}..." 🗑️`);
+      } catch (err) {
+        alert(`Network error: ${err.message}`);
+      }
+    }
+
+    async function handleScoutAndCurate() {
+      const input = document.getElementById('scout-topic-input');
+      const topic = (input ? input.value : '').trim();
+      if (!topic) {
+        showToast('Please enter a target topic to hunt for.');
+        if (input) input.focus();
+        return;
+      }
+
+      const btn = document.getElementById('btn-scout-curate');
+      const consoleBox = document.getElementById('scout-console-box');
+      const consoleLines = document.getElementById('scout-console-lines');
+      const consoleTimer = document.getElementById('console-timer');
+
+      if (btn) btn.disabled = true;
+      if (consoleBox) consoleBox.classList.remove('hidden');
+      if (consoleLines) consoleLines.innerHTML = '';
+
+      const startTime = Date.now();
+      const timerInterval = setInterval(() => {
+        if (consoleTimer) {
+          consoleTimer.textContent = ((Date.now() - startTime) / 1000).toFixed(1) + 's';
+        }
+      }, 100);
+
+      function logLine(prefix, msg, color = 'text-indigo-400') {
+        if (!consoleLines) return;
+        const line = document.createElement('div');
+        line.className = 'flex items-start gap-1.5 leading-relaxed text-[11px]';
+        line.innerHTML = `<span class="${color} font-bold flex-shrink-0">[${prefix}]</span> <span class="dark:text-slate-200 text-slate-300">${esc(msg)}</span>`;
+        consoleLines.appendChild(line);
+        consoleLines.scrollTop = consoleLines.scrollHeight;
+      }
+
+      logLine('Agent 1: Scout', `Scanning web feeds & research boards for: "${topic}"...`, 'text-blue-400');
+
+      const t1 = setTimeout(() => {
+        logLine('Agent 2: Gatekeeper', 'Auditing discovered leads for active deadlines & scam-free URLs...', 'text-amber-400');
+      }, 1800);
+
+      const t2 = setTimeout(() => {
+        logLine('Agent 3: Curator', 'Normalizing academic levels, funding tags, and application links...', 'text-purple-400');
+      }, 3800);
+
+      const t3 = setTimeout(() => {
+        logLine('Agent 5: Broadcaster', 'Publishing announcement alert to portal feed...', 'text-emerald-400');
+      }, 5500);
+
+      try {
+        const res = await fetch('/api/agents/scout-and-curate', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': getAdminKey(),
+          },
+          body: JSON.stringify({
+            topic: topic,
+            admin_key: getAdminKey(),
+          })
+        });
+
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+        clearInterval(timerInterval);
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          logLine('Error', data.error || 'Pipeline execution failed', 'text-rose-400');
+          showToast(`Agent error: ${data.error || 'Failed'}`);
+          return;
+        }
+
+        logLine('Cloud Storage', `Synced to memory, /tmp, and GitHub repo!`, 'text-teal-400');
+        logLine('Complete', `✨ Added ${data.added} new opportunities! (Total: ${data.total})`, 'text-emerald-400');
+
+        showToast(`Discovered & added ${data.added} opportunities! 🚀`);
+
+        // Refresh portal grid immediately
+        await fetchOpportunitiesData();
+        if (input) input.value = '';
+
+      } catch (err) {
+        clearTimeout(t1);
+        clearTimeout(t2);
+        clearTimeout(t3);
+        clearInterval(timerInterval);
+        logLine('Network Error', err.message, 'text-rose-400');
+        showToast(`Failed: ${err.message}`);
+      } finally {
+        if (btn) btn.disabled = false;
+        lucide.createIcons();
+      }
+    }
+
+    async function handleTriggerGithubWorkflow() {
+      const btn = document.getElementById('btn-trigger-github-workflow');
+      if (btn) btn.disabled = true;
+
+      try {
+        const res = await fetch('/api/agents/trigger-github-workflow', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': getAdminKey(),
+          },
+          body: JSON.stringify({
+            admin_key: getAdminKey(),
+            ref: 'main',
+          })
+        });
+        const data = await res.json();
+        if (res.ok && data.status === 'success') {
+          showToast('⚡ GitHub Actions daily pipeline dispatched successfully!');
+        } else {
+          showToast(data.message || data.error || 'Failed to trigger workflow');
+        }
+      } catch (err) {
+        showToast(`Error: ${err.message}`);
+      } finally {
+        if (btn) btn.disabled = false;
+      }
+    }
+
+    function fetchOpportunitiesData() {
+      return fetch(OPPORTUNITIES_URL + '?t=' + Date.now())
         .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .then(data => {
           if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
@@ -996,7 +1248,7 @@
         })
         .catch(() => {
           // Fallback: try /api/opportunities
-          return fetch('/api/opportunities')
+          return fetch('/api/opportunities?t=' + Date.now())
             .then(r => r.json())
             .then(data => {
               if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
@@ -1023,6 +1275,67 @@
           document.querySelectorAll('.stat-chip strong').forEach(el => el.textContent = '0');
           lucide.createIcons();
         });
+    }
+
+    // ── Bootstrap Listeners ──────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchOpportunitiesData();
+      updateAdminStatusUI();
+
+      // Admin command modal triggers
+      const adminToggle = document.getElementById('admin-command-toggle');
+      if (adminToggle) adminToggle.addEventListener('click', openAdminModal);
+
+      const closeAdminBtn = document.getElementById('close-admin-modal-btn');
+      if (closeAdminBtn) closeAdminBtn.addEventListener('click', closeAdminModal);
+
+      const closeAdminBtn2 = document.getElementById('btn-close-command-center');
+      if (closeAdminBtn2) closeAdminBtn2.addEventListener('click', closeAdminModal);
+
+      const adminBackdrop = document.getElementById('admin-modal-backdrop');
+      if (adminBackdrop) adminBackdrop.addEventListener('click', closeAdminModal);
+
+      // Passkey save
+      const saveKeyBtn = document.getElementById('save-admin-key-btn');
+      if (saveKeyBtn) {
+        saveKeyBtn.addEventListener('click', () => {
+          const input = document.getElementById('admin-passkey-input');
+          const val = (input ? input.value : '').trim() || 'admin123';
+          setAdminKey(val);
+          showToast('Admin passkey verified & saved! 🛡️');
+        });
+      }
+
+      // Scout & Curate
+      const scoutBtn = document.getElementById('btn-scout-curate');
+      if (scoutBtn) scoutBtn.addEventListener('click', handleScoutAndCurate);
+
+      const topicInput = document.getElementById('scout-topic-input');
+      if (topicInput) {
+        topicInput.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') handleScoutAndCurate();
+        });
+      }
+
+      // Preset chips
+      document.querySelectorAll('.preset-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          const topic = chip.dataset.topic;
+          if (topicInput) {
+            topicInput.value = topic;
+            topicInput.focus();
+          }
+        });
+      });
+
+      // Workflow dispatch
+      const workflowBtn = document.getElementById('btn-trigger-github-workflow');
+      if (workflowBtn) workflowBtn.addEventListener('click', handleTriggerGithubWorkflow);
+
+      // Escape key to close modal
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeAdminModal();
+      });
     });
   </script>
 
@@ -1087,6 +1400,187 @@
       💡 Tip: Click <strong>"Add Deadline to Google Calendar"</strong> on any card to never miss a submission cutoff.
     </div>
   </aside>
+
+  <!-- ══════════════════ AGENT COMMAND CENTER MODAL ══════════════════ -->
+  <div id="admin-modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+  <div
+    id="admin-modal"
+    class="fixed inset-0 z-[9995] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 transform scale-95"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Agent Command Center"
+  >
+    <div class="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
+
+      <!-- Modal Header -->
+      <div class="p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+            <i data-lucide="cpu" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-bold dark:text-white text-slate-900">Agent Command Center</h3>
+              <span id="admin-status-badge" class="px-2 py-0.5 rounded-full text-[11px] font-bold dark:bg-emerald-400/20 bg-emerald-100 text-emerald-500 dark:text-emerald-300">
+                Unlocked
+              </span>
+            </div>
+            <p class="text-xs dark:text-slate-400 text-slate-500">Autonomous Orchestrator for Agents 1, 2, 3, and 5</p>
+          </div>
+        </div>
+        <button
+          id="close-admin-modal-btn"
+          aria-label="Close command center"
+          class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
+        >
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body (Scrollable) -->
+      <div class="flex-1 overflow-y-auto p-5 space-y-6">
+
+        <!-- 1. Admin Passkey Settings Bar -->
+        <div class="p-4 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200">
+          <div class="flex items-center justify-between mb-2">
+            <label for="admin-passkey-input" class="text-xs font-bold uppercase tracking-wider dark:text-slate-300 text-slate-700 flex items-center gap-1.5">
+              <i data-lucide="shield-check" class="w-4 h-4 text-indigo-400"></i>
+              Admin Security Passkey
+            </label>
+            <span class="text-[11px] dark:text-slate-400 text-slate-500">Default: <code class="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-800">admin123</code></span>
+          </div>
+          <div class="flex gap-2">
+            <div class="relative flex-1">
+              <input
+                type="password"
+                id="admin-passkey-input"
+                placeholder="Enter passkey..."
+                class="w-full px-3.5 py-2 rounded-xl text-xs dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 outline-none focus:border-indigo-500 font-mono"
+              />
+            </div>
+            <button
+              id="save-admin-key-btn"
+              class="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 transition-colors cursor-pointer flex-shrink-0"
+            >
+              Verify &amp; Save
+            </button>
+          </div>
+        </div>
+
+        <!-- 2. Instant Topic Hunter (Agent 1 -> 2 -> 3 -> 5) -->
+        <div class="p-4 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200 space-y-3">
+          <div>
+            <div class="flex items-center justify-between mb-1">
+              <h4 class="text-sm font-bold dark:text-white text-slate-900 flex items-center gap-1.5">
+                <i data-lucide="sparkles" class="w-4 h-4 text-violet-400"></i>
+                Instant Topic Hunter (Agents 1 ➔ 2 ➔ 3 ➔ 5)
+              </h4>
+              <span class="text-[11px] dark:text-slate-400 text-slate-500 font-medium">Scout → Gatekeeper → Curator → Broadcaster</span>
+            </div>
+            <p class="text-xs dark:text-slate-400 text-slate-500">
+              Enter any student opportunity topic, field, or region to autonomously discover, audit, normalize, and publish to the live database.
+            </p>
+          </div>
+
+          <!-- Quick Preset Chips -->
+          <div class="flex flex-wrap gap-1.5 pt-1">
+            <span class="text-[11px] dark:text-slate-400 text-slate-500 mr-1 self-center">Presets:</span>
+            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer" data-topic="Summer 2027 AI &amp; Quant Internships in Canada">
+              🇨🇦 AI &amp; Quant (Canada)
+            </button>
+            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer" data-topic="Undergrad Quantum Computing &amp; Physics Research Fellowships 2026">
+              ⚛️ Quantum Fellowships
+            </button>
+            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer" data-topic="Global Women in STEM &amp; Engineering Scholarships 2026">
+              👩‍💻 Women in STEM
+            </button>
+            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer" data-topic="Open Source Developer Grants &amp; Fellowships 2026">
+              🌐 Open Source Grants
+            </button>
+          </div>
+
+          <!-- Target Input & Run Button -->
+          <div class="flex flex-col sm:flex-row gap-2 pt-1">
+            <input
+              type="text"
+              id="scout-topic-input"
+              placeholder="e.g. Summer 2027 AI &amp; Quant Internships in Canada"
+              class="flex-1 px-3.5 py-2.5 rounded-xl text-xs dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 outline-none focus:border-indigo-500"
+            />
+            <button
+              id="btn-scout-curate"
+              class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:opacity-95 shadow-md shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i>
+              <span>🚀 Hunt &amp; Curate Now</span>
+            </button>
+          </div>
+
+          <!-- Live Animated Status Console -->
+          <div id="scout-console-box" class="hidden rounded-xl dark:bg-slate-950 bg-slate-900 p-3.5 border dark:border-slate-800 border-slate-800 text-xs font-mono space-y-1.5 shadow-inner">
+            <div class="flex items-center justify-between text-[11px] text-slate-400 border-b border-slate-800 pb-1.5 mb-2">
+              <span class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                Agent Execution Console
+              </span>
+              <span id="console-timer">0.0s</span>
+            </div>
+            <div id="scout-console-lines" class="space-y-1 text-slate-300 max-h-36 overflow-y-auto">
+              <!-- Animated step lines inserted here -->
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Cloud Full-Sweep (GitHub Background Sweep) -->
+        <div class="p-4 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div class="space-y-0.5">
+            <h4 class="text-sm font-bold dark:text-white text-slate-900 flex items-center gap-1.5">
+              <i data-lucide="git-pull-request" class="w-4 h-4 text-emerald-400"></i>
+              Cloud Full-Sweep (GitHub Actions Sweep)
+            </h4>
+            <p class="text-xs dark:text-slate-400 text-slate-500">
+              Kicks off the heavy 30-minute background workflow on GitHub Actions across all categories.
+            </p>
+          </div>
+          <button
+            id="btn-trigger-github-workflow"
+            class="px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center gap-2 cursor-pointer flex-shrink-0 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+            <span>⚡ Trigger Full Sweep</span>
+          </button>
+        </div>
+
+        <!-- 4. Card Removal Instructions & Status -->
+        <div class="p-4 rounded-xl dark:bg-indigo-950/20 bg-indigo-50/50 border dark:border-indigo-500/20 border-indigo-200/60 flex items-start gap-3">
+          <div class="text-lg">🗑️</div>
+          <div class="text-xs dark:text-slate-300 text-slate-600 space-y-1">
+            <div class="font-bold dark:text-white text-slate-900">1-Click Card Management Mode</div>
+            <div>
+              While Admin Mode is unlocked, every opportunity card on the portal displays a red <strong class="text-rose-500">"🗑️ Remove"</strong> button. Clicking it removes the item immediately and syncs across local memory, <code class="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-800">/tmp</code>, and GitHub repository.
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div class="p-4 border-t dark:border-slate-800 border-slate-200 dark:bg-slate-950/70 bg-slate-50/90 flex items-center justify-between text-xs dark:text-slate-400 text-slate-500 flex-shrink-0">
+        <span class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
+          Universal Visual Command Center v2.0
+        </span>
+        <button
+          id="btn-close-command-center"
+          class="px-4 py-1.5 rounded-lg text-xs font-semibold dark:bg-slate-800 bg-slate-200 dark:hover:bg-slate-700 hover:bg-slate-300 text-slate-800 dark:text-slate-200 transition-colors cursor-pointer"
+        >
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
 
   <!-- Toast Notification Container -->
   <div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[99999] pointer-events-none flex flex-col items-center gap-2"></div>

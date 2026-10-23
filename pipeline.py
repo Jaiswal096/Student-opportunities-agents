@@ -14,12 +14,21 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(me
 logger = logging.getLogger("OpportunityPipeline")
 
 API_KEY = os.getenv("GEMINI_API_KEY")
-if not API_KEY:
-    raise ValueError("GEMINI_API_KEY environment variable is missing.")
-
-client = genai.Client(api_key=API_KEY)
-MODEL_NAME = "gemini-3.8-flash"
+MODEL_NAME = "gemini-2.0-flash"
 DB_FILE = "opportunities.json"
+
+def get_client(api_key: str = None) -> genai.Client:
+    key = api_key or os.getenv("GEMINI_API_KEY")
+    if not key:
+        raise ValueError("GEMINI_API_KEY environment variable is missing.")
+    return genai.Client(api_key=key)
+
+client = None
+if API_KEY:
+    try:
+        client = get_client(API_KEY)
+    except Exception:
+        pass
 
 # ---------------------------------------------------------------------------
 # Pydantic Schema for Agent 3 (Curator)
@@ -56,9 +65,10 @@ Rules:
 - Output raw structured bullet points for each discovered lead. Do not add conversational commentary.
 """
 
-def run_scout_agent(search_query: str) -> str:
+def run_scout_agent(search_query: str, active_client: genai.Client = None) -> str:
+    c = active_client or client or get_client()
     logger.info("Executing Agent 1 (Scout)...")
-    response = client.models.generate_content(
+    response = c.models.generate_content(
         model=MODEL_NAME,
         contents=f"Find the newest active student opportunities for: {search_query}",
         config=types.GenerateContentConfig(
@@ -91,10 +101,11 @@ Return ONLY vetted entries that passed all checks:
 - Eligibility Summary: [Short bullet points]
 """
 
-def run_gatekeeper_agent(raw_leads: str) -> str:
+def run_gatekeeper_agent(raw_leads: str, active_client: genai.Client = None) -> str:
+    c = active_client or client or get_client()
     logger.info("Executing Agent 2 (Gatekeeper)...")
     prompt = f"Audit the following raw student leads against all quality and safety rules:\n\n{raw_leads}"
-    response = client.models.generate_content(
+    response = c.models.generate_content(
         model=MODEL_NAME,
         contents=prompt,
         config=types.GenerateContentConfig(
@@ -115,11 +126,12 @@ a normalized list matching the required schema. Ensure IDs are URL-safe slugs, c
 are normalized, and all dates follow YYYY-MM-DD or 'Rolling'.
 """
 
-def run_curator_agent(vetted_leads: str) -> List[Opportunity]:
+def run_curator_agent(vetted_leads: str, active_client: genai.Client = None) -> List[Opportunity]:
+    c = active_client or client or get_client()
     logger.info("Executing Agent 3 (Curator)...")
     prompt = f"Convert these vetted opportunities into structured records:\n\n{vetted_leads}"
     
-    response = client.models.generate_content(
+    response = c.models.generate_content(
         model=MODEL_NAME,
         contents=prompt,
         config=types.GenerateContentConfig(
@@ -133,6 +145,15 @@ def run_curator_agent(vetted_leads: str) -> List[Opportunity]:
     data = json.loads(response.text)
     curated = [Opportunity(**item) for item in data]
     logger.info(f"Agent 3 formatted {len(curated)} standardized records.")
+    return curated
+
+
+def run_topic_pipeline(topic: str, api_key: str = None) -> List[Opportunity]:
+    """Execute Agent 1 -> Agent 2 -> Agent 3 for a specific target topic."""
+    c = get_client(api_key)
+    raw = run_scout_agent(topic, active_client=c)
+    vetted = run_gatekeeper_agent(raw, active_client=c)
+    curated = run_curator_agent(vetted, active_client=c)
     return curated
 
 
