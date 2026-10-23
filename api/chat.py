@@ -234,9 +234,45 @@ class DeleteOpportunityRequest(BaseModel):
 # ---------------------------------------------------------------------------
 ADMIN_KEY_DEFAULT = "admin123"
 
+def get_gemini_api_key() -> Optional[str]:
+    """Retrieve Gemini API key across common environment variable casings."""
+    return (
+        os.environ.get("GEMINI_API_KEY")
+        or os.environ.get("Gemini_Api_Key")
+        or os.environ.get("gemini_api_key")
+        or os.environ.get("GEMINI_KEY")
+    )
+
+def get_admin_key_env() -> str:
+    """Retrieve custom admin key across common casings or return default."""
+    return (
+        os.environ.get("ADMIN_KEY")
+        or os.environ.get("Admin_Key")
+        or os.environ.get("admin_key")
+        or ADMIN_KEY_DEFAULT
+    )
+
+def get_github_token_env() -> Optional[str]:
+    """Retrieve GitHub token across common casings."""
+    return (
+        os.environ.get("GITHUB_TOKEN")
+        or os.environ.get("Github_Token")
+        or os.environ.get("github_token")
+        or os.environ.get("GH_TOKEN")
+    )
+
+def get_github_repo_env() -> str:
+    """Retrieve GitHub repository name across common casings."""
+    return (
+        os.environ.get("GITHUB_REPO")
+        or os.environ.get("Github_Repo")
+        or os.environ.get("github_repo")
+        or "Jaiswal096/Student-opportunities-agents"
+    )
+
 def is_admin_authorized(fastapi_req: Request, body_admin_key: Optional[str] = None) -> bool:
     """Validate admin key against environment or default local passkey."""
-    expected_key = os.environ.get("ADMIN_KEY", ADMIN_KEY_DEFAULT)
+    expected_key = get_admin_key_env()
     header_key = fastapi_req.headers.get("x-admin-key")
     if header_key and header_key == expected_key:
         return True
@@ -334,8 +370,8 @@ def save_json_everywhere(filename: str, data: Any) -> Dict[str, bool]:
         _cache_source = "tmp_memory"
 
     # 3. GitHub Contents API sync
-    token = os.environ.get("GITHUB_TOKEN")
-    repo = os.environ.get("GITHUB_REPO", "Jaiswal096/Student-opportunities-agents")
+    token = get_github_token_env()
+    repo = get_github_repo_env()
     if token and repo:
         try:
             gh1 = commit_file_to_github(
@@ -648,10 +684,10 @@ def generate_local_fallback_reply(query: str, opps: list) -> str:
 async def health():
     return {
         "status": "ok",
-        "api_key_configured": bool(os.environ.get("GEMINI_API_KEY")),
-        "admin_key_configured": bool(os.environ.get("ADMIN_KEY")),
-        "github_token_configured": bool(os.environ.get("GITHUB_TOKEN")),
-        "github_repo": os.environ.get("GITHUB_REPO", "Jaiswal096/Student-opportunities-agents"),
+        "api_key_configured": bool(get_gemini_api_key()),
+        "admin_key_configured": bool(get_admin_key_env() != ADMIN_KEY_DEFAULT or os.environ.get("ADMIN_KEY")),
+        "github_token_configured": bool(get_github_token_env()),
+        "github_repo": get_github_repo_env(),
         "agent": "Opportunity Scout",
         "model": DEFAULT_MODEL,
         "rate_limit_per_minute": RATE_LIMIT_MAX_REQUESTS,
@@ -675,7 +711,7 @@ async def scout_and_curate(req: ScoutCurateRequest, fastapi_req: Request):
     if not topic:
         return JSONResponse({"error": "Topic parameter is required."}, status_code=400)
 
-    api_key = os.environ.get("GEMINI_API_KEY")
+    api_key = get_gemini_api_key()
     curated_items: List[dict] = []
 
     # Import pipeline agents
@@ -782,8 +818,8 @@ async def trigger_github_workflow(req: WorkflowDispatchRequest, fastapi_req: Req
     if not is_admin_authorized(fastapi_req, req.admin_key):
         return JSONResponse({"error": "Unauthorized. Invalid admin_key."}, status_code=401)
 
-    token = os.environ.get("GITHUB_TOKEN")
-    repo = os.environ.get("GITHUB_REPO", "Jaiswal096/Student-opportunities-agents")
+    token = get_github_token_env()
+    repo = get_github_repo_env()
 
     if not token or not repo:
         return JSONResponse(
@@ -922,7 +958,7 @@ async def chat(request: ChatRequest, fastapi_req: Request):
     except Exception:
         pass
 
-    api_key = os.environ.get("GEMINI_API_KEY")
+    api_key = get_gemini_api_key()
 
     # If GEMINI_API_KEY is not configured locally, provide intelligent fallback
     if not api_key:

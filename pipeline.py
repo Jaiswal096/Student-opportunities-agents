@@ -13,12 +13,20 @@ from google.genai import types
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
 logger = logging.getLogger("OpportunityPipeline")
 
-API_KEY = os.getenv("GEMINI_API_KEY")
+def get_gemini_api_key() -> str:
+    return (
+        os.getenv("GEMINI_API_KEY")
+        or os.getenv("Gemini_Api_Key")
+        or os.getenv("gemini_api_key")
+        or os.getenv("GEMINI_KEY")
+    )
+
+API_KEY = get_gemini_api_key()
 MODEL_NAME = "gemini-2.0-flash"
 DB_FILE = "opportunities.json"
 
 def get_client(api_key: str = None) -> genai.Client:
-    key = api_key or os.getenv("GEMINI_API_KEY")
+    key = api_key or get_gemini_api_key()
     if not key:
         raise ValueError("GEMINI_API_KEY environment variable is missing.")
     return genai.Client(api_key=key)
