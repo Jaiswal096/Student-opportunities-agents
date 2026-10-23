@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Opportunity Scout - Student Opportunities Portal</title>
+  <title>Opportunity Scout — Student Opportunities Portal</title>
   <meta name="description" content="Discover verified scholarships, internships, research programs, fellowships and hackathons curated daily by AI agents. Chat with your 24/7 student advisor." />
 
   <!-- Tailwind CSS CDN (with dark mode class strategy) -->
@@ -159,6 +159,22 @@
     /* Deadline badge animations */
     @keyframes urgentPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.65; } }
     .deadline-urgent { animation: urgentPulse 1.5s ease-in-out infinite; }
+
+    /* Slide-out drawer animation classes */
+    #saved-drawer.drawer-open {
+      transform: translateX(0) !important;
+    }
+    #drawer-backdrop.backdrop-open {
+      opacity: 1 !important;
+      pointer-events: auto !important;
+    }
+
+    /* Toast notification animation */
+    .toast-pill {
+      animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1), toastOut 0.25s cubic-bezier(0.16, 1, 0.3, 1) 2.5s forwards;
+    }
+    @keyframes toastIn { from { opacity: 0; transform: translateY(14px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    @keyframes toastOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-10px) scale(0.95); } }
   </style>
 </head>
 
@@ -168,13 +184,13 @@
   <div class="bg-orb-1"></div>
   <div class="bg-orb-2"></div>
 
-  <!-- ?????????????????? HEADER ?????????????????? -->
+  <!-- ══════════════════ HEADER ══════════════════ -->
   <header class="sticky top-0 z-50 dark:bg-slate-950/85 bg-white/85 backdrop-blur-xl border-b dark:border-slate-800/60 border-slate-200/80 transition-colors duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
       <div class="flex items-center gap-3">
 
         <!-- Logo -->
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 flex-shrink-0 text-white text-xl">??</div>
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 flex-shrink-0 text-white text-xl">🎓</div>
 
         <!-- Wordmark -->
         <div class="flex-1 min-w-0">
@@ -185,8 +201,19 @@
         <!-- Live badge -->
         <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-indigo-500/10 bg-indigo-50 border dark:border-indigo-500/20 border-indigo-200 text-xs font-semibold dark:text-indigo-300 text-indigo-600 flex-shrink-0">
           <span class="w-2 h-2 rounded-full bg-emerald-400 animate-[blink_2s_ease-in-out_infinite]"></span>
-          <span id="header-count">Loading.</span>
+          <span id="header-count">Loading…</span>
         </div>
+
+        <!-- Saved (X) Navbar Button -->
+        <button
+          id="saved-drawer-toggle"
+          aria-label="View saved opportunities"
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-slate-900 bg-white hover:dark:bg-slate-800 hover:bg-slate-100 border dark:border-slate-800 border-slate-200 dark:hover:border-indigo-500/50 hover:border-indigo-500/50 text-xs font-semibold dark:text-slate-200 text-slate-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer"
+        >
+          <i data-lucide="bookmark" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
+          <span>Saved</span>
+          <span id="saved-count-badge" class="px-1.5 py-0.5 rounded-full dark:bg-amber-400/20 bg-amber-100 text-amber-500 dark:text-amber-300 text-[11px] font-bold">0</span>
+        </button>
 
         <!-- Dark/Light Toggle -->
         <button
@@ -202,48 +229,48 @@
     </div>
   </header>
 
-  <!-- ?????????????????? MAIN ?????????????????? -->
+  <!-- ══════════════════ MAIN ══════════════════ -->
   <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6">
 
-    <!-- ?? Hero ?? -->
+    <!-- ── Hero ── -->
     <section class="text-center pt-14 pb-10">
       <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full dark:bg-indigo-500/10 bg-indigo-50 border dark:border-indigo-500/20 border-indigo-200 text-xs font-semibold dark:text-indigo-300 text-indigo-600 mb-5">
         <i data-lucide="bot" class="w-3.5 h-3.5"></i>
-        Powered by AI Agents - Scout ? Gatekeeper ? Curator
+        Powered by AI Agents — Scout → Gatekeeper → Curator
       </div>
       <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black gradient-text leading-tight mb-4">
         Find Your Next Big<br/>Student Opportunity
       </h2>
       <p class="text-base sm:text-lg dark:text-slate-400 text-slate-500 max-w-xl mx-auto mb-0 font-normal leading-relaxed">
-        Verified scholarships, internships, research programs, fellowships &amp; hackathons - discovered and vetted by AI agents every day.
+        Verified scholarships, internships, research programs, fellowships &amp; hackathons — discovered and vetted by AI agents every day.
       </p>
     </section>
 
-    <!-- ?? Stats Bar ?? -->
+    <!-- ── Stats Bar ── -->
     <div class="flex flex-wrap gap-3 justify-center mb-10" id="stats-bar">
       <div class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
-        <span class="text-xl">??</span>
-        <div><strong id="stat-total" class="font-bold text-lg dark:text-white text-slate-900">-</strong> <span class="dark:text-slate-400 text-slate-500">Total Active</span></div>
+        <span class="text-xl">📋</span>
+        <div><strong id="stat-total" class="font-bold text-lg dark:text-white text-slate-900">—</strong> <span class="dark:text-slate-400 text-slate-500">Total Active</span></div>
       </div>
       <div class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
-        <span class="text-xl">?</span>
-        <div><strong id="stat-funded" class="font-bold text-lg dark:text-emerald-400 text-emerald-600">-</strong> <span class="dark:text-slate-400 text-slate-500">Fully Funded / Paid</span></div>
+        <span class="text-xl">✅</span>
+        <div><strong id="stat-funded" class="font-bold text-lg dark:text-emerald-400 text-emerald-600">—</strong> <span class="dark:text-slate-400 text-slate-500">Fully Funded / Paid</span></div>
       </div>
       <div class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
-        <span class="text-xl">??</span>
-        <div><strong id="stat-closing" class="font-bold text-lg dark:text-amber-400 text-amber-600">-</strong> <span class="dark:text-slate-400 text-slate-500">Closing Soon (14 days)</span></div>
+        <span class="text-xl">🔥</span>
+        <div><strong id="stat-closing" class="font-bold text-lg dark:text-amber-400 text-amber-600">—</strong> <span class="dark:text-slate-400 text-slate-500">Closing Soon (14 days)</span></div>
       </div>
       <div class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
-        <span class="text-xl">??</span>
-        <div><strong id="stat-scholarship" class="font-bold text-lg dark:text-amber-300 text-amber-600">-</strong> <span class="dark:text-slate-400 text-slate-500">Scholarships</span></div>
+        <span class="text-xl">🎓</span>
+        <div><strong id="stat-scholarship" class="font-bold text-lg dark:text-amber-300 text-amber-600">—</strong> <span class="dark:text-slate-400 text-slate-500">Scholarships</span></div>
       </div>
       <div class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
-        <span class="text-xl">??</span>
-        <div><strong id="stat-internship" class="font-bold text-lg dark:text-blue-400 text-blue-600">-</strong> <span class="dark:text-slate-400 text-slate-500">Internships</span></div>
+        <span class="text-xl">💼</span>
+        <div><strong id="stat-internship" class="font-bold text-lg dark:text-blue-400 text-blue-600">—</strong> <span class="dark:text-slate-400 text-slate-500">Internships</span></div>
       </div>
     </div>
 
-    <!-- ?? Search & Filters ?? -->
+    <!-- ── Search & Filters ── -->
     <div class="max-w-4xl mx-auto mb-8 space-y-4">
 
       <!-- Search bar -->
@@ -252,13 +279,13 @@
         <input
           type="search"
           id="search"
-          placeholder="Search by title, organization, tag, or keyword."
+          placeholder="Search by title, organization, tag, or keyword…"
           aria-label="Search opportunities"
           autocomplete="off"
           class="w-full pl-11 pr-24 py-3.5 dark:bg-slate-900/70 bg-white border dark:border-slate-800 border-slate-200 rounded-2xl dark:text-slate-100 text-slate-900 text-sm placeholder:dark:text-slate-600 placeholder:text-slate-400 outline-none focus:ring-2 dark:focus:ring-indigo-500/40 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-200 shadow-sm font-medium"
         />
         <span class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1">
-          <kbd>?</kbd><kbd>K</kbd>
+          <kbd>⌘</kbd><kbd>K</kbd>
         </span>
       </div>
 
@@ -266,12 +293,12 @@
       <div class="flex flex-wrap gap-2 items-center">
         <span class="text-xs font-semibold dark:text-slate-500 text-slate-400 uppercase tracking-widest mr-1">Category:</span>
         <button class="filter-btn pill-active px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="all">All</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Internship">?? Internship</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Research">?? Research</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Scholarship">?? Scholarship</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Fellowship">?? Fellowship</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Hackathon">? Hackathon</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Grant">?? Grant</button>
+        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Internship">💼 Internship</button>
+        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Research">🔬 Research</button>
+        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Scholarship">🎓 Scholarship</button>
+        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Fellowship">🏆 Fellowship</button>
+        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Hackathon">⚡ Hackathon</button>
+        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Grant">💰 Grant</button>
       </div>
 
       <!-- Secondary dropdown filters -->
@@ -279,7 +306,7 @@
         <span class="text-xs font-semibold dark:text-slate-500 text-slate-400 uppercase tracking-widest mr-1">Filter:</span>
 
         <select id="filter-level" aria-label="Filter by academic level" class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500">
-          <option value="all">?? All Levels</option>
+          <option value="all">🎒 All Levels</option>
           <option value="High School">High School</option>
           <option value="Undergraduate">Undergraduate</option>
           <option value="Masters">Masters</option>
@@ -287,29 +314,29 @@
         </select>
 
         <select id="filter-location" aria-label="Filter by location type" class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500">
-          <option value="all">?? All Locations</option>
+          <option value="all">📍 All Locations</option>
           <option value="Remote">Remote</option>
           <option value="Hybrid">Hybrid</option>
           <option value="On-site">On-site</option>
         </select>
 
         <select id="filter-comp" aria-label="Filter by compensation" class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500">
-          <option value="all">?? All Compensation</option>
-          <option value="Fully Funded">? Fully Funded</option>
-          <option value="Paid Stipend">?? Paid Stipend</option>
-          <option value="Cash Prize">?? Cash Prize</option>
+          <option value="all">💰 All Compensation</option>
+          <option value="Fully Funded">✅ Fully Funded</option>
+          <option value="Paid Stipend">💵 Paid Stipend</option>
+          <option value="Cash Prize">🏅 Cash Prize</option>
           <option value="Unpaid">Unpaid</option>
         </select>
 
         <select id="sort-select" aria-label="Sort opportunities" class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500 ml-auto">
-          <option value="deadline">? Deadline (Soonest)</option>
-          <option value="title">?? Title (A-Z)</option>
-          <option value="compensation">?? Compensation</option>
+          <option value="deadline">⏰ Deadline (Soonest)</option>
+          <option value="title">🔤 Title (A–Z)</option>
+          <option value="compensation">💎 Compensation</option>
         </select>
       </div>
     </div>
 
-    <!-- ?? Results bar ?? -->
+    <!-- ── Results bar ── -->
     <div class="flex items-center justify-between mb-5 flex-wrap gap-3 max-w-4xl mx-auto lg:max-w-none">
       <p class="text-sm dark:text-slate-400 text-slate-500 font-medium" id="results-count"></p>
       <button
@@ -317,11 +344,11 @@
         onclick="resetFilters()"
         class="hidden text-xs font-semibold px-3 py-1.5 rounded-lg dark:bg-slate-800 bg-slate-100 dark:text-slate-300 text-slate-600 hover:dark:bg-slate-700 hover:bg-slate-200 transition-colors border dark:border-slate-700 border-slate-200"
       >
-        ? Clear Filters
+        ✕ Clear Filters
       </button>
     </div>
 
-    <!-- ?? Cards Grid ?? -->
+    <!-- ── Cards Grid ── -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24" id="cards-grid">
       <!-- Skeleton loaders -->
       <div class="skeleton h-72 rounded-2xl"></div>
@@ -334,12 +361,12 @@
 
   </main>
 
-  <!-- ?????????????????? CHAT WIDGET ?????????????????? -->
+  <!-- ══════════════════ CHAT WIDGET ══════════════════ -->
   <script src="/widget.js" data-api-url="/api/chat"></script>
 
-  <!-- ?????????????????? PORTAL LOGIC ?????????????????? -->
+  <!-- ══════════════════ PORTAL LOGIC ══════════════════ -->
   <script>
-    // ?? Dark Mode Toggle ?????????????????????????????????????????????????????
+    // ── Dark Mode Toggle ─────────────────────────────────────────────────────
     const themeToggle = document.getElementById('theme-toggle');
     themeToggle.addEventListener('click', () => {
       const isDark = document.documentElement.classList.toggle('dark');
@@ -347,7 +374,7 @@
       lucide.createIcons();
     });
 
-    // ?? Keyboard shortcut: Cmd/Ctrl+K ? focus search ?????????????????????????
+    // ── Keyboard shortcut: Cmd/Ctrl+K → focus search ─────────────────────────
     document.addEventListener('keydown', (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault();
@@ -356,10 +383,10 @@
       }
     });
 
-    // ?? Config ???????????????????????????????????????????????????????????????
+    // ── Config ───────────────────────────────────────────────────────────────
     const OPPORTUNITIES_URL = '/opportunities.json';
 
-    const CAT_EMOJI   = { Scholarship:'??', Internship:'??', Research:'??', Hackathon:'?', Fellowship:'??', Grant:'??' };
+    const CAT_EMOJI   = { Scholarship:'🎓', Internship:'💼', Research:'🔬', Hackathon:'⚡', Fellowship:'🏆', Grant:'💰' };
     const CAT_COLORS  = {
       Scholarship: { bg: 'rgba(245,158,11,0.12)', badge: 'bg-amber-500/10 text-amber-400 border border-amber-500/20' },
       Internship:  { bg: 'rgba(59,130,246,0.12)',  badge: 'bg-blue-500/10 text-blue-400 border border-blue-500/20' },
@@ -381,7 +408,7 @@
       'On-site': 'dark:bg-slate-700/50 bg-slate-100 dark:text-slate-400 text-slate-500 border dark:border-slate-600 border-slate-200',
     };
 
-    // ?? State ????????????????????????????????????????????????????????????????
+    // ── State ────────────────────────────────────────────────────────────────
     let allOpportunities = [];
     let activeCategory   = 'all';
     let activeLevel      = 'all';
@@ -390,7 +417,109 @@
     let searchQuery      = '';
     let sortBy           = 'deadline';
 
-    // ?? Helpers ??????????????????????????????????????????????????????????????
+    // ── Saved Opportunities (localStorage) ───────────────────────────────────
+    const SAVED_STORAGE_KEY = 'opportunity_scout_saved_ids';
+
+    function getSavedIds() {
+      try {
+        const raw = localStorage.getItem(SAVED_STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function setSavedIds(ids) {
+      try {
+        localStorage.setItem(SAVED_STORAGE_KEY, JSON.stringify(ids));
+      } catch (e) {}
+      updateSavedBadges();
+    }
+
+    function isOpportunitySaved(id) {
+      return getSavedIds().includes(id);
+    }
+
+    function toggleSave(id) {
+      const ids = getSavedIds();
+      const idx = ids.indexOf(id);
+      let isNowSaved = false;
+      if (idx === -1) {
+        ids.push(id);
+        isNowSaved = true;
+      } else {
+        ids.splice(idx, 1);
+        isNowSaved = false;
+      }
+      setSavedIds(ids);
+      renderSavedDrawer();
+      render();
+      showToast(isNowSaved ? 'Saved to bookmarks 🔖' : 'Removed from saved');
+      return isNowSaved;
+    }
+
+    function updateSavedBadges() {
+      const count = getSavedIds().length;
+      const navBadge = document.getElementById('saved-count-badge');
+      const drawerBadge = document.getElementById('drawer-count-badge');
+      const exportBtn = document.getElementById('export-saved-csv-btn');
+
+      if (navBadge) navBadge.textContent = count;
+      if (drawerBadge) drawerBadge.textContent = count;
+      if (exportBtn) exportBtn.disabled = count === 0;
+    }
+
+    // ── Toast Notifications ──────────────────────────────────────────────────
+    function showToast(message) {
+      const container = document.getElementById('toast-container');
+      if (!container) return;
+      const toast = document.createElement('div');
+      toast.className = 'toast-pill px-4 py-2 rounded-full dark:bg-slate-800/95 bg-slate-900/95 text-white border dark:border-slate-700 border-slate-800 text-xs font-semibold shadow-2xl flex items-center gap-2 backdrop-blur-md';
+      toast.innerHTML = `<span>${message}</span>`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        if (toast.parentNode) toast.parentNode.removeChild(toast);
+      }, 2800);
+    }
+
+    // ── Google Calendar Quick Link Helper ────────────────────────────────────
+    function getGoogleCalendarUrl(opp) {
+      const title = encodeURIComponent(`[Deadline] ${opp.title} (${opp.host_organization})`);
+      const details = encodeURIComponent(
+        `Application Deadline for ${opp.title}\n\nHost: ${opp.host_organization}\nCategory: ${opp.category}\nCompensation: ${opp.compensation} (${opp.stipend_amount || 'Competitive'})\nLocation: ${opp.location_type} - ${opp.location || 'See details'}\n\nApply Link: ${opp.apply_url}\nPitch: ${opp.one_line_pitch || ''}\n\nDiscovered via Opportunity Scout (Student Portal)`
+      );
+
+      // Handle Rolling or unset deadlines
+      if (!opp.deadline || opp.deadline.toLowerCase() === 'rolling') {
+        const target = new Date();
+        target.setDate(target.getDate() + 14);
+        const yyyy = target.getFullYear();
+        const mm = String(target.getMonth() + 1).padStart(2, '0');
+        const dd = String(target.getDate()).padStart(2, '0');
+        const dateStr = `${yyyy}${mm}${dd}`;
+        return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${dateStr}/${dateStr}`;
+      }
+
+      // Handle standard YYYY-MM-DD
+      try {
+        const parts = opp.deadline.split('-');
+        if (parts.length === 3) {
+          const y = parseInt(parts[0], 10);
+          const m = parseInt(parts[1], 10) - 1;
+          const d = parseInt(parts[2], 10);
+          const start = new Date(Date.UTC(y, m, d));
+          const end = new Date(Date.UTC(y, m, d + 1));
+          const sStr = start.toISOString().replace(/-|:|\.\d\d\d/g, '').slice(0, 8);
+          const eStr = end.toISOString().replace(/-|:|\.\d\d\d/g, '').slice(0, 8);
+          return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${sStr}/${eStr}`;
+        }
+      } catch (e) {}
+
+      const clean = (opp.deadline || '').replace(/-/g, '');
+      return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${clean}/${clean}`;
+    }
+
+    // ── Helpers ──────────────────────────────────────────────────────────────
     function daysUntil(dateStr) {
       if (!dateStr || dateStr === 'Rolling') return null;
       return Math.ceil((new Date(dateStr) - new Date()) / 86400000);
@@ -412,30 +541,45 @@
       return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
     }
 
-    // ?? Render card ??????????????????????????????????????????????????????????
+    // ── Render card ──────────────────────────────────────────────────────────
     function renderCard(opp, idx) {
-      const cat     = opp.category || 'Other';
-      const emoji   = CAT_EMOJI[cat] || '??';
-      const catInfo = CAT_COLORS[cat] || { bg: 'rgba(255,255,255,0.06)', badge: 'dark:bg-slate-700 bg-slate-100 dark:text-slate-300 text-slate-500' };
-      const comp    = opp.compensation || 'N/A';
+      const cat       = opp.category || 'Other';
+      const emoji     = CAT_EMOJI[cat] || '📌';
+      const catInfo   = CAT_COLORS[cat] || { bg: 'rgba(255,255,255,0.06)', badge: 'dark:bg-slate-700 bg-slate-100 dark:text-slate-300 text-slate-500' };
+      const comp      = opp.compensation || 'N/A';
       const compBadge = COMP_BADGE[comp] || COMP_BADGE['N/A'];
       const locBadge  = opp.location_type ? (LOC_BADGE[opp.location_type] || LOC_BADGE['On-site']) : '';
-      const dl      = deadlineInfo(opp.deadline);
-      const tags    = (opp.tags || []).slice(0, 4);
-      const delay   = Math.min(idx * 0.05, 0.4);
-      const compIcon = comp === 'Fully Funded' ? '? ' : comp === 'Paid Stipend' ? '?? ' : comp === 'Cash Prize' ? '?? ' : '';
-      const locIcon  = opp.location_type === 'Remote' ? '??' : opp.location_type === 'Hybrid' ? '??' : '??';
+      const dl        = deadlineInfo(opp.deadline);
+      const tags      = (opp.tags || []).slice(0, 4);
+      const delay     = Math.min(idx * 0.05, 0.4);
+      const compIcon  = comp === 'Fully Funded' ? '✅ ' : comp === 'Paid Stipend' ? '💵 ' : comp === 'Cash Prize' ? '🏅 ' : '';
+      const locIcon   = opp.location_type === 'Remote' ? '🌐' : opp.location_type === 'Hybrid' ? '🔀' : '📍';
+      const isSaved   = isOpportunitySaved(opp.id);
+      const calUrl    = getGoogleCalendarUrl(opp);
 
       return `
         <article class="opp-card dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-2xl p-5 flex flex-col gap-3.5 shadow-sm" style="animation: fadeUp 0.4s ease ${delay}s both" aria-label="${esc(opp.title)}">
 
-          <!-- Top: icon + org + title -->
-          <div class="flex items-start gap-3">
-            <div class="w-11 h-11 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style="background:${catInfo.bg}">${emoji}</div>
-            <div class="flex-1 min-w-0">
-              <div class="text-xs dark:text-slate-500 text-slate-400 font-medium truncate mb-0.5">${esc(opp.host_organization)}</div>
-              <div class="text-sm font-bold dark:text-white text-slate-900 leading-snug line-clamp-2">${esc(opp.title)}</div>
+          <!-- Top: icon + org + title + bookmark button -->
+          <div class="flex items-start justify-between gap-2.5">
+            <div class="flex items-start gap-3 min-w-0">
+              <div class="w-11 h-11 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style="background:${catInfo.bg}">${emoji}</div>
+              <div class="flex-1 min-w-0">
+                <div class="text-xs dark:text-slate-500 text-slate-400 font-medium truncate mb-0.5">${esc(opp.host_organization)}</div>
+                <div class="text-sm font-bold dark:text-white text-slate-900 leading-snug line-clamp-2">${esc(opp.title)}</div>
+              </div>
             </div>
+
+            <!-- Bookmark icon button on every opportunity card -->
+            <button
+              type="button"
+              class="bookmark-btn w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 flex-shrink-0 cursor-pointer ${isSaved ? 'dark:bg-amber-500/20 bg-amber-100 text-amber-500 border border-amber-500/30' : 'dark:bg-slate-800/80 bg-slate-100 dark:text-slate-400 text-slate-400 hover:text-amber-400 hover:dark:bg-slate-700 hover:bg-slate-200 border dark:border-slate-700/60 border-slate-200'}"
+              data-id="${esc(opp.id)}"
+              title="${isSaved ? 'Remove from saved' : 'Save opportunity'}"
+              aria-label="${isSaved ? 'Remove from saved' : 'Save opportunity'}"
+            >
+              <i data-lucide="bookmark" class="w-4 h-4 ${isSaved ? 'fill-amber-400 text-amber-400' : ''}"></i>
+            </button>
           </div>
 
           <!-- Badges row -->
@@ -457,27 +601,41 @@
               <i data-lucide="${dl.icon}" class="w-3.5 h-3.5 flex-shrink-0"></i>
               <span>${dl.text}</span>
             </div>
-            <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1.5">
+              <!-- Add Deadline to Google Calendar quick link -->
+              <a
+                href="${calUrl}"
+                target="_blank"
+                rel="noopener"
+                class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold dark:bg-slate-800 bg-slate-100 dark:text-slate-300 text-slate-600 hover:dark:bg-slate-700 hover:bg-slate-200 border dark:border-slate-700 border-slate-200 transition-colors"
+                title="Add deadline to Google Calendar"
+                aria-label="Add deadline to Google Calendar"
+              >
+                <i data-lucide="calendar-plus" class="w-3.5 h-3.5 text-indigo-400"></i>
+                <span class="hidden sm:inline">Add to Cal</span>
+              </a>
+
               <button
-                class="ask-advisor-btn text-xs font-semibold px-3 py-1.5 rounded-lg dark:bg-indigo-500/10 bg-indigo-50 dark:text-indigo-400 text-indigo-600 border dark:border-indigo-500/20 border-indigo-200 hover:dark:bg-indigo-500/20 hover:bg-indigo-100 transition-colors"
+                class="ask-advisor-btn text-xs font-semibold px-2.5 py-1.5 rounded-lg dark:bg-indigo-500/10 bg-indigo-50 dark:text-indigo-400 text-indigo-600 border dark:border-indigo-500/20 border-indigo-200 hover:dark:bg-indigo-500/20 hover:bg-indigo-100 transition-colors"
                 data-title="${esc(opp.title)}"
                 data-org="${esc(opp.host_organization)}"
                 aria-label="Ask advisor about ${esc(opp.title)}"
-              >?? Ask Advisor</button>
+              >💬 Ask</button>
+
               <a
                 href="${esc(opp.apply_url)}"
                 target="_blank"
                 rel="noopener"
                 class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 hover:-translate-y-px transition-all"
                 id="apply-${esc(opp.id)}"
-              >Apply Now <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+              >Apply <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
             </div>
           </div>
 
         </article>`;
     }
 
-    // ?? Filter & sort ????????????????????????????????????????????????????????
+    // ── Filter & sort ────────────────────────────────────────────────────────
     function getFiltered() {
       let data = [...allOpportunities];
       if (activeCategory !== 'all')
@@ -516,7 +674,7 @@
       return activeCategory !== 'all' || activeLevel !== 'all' || activeLocation !== 'all' || activeComp !== 'all' || searchQuery !== '';
     }
 
-    // ?? Render grid ??????????????????????????????????????????????????????????
+    // ── Render grid ──────────────────────────────────────────────────────────
     function render() {
       const grid    = document.getElementById('cards-grid');
       const countEl = document.getElementById('results-count');
@@ -532,11 +690,11 @@
       if (!data.length) {
         grid.innerHTML = `
           <div class="col-span-full text-center py-20 px-6">
-            <div class="text-6xl mb-5">??</div>
+            <div class="text-6xl mb-5">🔍</div>
             <div class="text-xl font-bold dark:text-white text-slate-900 mb-3">No opportunities found</div>
-            <div class="text-sm dark:text-slate-400 text-slate-500 max-w-sm mx-auto mb-6">Try adjusting your filters or search term - or ask the Advisor chat for personalized recommendations.</div>
-            <button onclick="resetFilters()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 transition-opacity">
-              ? Clear all filters
+            <div class="text-sm dark:text-slate-400 text-slate-500 max-w-sm mx-auto mb-6">Try adjusting your filters or search term — or ask the Advisor chat for personalized recommendations.</div>
+            <button onclick="resetFilters()" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 transition-opacity cursor-pointer">
+              ✕ Clear all filters
             </button>
           </div>`;
         return;
@@ -544,6 +702,15 @@
 
       grid.innerHTML = data.map((opp, i) => renderCard(opp, i)).join('');
       lucide.createIcons();
+
+      // Attach Bookmark click listeners
+      grid.querySelectorAll('.bookmark-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.dataset.id;
+          toggleSave(id);
+        });
+      });
 
       // Attach Ask Advisor listeners
       grid.querySelectorAll('.ask-advisor-btn').forEach(btn => {
@@ -558,7 +725,188 @@
       });
     }
 
-    // ?? Stats ????????????????????????????????????????????????????????????????
+    // ── Saved Opportunities Drawer Logic ─────────────────────────────────────
+    function getSavedOpportunitiesList() {
+      const savedIds = getSavedIds();
+      return allOpportunities.filter(opp => savedIds.includes(opp.id));
+    }
+
+    function renderSavedDrawer() {
+      const drawerList = document.getElementById('drawer-items');
+      if (!drawerList) return;
+
+      const savedOpps = getSavedOpportunitiesList();
+      updateSavedBadges();
+
+      if (!savedOpps.length) {
+        drawerList.innerHTML = `
+          <div class="text-center py-16 px-4">
+            <div class="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-3xl mx-auto mb-4 text-amber-400">🔖</div>
+            <h4 class="text-base font-bold dark:text-white text-slate-900 mb-2">No saved opportunities yet</h4>
+            <p class="text-xs dark:text-slate-400 text-slate-500 max-w-xs mx-auto mb-5 leading-relaxed">
+              Click the bookmark icon on any opportunity card to save it for quick reference and deadline tracking.
+            </p>
+          </div>`;
+        lucide.createIcons();
+        return;
+      }
+
+      drawerList.innerHTML = savedOpps.map(opp => {
+        const cat = opp.category || 'Other';
+        const emoji = CAT_EMOJI[cat] || '📌';
+        const comp = opp.compensation || 'N/A';
+        const dl = deadlineInfo(opp.deadline);
+        const calUrl = getGoogleCalendarUrl(opp);
+
+        return `
+          <div class="dark:bg-slate-900/70 bg-slate-50 border dark:border-slate-800 border-slate-200 rounded-xl p-4 flex flex-col gap-3 shadow-sm hover:border-indigo-500/40 transition-colors">
+            <!-- Header: Title + Org + Remove button -->
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0 flex-1">
+                <span class="text-xs dark:text-slate-400 text-slate-500 font-medium block truncate">${esc(opp.host_organization)}</span>
+                <h4 class="text-sm font-bold dark:text-white text-slate-900 leading-snug line-clamp-2">${esc(opp.title)}</h4>
+              </div>
+              <button
+                type="button"
+                class="drawer-remove-btn w-7 h-7 rounded-lg dark:bg-slate-800 bg-white dark:text-slate-400 text-slate-500 hover:text-red-400 dark:hover:text-red-400 flex items-center justify-center border dark:border-slate-700 border-slate-200 transition-colors flex-shrink-0 cursor-pointer"
+                data-id="${esc(opp.id)}"
+                title="Remove from saved"
+                aria-label="Remove ${esc(opp.title)}"
+              >
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+
+            <!-- Badges & Deadline -->
+            <div class="flex items-center justify-between gap-2 flex-wrap text-xs">
+              <div class="flex items-center gap-1.5 flex-wrap">
+                <span class="px-2 py-0.5 rounded-full dark:bg-slate-800 bg-white dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-200 font-medium">${emoji} ${esc(cat)}</span>
+                <span class="px-2 py-0.5 rounded-full dark:bg-indigo-500/10 bg-indigo-50 dark:text-indigo-300 text-indigo-600 font-medium">${esc(comp)}</span>
+              </div>
+              <div class="flex items-center gap-1 ${dl.cls} font-semibold">
+                <i data-lucide="${dl.icon}" class="w-3.5 h-3.5"></i>
+                <span>${dl.text}</span>
+              </div>
+            </div>
+
+            <!-- Action buttons: Google Calendar Quick Link + Apply -->
+            <div class="pt-2 border-t dark:border-slate-800 border-slate-200/80 flex items-center gap-2">
+              <a
+                href="${calUrl}"
+                target="_blank"
+                rel="noopener"
+                class="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold dark:bg-indigo-500/10 bg-indigo-50 dark:text-indigo-300 text-indigo-600 border dark:border-indigo-500/20 border-indigo-200 hover:dark:bg-indigo-500/20 hover:bg-indigo-100 transition-colors"
+                title="Add deadline to Google Calendar"
+              >
+                <i data-lucide="calendar-plus" class="w-3.5 h-3.5"></i>
+                <span>Add Deadline to Google Calendar</span>
+              </a>
+              <a
+                href="${esc(opp.apply_url)}"
+                target="_blank"
+                rel="noopener"
+                class="inline-flex items-center justify-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 transition-opacity"
+              >
+                Apply <i data-lucide="arrow-up-right" class="w-3 h-3"></i>
+              </a>
+            </div>
+          </div>
+        `;
+      }).join('');
+
+      lucide.createIcons();
+
+      // Attach remove handlers
+      drawerList.querySelectorAll('.drawer-remove-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          toggleSave(btn.dataset.id);
+        });
+      });
+    }
+
+    function openDrawer() {
+      const drawer = document.getElementById('saved-drawer');
+      const backdrop = document.getElementById('drawer-backdrop');
+      renderSavedDrawer();
+      if (drawer) drawer.classList.add('drawer-open');
+      if (backdrop) backdrop.classList.add('backdrop-open');
+    }
+
+    function closeDrawer() {
+      const drawer = document.getElementById('saved-drawer');
+      const backdrop = document.getElementById('drawer-backdrop');
+      if (drawer) drawer.classList.remove('drawer-open');
+      if (backdrop) backdrop.classList.remove('backdrop-open');
+    }
+
+    // ── Export Saved to CSV ──────────────────────────────────────────────────
+    function exportSavedToCSV() {
+      const savedOpps = getSavedOpportunitiesList();
+      if (!savedOpps.length) {
+        showToast('No saved opportunities to export.');
+        return;
+      }
+
+      function escapeCSV(val) {
+        const str = String(val == null ? '' : val);
+        if (str.includes(',') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+          return `"${str.replace(/"/g, '""')}"`;
+        }
+        return str;
+      }
+
+      const headers = [
+        'ID',
+        'Title',
+        'Host Organization',
+        'Category',
+        'Compensation',
+        'Stipend Amount',
+        'Location Type',
+        'Location',
+        'Academic Level',
+        'Deadline',
+        'Application URL',
+        'Pitch',
+        'Tags'
+      ];
+
+      const rows = savedOpps.map(opp => [
+        opp.id || '',
+        opp.title || '',
+        opp.host_organization || '',
+        opp.category || '',
+        opp.compensation || '',
+        opp.stipend_amount || '',
+        opp.location_type || '',
+        opp.location || '',
+        (opp.academic_level || []).join('; '),
+        opp.deadline || '',
+        opp.apply_url || '',
+        opp.one_line_pitch || '',
+        (opp.tags || []).join('; ')
+      ]);
+
+      const csvContent = [
+        headers.map(escapeCSV).join(','),
+        ...rows.map(row => row.map(escapeCSV).join(','))
+      ].join('\r\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      const dateStr = new Date().toISOString().split('T')[0];
+      link.setAttribute('href', url);
+      link.setAttribute('download', `opportunity-scout-saved-${dateStr}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+
+      showToast(`Exported ${savedOpps.length} saved opportunities to CSV! 📥`);
+    }
+
+    // ── Stats ────────────────────────────────────────────────────────────────
     function updateStats() {
       const d = allOpportunities;
       document.getElementById('stat-total').textContent        = d.length;
@@ -569,7 +917,7 @@
       document.getElementById('header-count').textContent = `${d.length} live opportunities`;
     }
 
-    // ?? Reset ????????????????????????????????????????????????????????????????
+    // ── Reset ────────────────────────────────────────────────────────────────
     function resetFilters() {
       activeCategory = 'all'; activeLevel = 'all'; activeLocation = 'all'; activeComp = 'all'; searchQuery = '';
       document.getElementById('search').value = '';
@@ -580,10 +928,39 @@
       render();
     }
 
-    // ?? Event listeners ??????????????????????????????????????????????????????
+    // ── Event listeners ──────────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', () => {
-      // Lucide icons first pass
+      // Lucide icons first pass & badges
       lucide.createIcons();
+      updateSavedBadges();
+
+      // Drawer Open / Close Controls
+      const drawerToggle = document.getElementById('saved-drawer-toggle');
+      const closeDrawerBtn = document.getElementById('close-drawer-btn');
+      const drawerBackdrop = document.getElementById('drawer-backdrop');
+      const exportCsvBtn = document.getElementById('export-saved-csv-btn');
+      const clearAllSavedBtn = document.getElementById('clear-all-saved-btn');
+
+      if (drawerToggle) drawerToggle.addEventListener('click', openDrawer);
+      if (closeDrawerBtn) closeDrawerBtn.addEventListener('click', closeDrawer);
+      if (drawerBackdrop) drawerBackdrop.addEventListener('click', closeDrawer);
+      if (exportCsvBtn) exportCsvBtn.addEventListener('click', exportSavedToCSV);
+      if (clearAllSavedBtn) {
+        clearAllSavedBtn.addEventListener('click', () => {
+          if (!getSavedIds().length) return;
+          if (confirm('Clear all saved opportunities from your bookmarks?')) {
+            setSavedIds([]);
+            renderSavedDrawer();
+            render();
+            showToast('Bookmarks cleared');
+          }
+        });
+      }
+
+      // Close drawer on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closeDrawer();
+      });
 
       // Search
       document.getElementById('search').addEventListener('input', e => {
@@ -607,13 +984,14 @@
       document.getElementById('filter-comp').addEventListener('change', e => { activeComp = e.target.value; render(); });
       document.getElementById('sort-select').addEventListener('change', e => { sortBy = e.target.value; render(); });
 
-      // Fetch opportunities from local JSON
+      // Fetch opportunities
       fetch(OPPORTUNITIES_URL)
         .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .then(data => {
           if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
           allOpportunities = data.filter(o => o.is_active !== false);
           updateStats();
+          updateSavedBadges();
           render();
         })
         .catch(() => {
@@ -624,6 +1002,7 @@
               if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
               allOpportunities = data.filter(o => o.is_active !== false);
               updateStats();
+              updateSavedBadges();
               render();
             });
         })
@@ -631,14 +1010,14 @@
           document.getElementById('header-count').textContent = 'Pipeline pending';
           document.getElementById('cards-grid').innerHTML = `
             <div class="col-span-full text-center py-20 px-6">
-              <div class="text-6xl mb-5">??</div>
+              <div class="text-6xl mb-5">🤖</div>
               <div class="text-xl font-bold dark:text-white text-slate-900 mb-3">Pipeline hasn't run yet</div>
               <div class="text-sm dark:text-slate-400 text-slate-500 max-w-md mx-auto mb-6">
                 The AI agents run daily at 04:00 UTC to discover and verify new opportunities.
-                Check back tomorrow - or ask <strong>Opportunity Scout</strong> chat (bottom-right) for advice right now!
+                Check back tomorrow — or ask <strong>Opportunity Scout</strong> chat (bottom-right) for advice right now!
               </div>
               <button onclick="if(window.askAdvisor) window.askAdvisor('What are some good opportunities for students right now?')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 transition-opacity">
-                ?? Ask the Advisor
+                💬 Ask the Advisor
               </button>
             </div>`;
           document.querySelectorAll('.stat-chip strong').forEach(el => el.textContent = '0');
@@ -647,5 +1026,73 @@
     });
   </script>
 
+  <!-- ══════════════════ SAVED OPPORTUNITIES DRAWER ══════════════════ -->
+  <div id="drawer-backdrop" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[9990] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+
+  <aside
+    id="saved-drawer"
+    class="fixed top-0 right-0 bottom-0 w-full sm:w-[500px] z-[9995] dark:bg-slate-950 bg-white border-l dark:border-slate-800 border-slate-200 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Saved Opportunities Drawer"
+  >
+    <!-- Drawer Header -->
+    <div class="p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-900/60 bg-slate-50/90">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg">
+          <i data-lucide="bookmark" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h3 class="text-base font-bold dark:text-white text-slate-900">Saved Opportunities</h3>
+            <span id="drawer-count-badge" class="px-2 py-0.5 rounded-full text-xs font-bold dark:bg-amber-400/20 bg-amber-100 text-amber-500 dark:text-amber-300">0</span>
+          </div>
+          <p class="text-xs dark:text-slate-400 text-slate-500">Stored locally in your browser storage</p>
+        </div>
+      </div>
+      <button
+        id="close-drawer-btn"
+        aria-label="Close saved drawer"
+        class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
+      >
+        <i data-lucide="x" class="w-4 h-4"></i>
+      </button>
+    </div>
+
+    <!-- Drawer Action Toolbar -->
+    <div class="px-5 py-3 border-b dark:border-slate-800/80 border-slate-200/80 dark:bg-slate-900/40 bg-slate-50 flex items-center justify-between gap-3 flex-wrap">
+      <button
+        id="export-saved-csv-btn"
+        class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 transition-opacity shadow-sm disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+        aria-label="Export Saved to CSV"
+      >
+        <i data-lucide="download" class="w-3.5 h-3.5"></i>
+        <span>Export Saved to CSV</span>
+      </button>
+      <button
+        id="clear-all-saved-btn"
+        class="text-xs font-medium dark:text-slate-400 text-slate-500 hover:text-red-400 transition-colors cursor-pointer"
+      >
+        Clear All Saved
+      </button>
+    </div>
+
+    <!-- Drawer Scrollable List -->
+    <div id="drawer-items" class="flex-1 overflow-y-auto p-5 space-y-4">
+      <!-- Dynamic list rendered here -->
+    </div>
+
+    <!-- Drawer Footer -->
+    <div class="p-4 border-t dark:border-slate-800 border-slate-200 dark:bg-slate-900/40 bg-slate-50 text-center text-xs dark:text-slate-400 text-slate-500">
+      💡 Tip: Click <strong>"Add Deadline to Google Calendar"</strong> on any card to never miss a submission cutoff.
+    </div>
+  </aside>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[99999] pointer-events-none flex flex-col items-center gap-2"></div>
+
+  <!-- Embed 24/7 AI Advisor Widget -->
+  <script src="/widget.js" data-api-url="/api/chat"></script>
 </body>
 </html>
+

@@ -1,4 +1,4 @@
-﻿# Python
+# Python
 __pycache__/
 *.py[cod]
 *.pyo
@@ -22,5 +22,9 @@ env/
 *.DS_Store
 Thumbs.db
 
+# Vercel
+.vercel/
+
 # Logs
 *.log
+

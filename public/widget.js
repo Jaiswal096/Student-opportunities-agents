@@ -23,6 +23,7 @@
 
   // Quick-starter prompt chips
   const CHIPS = [
+    { label: "🎯 Match My Profile", prompt: "__MATCH_PROFILE__" },
     { label: "🔍 Paid CS Research", prompt: "Find me paid computer science research opportunities for undergraduates. I'm interested in AI and software engineering." },
     { label: "🌐 Remote Internships", prompt: "What remote internship opportunities are available for undergraduate students? I prefer fully remote positions." },
     { label: "🎓 Upcoming Scholarships", prompt: "Show me scholarships with upcoming deadlines in the next 2 months. I'm an undergraduate student." },
@@ -195,6 +196,198 @@
       flex-shrink: 0;
     }
     #osc-close:hover { background: rgba(255,255,255,0.28); }
+
+    /* ── Match My Profile Header Button ── */
+    #osc-match-btn {
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 5px 9px;
+      border-radius: 18px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+      flex-shrink: 0;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    }
+    #osc-match-btn:hover {
+      background: rgba(255, 255, 255, 0.28);
+      border-color: rgba(255, 255, 255, 0.5);
+      transform: translateY(-1px) scale(1.03);
+      box-shadow: 0 4px 12px rgba(255, 255, 255, 0.25);
+    }
+
+    /* ── Match Profile Drawer / View ── */
+    #osc-profile-view {
+      position: absolute;
+      top: 70px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(10, 10, 26, 0.97);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      z-index: 20;
+      padding: 16px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 11px;
+      transform: translateY(-10px);
+      opacity: 0;
+      pointer-events: none;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease;
+    }
+    #osc-profile-view.osc-pv-open {
+      transform: translateY(0);
+      opacity: 1;
+      pointer-events: all;
+    }
+    .osc-pv-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 8px;
+    }
+    .osc-pv-title {
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .osc-pv-close {
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      color: white;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      transition: background 0.2s;
+    }
+    .osc-pv-close:hover { background: rgba(255, 255, 255, 0.22); }
+    .osc-pv-desc {
+      color: #94a3b8;
+      font-size: 11.5px;
+      line-height: 1.5;
+    }
+    .osc-pv-desc strong { color: #c4b5fd; }
+    .osc-pv-field {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .osc-pv-label {
+      color: #c4b5fd;
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .osc-pv-input, .osc-pv-select, .osc-pv-textarea {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 10px;
+      color: #f1f5f9;
+      font-size: 12.5px;
+      padding: 8px 11px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .osc-pv-input:focus, .osc-pv-select:focus, .osc-pv-textarea:focus {
+      border-color: #818cf8;
+      background: rgba(255, 255, 255, 0.09);
+    }
+    .osc-pv-select {
+      cursor: pointer;
+      background: #181938;
+    }
+    .osc-pv-textarea {
+      resize: vertical;
+      min-height: 70px;
+      font-family: inherit;
+      line-height: 1.45;
+    }
+    .osc-pv-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .osc-pv-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 2px;
+    }
+    .osc-pv-preset-chip {
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      color: #a5b4fc;
+      font-size: 10.5px;
+      font-weight: 500;
+      padding: 3px 8px;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+    }
+    .osc-pv-preset-chip:hover {
+      background: rgba(99, 102, 241, 0.28);
+      color: white;
+    }
+    .osc-pv-submit-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+      color: white;
+      font-weight: 700;
+      font-size: 13px;
+      padding: 10px;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+      transition: transform 0.15s, opacity 0.2s;
+      margin-top: 4px;
+    }
+    .osc-pv-submit-btn:hover {
+      opacity: 0.95;
+      transform: translateY(-1px);
+    }
+    .osc-pv-cancel-btn {
+      width: 100%;
+      background: transparent;
+      color: #94a3b8;
+      font-size: 11.5px;
+      font-weight: 500;
+      padding: 6px;
+      border: none;
+      cursor: pointer;
+      text-align: center;
+      transition: color 0.2s;
+    }
+    .osc-pv-cancel-btn:hover { color: white; }
+    .osc-char-count {
+      font-size: 9.5px;
+      color: rgba(255, 255, 255, 0.35);
+      text-align: right;
+      padding: 2px 4px 0;
+    }
+    .osc-char-count.osc-char-limit { color: #f87171; font-weight: 700; }
 
     /* ── Messages area ── */
     #osc-messages {
@@ -501,7 +694,51 @@
             <span>24/7 Student Advisor · AI Powered</span>
           </div>
         </div>
+        <button id="osc-match-btn" title="Match my profile / resume to top opportunities" aria-label="Match my profile">
+          <span>🎯</span>
+          <span>Match Profile</span>
+        </button>
         <button id="osc-close" aria-label="Close chat">✕</button>
+      </div>
+
+      <!-- Slide-down Profile / Resume Match View -->
+      <div id="osc-profile-view">
+        <div class="osc-pv-header">
+          <div class="osc-pv-title">🎯 Match My Profile & Resume</div>
+          <button id="osc-pv-close" class="osc-pv-close" aria-label="Close profile match">✕</button>
+        </div>
+        <p class="osc-pv-desc">
+          Paste your major, year, skills, or resume summary. Agent 4 will score &amp; rank your <strong>Top 3 best-fitting opportunities</strong> with % match scores and tailored application tips!
+        </p>
+        <div class="osc-pv-presets">
+          <span style="font-size:10px;color:rgba(255,255,255,0.4);align-self:center;">Presets:</span>
+          <button type="button" class="osc-pv-preset-chip" data-major="Computer Science" data-year="Undergraduate" data-skills="Python, React, machine learning, open source contributions, looking for internships or REUs">💻 CS Undergrad</button>
+          <button type="button" class="osc-pv-preset-chip" data-major="Biology & STEM" data-year="Undergraduate" data-skills="Laboratory research, cellular biology, wet lab assays, looking for fully funded summer REUs">🔬 Bio / Research</button>
+          <button type="button" class="osc-pv-preset-chip" data-major="Public Policy & Data" data-year="Masters" data-skills="Econometrics, R, quantitative analysis, looking for fellowships and grants">🏆 Policy / Fellow</button>
+        </div>
+        <div class="osc-pv-row">
+          <div class="osc-pv-field">
+            <label class="osc-pv-label" for="osc-pv-major">Major / Field</label>
+            <input type="text" id="osc-pv-major" class="osc-pv-input" placeholder="e.g. Computer Science" />
+          </div>
+          <div class="osc-pv-field">
+            <label class="osc-pv-label" for="osc-pv-year">Academic Level</label>
+            <select id="osc-pv-year" class="osc-pv-select">
+              <option value="Undergraduate">Undergraduate</option>
+              <option value="High School">High School</option>
+              <option value="Masters">Masters</option>
+              <option value="PhD">PhD</option>
+            </select>
+          </div>
+        </div>
+        <div class="osc-pv-field">
+          <label class="osc-pv-label" for="osc-pv-skills">Skills, Interests or Resume Summary</label>
+          <textarea id="osc-pv-skills" class="osc-pv-textarea" placeholder="Paste your resume summary, coursework, projects, or specific interests (e.g. Python, AI research, looking for fully funded programs)..."></textarea>
+        </div>
+        <button id="osc-pv-submit" class="osc-pv-submit-btn">
+          <span>🎯 Rank My Top 3 Matches</span>
+        </button>
+        <button id="osc-pv-cancel" class="osc-pv-cancel-btn" type="button">Back to Regular Chat</button>
       </div>
 
       <div id="osc-messages" role="log" aria-live="polite" aria-label="Chat messages"></div>
@@ -512,12 +749,16 @@
       </div>
 
       <div id="osc-footer">
-        <textarea
-          id="osc-input"
-          placeholder="Ask about scholarships, internships, research…"
-          rows="1"
-          aria-label="Type your message"
-        ></textarea>
+        <div style="flex:1;display:flex;flex-direction:column;">
+          <textarea
+            id="osc-input"
+            maxlength="1500"
+            placeholder="Ask about scholarships, internships, research…"
+            rows="1"
+            aria-label="Type your message"
+          ></textarea>
+          <div id="osc-char-count" class="osc-char-count">0 / 1500</div>
+        </div>
         <button id="osc-send" aria-label="Send message" disabled>
           <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
         </button>
@@ -572,7 +813,7 @@
   }
 
   // ── API ───────────────────────────────────────────────────────────────────
-  async function sendMessage(message, msgEl, inputEl, sendBtn) {
+  async function sendMessage(message, msgEl, inputEl, sendBtn, isProfileMatch = false) {
     if (!message.trim() || isLoading) return;
     isLoading = true;
 
@@ -582,9 +823,22 @@
 
     inputEl.value = "";
     inputEl.style.height = "auto";
+    const charCountEl = document.getElementById("osc-char-count");
+    if (charCountEl) {
+      charCountEl.textContent = "0 / 1500";
+      charCountEl.classList.remove("osc-char-limit");
+    }
     sendBtn.disabled = true;
 
-    appendMessage("user", message, msgEl);
+    // Format human-friendly display in chat for profile match mode
+    let displayMessage = message;
+    if (isProfileMatch && message.startsWith("[PROFILE_MATCH_MODE]")) {
+      displayMessage = message
+        .replace("[PROFILE_MATCH_MODE]\n", "")
+        .replace("\nPlease rank the top 3 best-fitting opportunities from your live opportunities database with a percentage match score (e.g. 95% Match) and specific application tips for each.", "");
+    }
+
+    appendMessage("user", displayMessage, msgEl);
     showTyping(msgEl);
 
     try {
@@ -596,8 +850,17 @@
           history: history.map(h => ({ role: h.role, content: h.content })),
         }),
       });
-      const data = await res.json();
+
+      const data = await res.json().catch(() => ({}));
       removeTyping();
+
+      if (!res.ok) {
+        const errorMsg = data.error || (res.status === 429 ? "Rate limit reached. Please wait a moment before sending more messages." : `Server error (${res.status})`);
+        appendMessage("model", `⚠️ ${errorMsg}`, msgEl);
+        isLoading = false;
+        sendBtn.disabled = false;
+        return;
+      }
 
       const reply = data.reply || data.error || "Sorry, something went wrong. Please try again.";
       appendMessage("model", reply, msgEl);
@@ -619,16 +882,22 @@
   // ── Init ──────────────────────────────────────────────────────────────────
   function init() {
     const { bubble, panel, unreadBadge } = buildWidget();
-    const msgEl   = document.getElementById("osc-messages");
-    const inputEl = document.getElementById("osc-input");
-    const sendBtn = document.getElementById("osc-send");
-    const closeBtn = document.getElementById("osc-close");
+    const msgEl       = document.getElementById("osc-messages");
+    const inputEl     = document.getElementById("osc-input");
+    const sendBtn     = document.getElementById("osc-send");
+    const closeBtn    = document.getElementById("osc-close");
+    const matchBtn    = document.getElementById("osc-match-btn");
+    const profileView = document.getElementById("osc-profile-view");
+    const pvCloseBtn  = document.getElementById("osc-pv-close");
+    const pvCancelBtn = document.getElementById("osc-pv-cancel");
+    const pvSubmitBtn = document.getElementById("osc-pv-submit");
+    const charCountEl = document.getElementById("osc-char-count");
 
     // Welcome message (delayed for polish)
     setTimeout(() => {
       appendMessage(
         "model",
-        "👋 Hi! I'm **Opportunity Scout** — your 24/7 student advisor.\n\nI have access to a live database of verified **scholarships**, **internships**, **research programs**, **fellowships**, and **hackathons**.\n\nTell me about yourself — your field of study, academic level, and what kind of opportunity you're after. I'll find the best matches for you! 🎯",
+        "👋 Hi! I'm **Opportunity Scout** — your 24/7 student advisor.\n\nI have access to a live database of verified **scholarships**, **internships**, **research programs**, **fellowships**, and **hackathons**.\n\nClick **🎯 Match Profile** in the top header to get your top 3 personalized opportunities, or ask me anything directly!",
         msgEl
       );
 
@@ -642,7 +911,7 @@
       }, 3000);
     }, 500);
 
-    // ── Open / close ──
+    // ── Open / close panel ──
     function openPanel() {
       isOpen = true;
       panel.classList.add("osc-open");
@@ -658,21 +927,75 @@
       panel.classList.remove("osc-open");
       bubble.innerHTML = ICON_CHAT;
       bubble.appendChild(unreadBadge);
+      closeProfileView();
     }
 
     bubble.addEventListener("click", () => isOpen ? closePanel() : openPanel());
     closeBtn.addEventListener("click", closePanel);
 
-    // ── Chip clicks ──
+    // ── Profile matching view controls ──
+    function openProfileView() {
+      if (!isOpen) openPanel();
+      profileView.classList.add("osc-pv-open");
+      setTimeout(() => {
+        const input = document.getElementById("osc-pv-major");
+        if (input) input.focus();
+      }, 100);
+    }
+
+    function closeProfileView() {
+      profileView.classList.remove("osc-pv-open");
+    }
+
+    if (matchBtn) matchBtn.addEventListener("click", openProfileView);
+    if (pvCloseBtn) pvCloseBtn.addEventListener("click", closeProfileView);
+    if (pvCancelBtn) pvCancelBtn.addEventListener("click", closeProfileView);
+
+    // Preset chips in profile view
+    document.querySelectorAll(".osc-pv-preset-chip").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.getElementById("osc-pv-major").value = btn.dataset.major || "";
+        document.getElementById("osc-pv-year").value  = btn.dataset.year || "Undergraduate";
+        document.getElementById("osc-pv-skills").value = btn.dataset.skills || "";
+        document.getElementById("osc-pv-skills").focus();
+      });
+    });
+
+    // Profile Submit
+    if (pvSubmitBtn) {
+      pvSubmitBtn.addEventListener("click", () => {
+        const major  = (document.getElementById("osc-pv-major").value || "").trim();
+        const year   = document.getElementById("osc-pv-year").value;
+        const skills = (document.getElementById("osc-pv-skills").value || "").trim();
+
+        if (!major && !skills) {
+          document.getElementById("osc-pv-skills").focus();
+          document.getElementById("osc-pv-skills").placeholder = "⚠️ Please enter your major, skills, or resume summary first...";
+          return;
+        }
+
+        closeProfileView();
+
+        const prompt = `[PROFILE_MATCH_MODE]\n**Student Profile & Resume Analysis:**\n• **Major / Field**: ${major || 'Open / Multi-disciplinary'}\n• **Academic Level**: ${year}\n• **Skills, Interests & Experience**: ${skills || 'General student background'}\n\nPlease rank the top 3 best-fitting opportunities from your live opportunities database with a percentage match score (e.g. 95% Match) and specific application tips for each.`;
+
+        setTimeout(() => sendMessage(prompt, msgEl, inputEl, sendBtn, true), 100);
+      });
+    }
+
+    // ── Quick starters chip clicks ──
     document.querySelectorAll(".osc-chip").forEach(chip => {
       chip.addEventListener("click", () => {
         const prompt = chip.getAttribute("data-prompt");
+        if (prompt === "__MATCH_PROFILE__") {
+          openProfileView();
+          return;
+        }
         if (!isOpen) openPanel();
         setTimeout(() => sendMessage(prompt, msgEl, inputEl, sendBtn), 100);
       });
     });
 
-    // ── Send ──
+    // ── Send message handlers ──
     sendBtn.addEventListener("click", () => sendMessage(inputEl.value, msgEl, inputEl, sendBtn));
 
     inputEl.addEventListener("keydown", e => {
@@ -685,17 +1008,35 @@
     inputEl.addEventListener("input", () => {
       inputEl.style.height = "auto";
       inputEl.style.height = Math.min(inputEl.scrollHeight, 100) + "px";
+      const len = inputEl.value.length;
+      if (charCountEl) {
+        charCountEl.textContent = `${len} / 1500`;
+        charCountEl.classList.toggle("osc-char-limit", len >= 1400);
+      }
       sendBtn.disabled = inputEl.value.trim().length === 0 || isLoading;
     });
 
-    // ── Expose global API ──
+    // ── Expose global APIs ──
     window.askAdvisor = function (promptText) {
       if (!isOpen) openPanel();
       setTimeout(() => {
         if (promptText && promptText.trim()) {
           sendMessage(promptText.trim(), msgEl, inputEl, sendBtn);
         }
-      }, isOpen ? 0 : 350); // small delay to let panel open
+      }, isOpen ? 0 : 350);
+    };
+
+    window.matchProfile = function (profile) {
+      if (!isOpen) openPanel();
+      if (!profile) {
+        openProfileView();
+        return;
+      }
+      const major  = profile.major || "";
+      const year   = profile.year || "Undergraduate";
+      const skills = profile.skills || profile.resume || "";
+      const prompt = `[PROFILE_MATCH_MODE]\n**Student Profile & Resume Analysis:**\n• **Major / Field**: ${major || 'Open'}\n• **Academic Level**: ${year}\n• **Skills & Experience**: ${skills}\n\nPlease rank the top 3 best-fitting opportunities from your live opportunities database with a percentage match score (e.g. 95% Match) and specific application tips for each.`;
+      setTimeout(() => sendMessage(prompt, msgEl, inputEl, sendBtn, true), isOpen ? 0 : 350);
     };
   }
 

@@ -13,7 +13,7 @@
     },
     {
       "src": "/opportunities.json",
-      "dest": "/opportunities.json"
+      "dest": "/api/chat.py"
     },
     {
       "src": "/widget.js",
