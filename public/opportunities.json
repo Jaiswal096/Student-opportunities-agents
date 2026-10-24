@@ -135,7 +135,7 @@
       "Patents"
     ],
     "one_line_pitch": "National competition awarding cash prizes and patent counseling for cutting-edge student inventions.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "grt-lemelson-mit-student-prize",
@@ -1077,7 +1077,7 @@
       "Full Ride"
     ],
     "one_line_pitch": "Three-year annual stipend of $37,000 plus $16,000 cost-of-education allowance for research master's and PhDs.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "grt-emergent-ventures-grant",
@@ -1219,7 +1219,7 @@
       "Travel"
     ],
     "one_line_pitch": "Enhances creative and innovative potential of researchers holding a PhD wishing to acquire new skills in Europe.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-humboldt-postdoc-fellowship",
@@ -1287,7 +1287,7 @@
       "Language"
     ],
     "one_line_pitch": "One year in Germany conducting a self-designed project under the patronage of the German Federal Chancellor.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-california-capital-fellows",
@@ -1443,7 +1443,7 @@
       "Global Economy"
     ],
     "one_line_pitch": "Fully funded travel to IMF Annual Meetings with hands-on access to central bankers and global economic policymakers.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-world-bank-ypp",
@@ -1466,7 +1466,7 @@
       "World Bank"
     ],
     "one_line_pitch": "Two-year leadership development contract with full benefits and global travel across 140+ country offices.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-citadel-summer-fellowship",
@@ -1593,7 +1593,7 @@
       "$50,000"
     ],
     "one_line_pitch": "Awards up to $50,000 per student to doctoral researchers advancing GPU computing, robotics, and deep learning.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-ibm-phd-fellowship",
@@ -1637,7 +1637,7 @@
       "Full Tuition"
     ],
     "one_line_pitch": "Generous funding, Apple mentorship, and opportunities to intern with Apple Machine Learning teams.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-microsoft-research-phd",
@@ -1703,7 +1703,7 @@
       "$42,000/yr"
     ],
     "one_line_pitch": "Covers two full academic years of tuition and fees, plus a $42,000 annual living stipend and conference travel.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-jane-street-graduate-fellowship",
@@ -1840,7 +1840,7 @@
       "Stipend"
     ],
     "one_line_pitch": "Stipend and travel support for open-source software engineers and researchers defending public internet health.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-roddenberry-fellowship",
@@ -1863,7 +1863,7 @@
       "No Equity"
     ],
     "one_line_pitch": "$50,000 grants plus tailored coaching to support activists and founders working for climate and equity.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-skadden-fellowship",
@@ -1885,7 +1885,7 @@
       "Salary"
     ],
     "one_line_pitch": "Two-year fellowships providing salary and benefits to launch public interest legal services for the poor.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-equal-justice-works",
@@ -1907,7 +1907,7 @@
       "Salary"
     ],
     "one_line_pitch": "Two-year fellowship funding graduating law students to launch public interest legal projects with non-profits.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-apaics-congressional-fellowship",
@@ -2114,7 +2114,7 @@
       "Government"
     ],
     "one_line_pitch": "Premier two-year leadership development program for advanced degree holders across the federal government.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-white-house-fellows",
@@ -2209,7 +2209,7 @@
       "$80,000"
     ],
     "one_line_pitch": "$80,000 in unrestricted seed funding, leadership coaching, and global network for breakthrough social founders.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-hertz-foundation-fellowship",
@@ -3994,7 +3994,7 @@
       "Undergraduate"
     ],
     "one_line_pitch": "100% course fee remission for high-achieving international students across all study areas.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-schulich-leader-scholarships",
@@ -4040,7 +4040,7 @@
       "Leadership"
     ],
     "one_line_pitch": "Valued at $100,000 over four years, including mentorship and summer funding for Canadian undergraduates.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-chevening-scholarship-uk",
@@ -4154,7 +4154,7 @@
       "Stipend"
     ],
     "one_line_pitch": "Enables students of limited financial means to study or intern abroad, providing up to $5,000.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-boren-awards-international",
@@ -4223,7 +4223,7 @@
       "Full Ride"
     ],
     "one_line_pitch": "Provides tuition, accommodation, a living stipend, and travel for one year of postgraduate study in Ireland.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-morris-udall-scholarship",
@@ -4290,7 +4290,7 @@
       "Leadership"
     ],
     "one_line_pitch": "Finances up to two years of study for young Americans of high ability at any UK university.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-schwarzman-scholars-tsinghua",
@@ -4313,7 +4313,7 @@
       "Full Ride"
     ],
     "one_line_pitch": "One-year master's in global affairs with full tuition, room, board, and travel to Tsinghua University.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-knight-hennessy-scholars",
@@ -4337,7 +4337,7 @@
       "Graduate"
     ],
     "one_line_pitch": "Up to 3 years of full tuition and living stipend for any graduate degree at Stanford University.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-coca-cola-scholars-program",
@@ -4359,7 +4359,7 @@
       "$20,000"
     ],
     "one_line_pitch": "$20,000 college scholarships awarded to 150 visionary high school seniors dedicated to leadership and service.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-questbridge-national-college-match",
@@ -4382,7 +4382,7 @@
       "Need-Based"
     ],
     "one_line_pitch": "Connects outstanding high school seniors with four-year full-ride scholarships to 50+ top colleges.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-dod-smart-scholarship",
@@ -4453,7 +4453,7 @@
       "Teaching"
     ],
     "one_line_pitch": "All-inclusive grants providing travel, living stipend, and healthcare for research or teaching abroad.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-barry-goldwater-fellowship",
@@ -4499,7 +4499,7 @@
       "Global"
     ],
     "one_line_pitch": "The world's oldest and most prestigious postgraduate scholarship covering all Oxford University fees.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-gates-millennium-scholars",
@@ -8280,7 +8280,7 @@
       "Science",
       "Engineering"
     ],
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "opp-007",
@@ -8328,7 +8328,7 @@
       "Global",
       "Graduate Study"
     ],
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "opp-009",
