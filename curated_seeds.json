@@ -1,0 +1,4526 @@
+[
+  {
+    "id": "sch-gates-millennium-scholars",
+    "title": "Gates Millennium Scholars Program",
+    "host_organization": "Bill & Melinda Gates Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Fully Funded",
+    "deadline": "2027-01-15",
+    "apply_url": "https://gmsp.org",
+    "tags": [
+      "Full Ride",
+      "Undergraduate",
+      "Minority",
+      "Need-Based"
+    ],
+    "one_line_pitch": "Full-ride scholarship covering tuition, room, board, and fees through graduation.",
+    "is_active": true
+  },
+  {
+    "id": "sch-rhodes-trust-oxford",
+    "title": "Rhodes Scholarship to the University of Oxford",
+    "host_organization": "Rhodes Trust",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Masters",
+      "PhD"
+    ],
+    "location_type": "On-site",
+    "location": "Oxford, United Kingdom",
+    "compensation": "Fully Funded",
+    "deadline": "2026-10-01",
+    "apply_url": "https://www.rhodeshouse.ox.ac.uk/scholarships/the-rhodes-scholarship/",
+    "tags": [
+      "Oxford",
+      "Postgraduate",
+      "Leadership",
+      "Global"
+    ],
+    "one_line_pitch": "The world's oldest and most prestigious postgraduate scholarship covering all Oxford University fees.",
+    "is_active": true
+  },
+  {
+    "id": "sch-barry-goldwater-fellowship",
+    "title": "Barry Goldwater Scholarship in STEM Excellence",
+    "host_organization": "Barry Goldwater Scholarship Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-26",
+    "apply_url": "https://goldwaterscholarship.gov",
+    "tags": [
+      "STEM",
+      "Research",
+      "Undergraduate",
+      "Science"
+    ],
+    "one_line_pitch": "Prestigious award providing up to $7,500/year to outstanding undergraduates conducting STEM research.",
+    "is_active": true
+  },
+  {
+    "id": "sch-fulbright-us-student-program",
+    "title": "Fulbright U.S. Student Program (Study / Research / ETA)",
+    "host_organization": "U.S. Department of State",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Global (140+ Countries)",
+    "compensation": "Fully Funded",
+    "deadline": "2026-10-08",
+    "apply_url": "https://us.fulbrightonline.org",
+    "tags": [
+      "Global",
+      "Cultural Exchange",
+      "Research",
+      "Teaching"
+    ],
+    "one_line_pitch": "All-inclusive grants providing travel, living stipend, and healthcare for research or teaching abroad.",
+    "is_active": true
+  },
+  {
+    "id": "sch-jack-kent-cooke-foundation",
+    "title": "Cooke College Scholarship Program",
+    "host_organization": "Jack Kent Cooke Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "High School"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Fully Funded",
+    "deadline": "2026-11-14",
+    "apply_url": "https://www.jkcf.org/our-scholarships/college-scholarship-program/",
+    "tags": [
+      "High School",
+      "Need-Based",
+      "Full Ride",
+      "Undergraduate"
+    ],
+    "one_line_pitch": "Up to $55,000 per year toward tuition, fees, and living costs for high-achieving students with financial need.",
+    "is_active": true
+  },
+  {
+    "id": "sch-dod-smart-scholarship",
+    "title": "DoD SMART Scholarship-for-Service Program",
+    "host_organization": "U.S. Department of Defense",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Masters",
+      "PhD"
+    ],
+    "location_type": "Hybrid",
+    "location": "United States",
+    "compensation": "Fully Funded",
+    "deadline": "2026-12-01",
+    "apply_url": "https://www.smartscholarship.org",
+    "tags": [
+      "STEM",
+      "Full Tuition",
+      "Stipend",
+      "DoD",
+      "Defense"
+    ],
+    "one_line_pitch": "Full tuition, annual stipends from $30,000 to $46,000, and guaranteed civilian employment post-graduation.",
+    "is_active": true
+  },
+  {
+    "id": "sch-questbridge-national-college-match",
+    "title": "QuestBridge National College Match",
+    "host_organization": "QuestBridge",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Fully Funded",
+    "deadline": "2026-09-26",
+    "apply_url": "https://www.questbridge.org/high-school-students/national-college-match",
+    "tags": [
+      "Full Ride",
+      "High School",
+      "Top Universities",
+      "Need-Based"
+    ],
+    "one_line_pitch": "Connects outstanding high school seniors with four-year full-ride scholarships to 50+ top colleges.",
+    "is_active": true
+  },
+  {
+    "id": "sch-coca-cola-scholars-program",
+    "title": "Coca-Cola Scholars Foundation Program",
+    "host_organization": "The Coca-Cola Scholars Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-09-30",
+    "apply_url": "https://www.coca-colascholarsfoundation.org/apply/",
+    "tags": [
+      "High School",
+      "Leadership",
+      "Merit-Based",
+      "$20,000"
+    ],
+    "one_line_pitch": "$20,000 college scholarships awarded to 150 visionary high school seniors dedicated to leadership and service.",
+    "is_active": true
+  },
+  {
+    "id": "sch-knight-hennessy-scholars",
+    "title": "Knight-Hennessy Scholars at Stanford University",
+    "host_organization": "Stanford University",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Masters",
+      "PhD"
+    ],
+    "location_type": "On-site",
+    "location": "Stanford, California, United States",
+    "compensation": "Fully Funded",
+    "deadline": "2026-10-09",
+    "apply_url": "https://knight-hennessy.stanford.edu",
+    "tags": [
+      "Stanford",
+      "Full Tuition",
+      "Leadership",
+      "Graduate"
+    ],
+    "one_line_pitch": "Up to 3 years of full tuition and living stipend for any graduate degree at Stanford University.",
+    "is_active": true
+  },
+  {
+    "id": "sch-schwarzman-scholars-tsinghua",
+    "title": "Schwarzman Scholars Master's Degree at Tsinghua",
+    "host_organization": "Schwarzman Scholars",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "Beijing, China",
+    "compensation": "Fully Funded",
+    "deadline": "2026-09-19",
+    "apply_url": "https://www.schwarzmanscholars.org",
+    "tags": [
+      "Global Leadership",
+      "Master's",
+      "China",
+      "Full Ride"
+    ],
+    "one_line_pitch": "One-year master's in global affairs with full tuition, room, board, and travel to Tsinghua University.",
+    "is_active": true
+  },
+  {
+    "id": "sch-marshall-scholarship-uk",
+    "title": "Marshall Scholarships for Graduate Study in the UK",
+    "host_organization": "Marshall Aid Commemoration Commission",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "United Kingdom",
+    "compensation": "Fully Funded",
+    "deadline": "2026-09-28",
+    "apply_url": "https://www.marshallscholarship.org",
+    "tags": [
+      "UK Universities",
+      "Postgraduate",
+      "Full Ride",
+      "Leadership"
+    ],
+    "one_line_pitch": "Finances up to two years of study for young Americans of high ability at any UK university.",
+    "is_active": true
+  },
+  {
+    "id": "sch-harry-truman-scholarship",
+    "title": "Harry S. Truman Scholarship Foundation",
+    "host_organization": "The Harry S. Truman Scholarship Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-04",
+    "apply_url": "https://www.truman.gov",
+    "tags": [
+      "Public Service",
+      "Leadership",
+      "Government",
+      "Stipend"
+    ],
+    "one_line_pitch": "Premier graduate fellowship in public service providing up to $30,000 for graduate study.",
+    "is_active": true
+  },
+  {
+    "id": "sch-morris-udall-scholarship",
+    "title": "Udall Undergraduate Scholarship in Environment & Native Policy",
+    "host_organization": "Udall Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-03-05",
+    "apply_url": "https://www.udall.gov",
+    "tags": [
+      "Environment",
+      "Native American",
+      "Policy",
+      "Stipend"
+    ],
+    "one_line_pitch": "Provides $7,000 for college students committed to environmental, tribal policy, or health care careers.",
+    "is_active": true
+  },
+  {
+    "id": "sch-george-mitchell-scholarship",
+    "title": "George J. Mitchell Scholarship to Ireland",
+    "host_organization": "US-Ireland Alliance",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Ireland",
+    "compensation": "Fully Funded",
+    "deadline": "2026-09-29",
+    "apply_url": "https://www.us-irelandalliance.org/mitchellscholarship",
+    "tags": [
+      "Ireland",
+      "Leadership",
+      "Postgraduate",
+      "Full Ride"
+    ],
+    "one_line_pitch": "Provides tuition, accommodation, a living stipend, and travel for one year of postgraduate study in Ireland.",
+    "is_active": true
+  },
+  {
+    "id": "sch-winston-churchill-scholarship",
+    "title": "Churchill Scholarship in STEM at Cambridge",
+    "host_organization": "The Winston Churchill Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Cambridge, United Kingdom",
+    "compensation": "Fully Funded",
+    "deadline": "2026-11-01",
+    "apply_url": "https://churchillscholarship.org",
+    "tags": [
+      "Cambridge",
+      "STEM",
+      "Full Ride",
+      "Mathematics"
+    ],
+    "one_line_pitch": "Full funding for one year of master's study in STEM fields at Churchill College, Cambridge.",
+    "is_active": true
+  },
+  {
+    "id": "sch-boren-awards-international",
+    "title": "Boren Awards for International Study",
+    "host_organization": "National Security Education Program",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-31",
+    "apply_url": "https://www.borenawards.org",
+    "tags": [
+      "Language",
+      "National Security",
+      "Study Abroad",
+      "Stipend"
+    ],
+    "one_line_pitch": "Up to $25,000 to study less commonly taught languages in world regions critical to U.S. interests.",
+    "is_active": true
+  },
+  {
+    "id": "sch-benjamin-gilman-scholarship",
+    "title": "Benjamin A. Gilman International Scholarship",
+    "host_organization": "U.S. Department of State",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-10-05",
+    "apply_url": "https://www.gilmanscholarship.org",
+    "tags": [
+      "Study Abroad",
+      "Pell Grant",
+      "Diversity",
+      "Stipend"
+    ],
+    "one_line_pitch": "Enables students of limited financial means to study or intern abroad, providing up to $5,000.",
+    "is_active": true
+  },
+  {
+    "id": "sch-critical-language-scholarship",
+    "title": "Critical Language Scholarship (CLS) Program",
+    "host_organization": "U.S. Department of State",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Global",
+    "compensation": "Fully Funded",
+    "deadline": "2026-11-17",
+    "apply_url": "https://clscholarship.org",
+    "tags": [
+      "Language",
+      "Immersion",
+      "Summer",
+      "Full Ride"
+    ],
+    "one_line_pitch": "Fully funded summer overseas language and cultural immersion program for American students.",
+    "is_active": true
+  },
+  {
+    "id": "sch-erasmus-mundus-masters",
+    "title": "Erasmus Mundus Joint Master Degrees (EMJMD)",
+    "host_organization": "European Commission",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "Europe (Multi-Country)",
+    "compensation": "Fully Funded",
+    "deadline": "2027-01-15",
+    "apply_url": "https://erasmus-plus.ec.europa.eu",
+    "tags": [
+      "Europe",
+      "Master's",
+      "Global",
+      "Full Scholarship"
+    ],
+    "one_line_pitch": "High-level integrated international study programmes with EU-funded full scholarships for students worldwide.",
+    "is_active": true
+  },
+  {
+    "id": "sch-daad-study-scholarship-germany",
+    "title": "DAAD Study Scholarships for Master's Degrees in Germany",
+    "host_organization": "German Academic Exchange Service (DAAD)",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "Germany",
+    "compensation": "Fully Funded",
+    "deadline": "2026-10-31",
+    "apply_url": "https://www.daad.de/en/",
+    "tags": [
+      "Germany",
+      "Master's",
+      "Stipend",
+      "Tuition Free"
+    ],
+    "one_line_pitch": "Monthly stipend of 934 euros, travel allowance, and health insurance for full master's degrees in Germany.",
+    "is_active": true
+  },
+  {
+    "id": "sch-chevening-scholarship-uk",
+    "title": "Chevening Scholarships for Global Leaders",
+    "host_organization": "UK Foreign, Commonwealth and Development Office",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "United Kingdom",
+    "compensation": "Fully Funded",
+    "deadline": "2026-11-05",
+    "apply_url": "https://www.chevening.org",
+    "tags": [
+      "UK Universities",
+      "Leadership",
+      "Master's",
+      "Full Ride"
+    ],
+    "one_line_pitch": "Fully-funded one-year master's degrees at any UK university for emerging global leaders.",
+    "is_active": true
+  },
+  {
+    "id": "sch-loran-award-canada",
+    "title": "Loran Award for Undergraduate Character & Service",
+    "host_organization": "Loran Scholars Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Canada",
+    "compensation": "Fully Funded",
+    "deadline": "2026-10-15",
+    "apply_url": "https://loranscholar.ca",
+    "tags": [
+      "Canada",
+      "Undergraduate",
+      "Full Ride",
+      "Leadership"
+    ],
+    "one_line_pitch": "Valued at $100,000 over four years, including mentorship and summer funding for Canadian undergraduates.",
+    "is_active": true
+  },
+  {
+    "id": "sch-schulich-leader-scholarships",
+    "title": "Schulich Leader Scholarships in STEM",
+    "host_organization": "The Schulich Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Canada",
+    "compensation": "Fully Funded",
+    "deadline": "2027-01-30",
+    "apply_url": "https://schulichleaders.com",
+    "tags": [
+      "STEM",
+      "Canada",
+      "$120,000",
+      "Undergraduate"
+    ],
+    "one_line_pitch": "Canada's most coveted STEM scholarship: $120,000 for engineering and $100,000 for science students.",
+    "is_active": true
+  },
+  {
+    "id": "sch-monash-international-merit",
+    "title": "Monash International Leadership Scholarship",
+    "host_organization": "Monash University",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Melbourne, Australia",
+    "compensation": "Fully Funded",
+    "deadline": "2026-10-15",
+    "apply_url": "https://www.monash.edu/study/fees-scholarships/scholarships/find-a-scholarship/international-merit-scholarship-5606",
+    "tags": [
+      "Australia",
+      "Tuition Free",
+      "International",
+      "Undergraduate"
+    ],
+    "one_line_pitch": "100% course fee remission for high-achieving international students across all study areas.",
+    "is_active": true
+  },
+  {
+    "id": "sch-nus-global-merit-scholarship",
+    "title": "NUS Global Merit Scholarship",
+    "host_organization": "National University of Singapore",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Singapore",
+    "compensation": "Fully Funded",
+    "deadline": "2027-02-14",
+    "apply_url": "https://www.nus.edu.sg/oam/scholarships/freshmen/global-merit-scholarship",
+    "tags": [
+      "Singapore",
+      "Full Tuition",
+      "Stipend",
+      "Undergraduate"
+    ],
+    "one_line_pitch": "Covers full tuition fees, annual living allowance, computer allowance, and accommodation allowance.",
+    "is_active": true
+  },
+  {
+    "id": "sch-generation-google-scholarship",
+    "title": "Generation Google Scholarship (North America & APAC)",
+    "host_organization": "Google",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-04-15",
+    "apply_url": "https://buildyourfuture.withgoogle.com/scholarships/generation-google-scholarship",
+    "tags": [
+      "Computer Science",
+      "Diversity",
+      "Google",
+      "$10,000"
+    ],
+    "one_line_pitch": "$10,000 USD award for computer science students who demonstrate passion for tech and leadership.",
+    "is_active": true
+  },
+  {
+    "id": "sch-palantir-future-scholarship",
+    "title": "Palantir Future Scholarship in Technology",
+    "host_organization": "Palantir Technologies",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-03-22",
+    "apply_url": "https://www.palantir.com/careers/students/scholarship/",
+    "tags": [
+      "Computer Science",
+      "Software",
+      "Diversity",
+      "$7,000"
+    ],
+    "one_line_pitch": "$7,000 grant and invite to virtual celebratory workshop for computer science students.",
+    "is_active": true
+  },
+  {
+    "id": "sch-microsoft-tuition-scholarship",
+    "title": "Microsoft Tuition & Conference Scholarship",
+    "host_organization": "Microsoft",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "Remote",
+    "location": "United States / Canada",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-15",
+    "apply_url": "https://careers.microsoft.com/students/us/en/usscholarshipprogram",
+    "tags": [
+      "Microsoft",
+      "Software",
+      "Tuition",
+      "STEM"
+    ],
+    "one_line_pitch": "Tuition coverage and paid summer internship opportunities for undergraduate computer science students.",
+    "is_active": true
+  },
+  {
+    "id": "sch-amazon-future-engineer",
+    "title": "Amazon Future Engineer Scholarship Program",
+    "host_organization": "Amazon",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-25",
+    "apply_url": "https://www.amazonfutureengineer.com/scholarships",
+    "tags": [
+      "Amazon",
+      "High School",
+      "$40,000",
+      "Paid Internship"
+    ],
+    "one_line_pitch": "$40,000 college scholarship plus a paid summer software engineering internship at Amazon.",
+    "is_active": true
+  },
+  {
+    "id": "sch-adobe-research-women-tech",
+    "title": "Adobe Research Women-in-Technology Scholarship",
+    "host_organization": "Adobe",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Masters"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-11-01",
+    "apply_url": "https://research.adobe.com/scholarship/",
+    "tags": [
+      "Women in Tech",
+      "Adobe",
+      "$10,000",
+      "Mentorship"
+    ],
+    "one_line_pitch": "$10,000 financial award, Creative Cloud subscription, and internship interview opportunity at Adobe.",
+    "is_active": true
+  },
+  {
+    "id": "sch-swe-society-women-engineers",
+    "title": "Society of Women Engineers (SWE) National Scholarships",
+    "host_organization": "Society of Women Engineers",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-15",
+    "apply_url": "https://swe.org/scholarships/",
+    "tags": [
+      "Engineering",
+      "Women in STEM",
+      "$1,000\u2013$20,000"
+    ],
+    "one_line_pitch": "Over 330 scholarships awarded annually worth over $1.5M for women pursuing ABET-accredited engineering degrees.",
+    "is_active": true
+  },
+  {
+    "id": "sch-shpe-national-scholarship",
+    "title": "SHPE National Academic Scholarship Program",
+    "host_organization": "Society of Hispanic Professional Engineers",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School",
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-04-30",
+    "apply_url": "https://www.shpe.org/membership/scholarships",
+    "tags": [
+      "Hispanic",
+      "Engineering",
+      "STEM",
+      "$1,000\u2013$10,000"
+    ],
+    "one_line_pitch": "Awards over $1.8M annually to Hispanic students pursuing degrees in science, technology, and engineering.",
+    "is_active": true
+  },
+  {
+    "id": "sch-nsbe-national-scholarship",
+    "title": "National Society of Black Engineers (NSBE) Scholarships",
+    "host_organization": "National Society of Black Engineers",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-15",
+    "apply_url": "https://www.nsbe.org/scholarships",
+    "tags": [
+      "Black Engineers",
+      "STEM",
+      "Diversity",
+      "Stipend"
+    ],
+    "one_line_pitch": "Corporate-sponsored scholarships for Black engineering students with academic excellence and service.",
+    "is_active": true
+  },
+  {
+    "id": "sch-out-to-innovate-stem",
+    "title": "Out to Innovate Scholarships for LGBTQ+ in STEM",
+    "host_organization": "Out to Innovate (NOGLSTP)",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-06-01",
+    "apply_url": "https://noglstp.org/programs-projects/scholarships/",
+    "tags": [
+      "LGBTQ+",
+      "STEM",
+      "Diversity",
+      "$5,000"
+    ],
+    "one_line_pitch": "Recognizes academic achievement and leadership by LGBTQ+ students pursuing STEM degrees.",
+    "is_active": true
+  },
+  {
+    "id": "sch-davidson-fellows-scholarship",
+    "title": "Davidson Fellows Scholarship ($50,000)",
+    "host_organization": "Davidson Institute",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Cash Prize",
+    "deadline": "2027-02-11",
+    "apply_url": "https://www.davidsongifted.org/gifted-programs/fellows-scholarship",
+    "tags": [
+      "Gifted Youth",
+      "Under 18",
+      "$50,000",
+      "STEM",
+      "Humanities"
+    ],
+    "one_line_pitch": "Awards up to $50,000 to extraordinary students 18 and under who have completed significant portfolio projects.",
+    "is_active": true
+  },
+  {
+    "id": "sch-horatio-alger-national",
+    "title": "Horatio Alger National Scholarship Program",
+    "host_organization": "Horatio Alger Association",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-03-15",
+    "apply_url": "https://scholars.horatioalger.org",
+    "tags": [
+      "Need-Based",
+      "Overcoming Adversity",
+      "$25,000",
+      "High School"
+    ],
+    "one_line_pitch": "$25,000 college scholarships for students who have overcome significant adversity to pursue higher education.",
+    "is_active": true
+  },
+  {
+    "id": "sch-elks-most-valuable-student",
+    "title": "Elks Most Valuable Student (MVS) Scholarship",
+    "host_organization": "Elks National Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-11-13",
+    "apply_url": "https://www.elks.org/scholars/scholarships/mvs.cfm",
+    "tags": [
+      "High School",
+      "Leadership",
+      "$4,000\u2013$50,000"
+    ],
+    "one_line_pitch": "500 four-year scholarships ranging from $4,000 to $50,000 for graduating high school seniors.",
+    "is_active": true
+  },
+  {
+    "id": "sch-dell-scholars-program",
+    "title": "Dell Scholars Program (Michael & Susan Dell Foundation)",
+    "host_organization": "Michael & Susan Dell Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School",
+      "Undergraduate"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-12-01",
+    "apply_url": "https://www.dellscholars.org",
+    "tags": [
+      "$20,000",
+      "Laptop Included",
+      "Need-Based",
+      "College Success"
+    ],
+    "one_line_pitch": "$20,000 scholarship, a new laptop, textbook credits, and ongoing academic and career mentoring.",
+    "is_active": true
+  },
+  {
+    "id": "sch-jackie-robinson-foundation",
+    "title": "Jackie Robinson Foundation Scholars Program",
+    "host_organization": "Jackie Robinson Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-10",
+    "apply_url": "https://jackierobinson.org/scholarship/",
+    "tags": [
+      "Minority",
+      "Mentorship",
+      "$35,000",
+      "High School"
+    ],
+    "one_line_pitch": "Up to $35,000 over four years plus extensive leadership development and summer internship placements.",
+    "is_active": true
+  },
+  {
+    "id": "sch-ron-brown-scholar-program",
+    "title": "Ron Brown Scholar Program for African American Leaders",
+    "host_organization": "The Ron Brown Scholar Program",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-09",
+    "apply_url": "https://www.ronbrown.org",
+    "tags": [
+      "African American",
+      "$40,000",
+      "Public Service",
+      "Leadership"
+    ],
+    "one_line_pitch": "$40,000 college scholarship ($10,000/year) dedicated to academically talented African American high school seniors.",
+    "is_active": true
+  },
+  {
+    "id": "sch-taco-bell-live-mas",
+    "title": "Taco Bell Live M\u00e1s Scholarship",
+    "host_organization": "Taco Bell Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School",
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-03",
+    "apply_url": "https://www.tacobellfoundation.org/live-mas-scholarship/",
+    "tags": [
+      "Creativity",
+      "Passion",
+      "No GPA Requirement",
+      "$5,000\u2013$25,000"
+    ],
+    "one_line_pitch": "Awards between $5,000 and $25,000 to passionate young innovators submitting a 2-minute creative video.",
+    "is_active": true
+  },
+  {
+    "id": "sch-regeneron-sts-competition",
+    "title": "Regeneron Science Talent Search (STS)",
+    "host_organization": "Society for Science",
+    "category": "Scholarship",
+    "academic_level": [
+      "High School"
+    ],
+    "location_type": "On-site",
+    "location": "Washington, D.C., United States",
+    "compensation": "Cash Prize",
+    "deadline": "2026-11-12",
+    "apply_url": "https://www.societyforscience.org/regeneron-sts/",
+    "tags": [
+      "Science Competition",
+      "High School",
+      "$250,000 Top Prize",
+      "Research"
+    ],
+    "one_line_pitch": "The nation's oldest and most prestigious science competition for high school seniors, with $3.1M in prizes.",
+    "is_active": true
+  },
+  {
+    "id": "sch-bourns-engineering-scholarship",
+    "title": "Bourns College of Engineering Merit Scholarship",
+    "host_organization": "Bourns Foundation",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-03-01",
+    "apply_url": "https://www.bourns.com",
+    "tags": [
+      "Engineering",
+      "Hardware",
+      "Merit",
+      "$5,000"
+    ],
+    "one_line_pitch": "Annual merit scholarships for engineering students focusing on circuit design and hardware innovations.",
+    "is_active": true
+  },
+  {
+    "id": "sch-aisec-global-leadership",
+    "title": "AIESEC Global Youth Leadership Scholarship",
+    "host_organization": "AIESEC International",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-28",
+    "apply_url": "https://aiesec.org",
+    "tags": [
+      "Leadership",
+      "Cross-Cultural",
+      "Global Exchange"
+    ],
+    "one_line_pitch": "Subsidizes international internships and volunteer placements for youth leaders driving SDG impacts.",
+    "is_active": true
+  },
+  {
+    "id": "sch-rotary-global-grants",
+    "title": "Rotary Foundation Global Grant Scholarships",
+    "host_organization": "Rotary International",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "Global",
+    "compensation": "Fully Funded",
+    "deadline": "2027-04-01",
+    "apply_url": "https://www.rotary.org/en/our-programs/scholarships",
+    "tags": [
+      "Rotary",
+      "Global Health",
+      "Peace",
+      "$30,000+"
+    ],
+    "one_line_pitch": "Funds graduate-level coursework or research in one of Rotary's six peace and humanitarian areas.",
+    "is_active": true
+  },
+  {
+    "id": "sch-commonwealth-shared-uk",
+    "title": "Commonwealth Shared Scholarships (UK DFID)",
+    "host_organization": "Commonwealth Scholarship Commission",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "United Kingdom",
+    "compensation": "Fully Funded",
+    "deadline": "2026-12-12",
+    "apply_url": "https://cscuk.fcdo.gov.uk/scholarships/commonwealth-shared-scholarships/",
+    "tags": [
+      "Commonwealth",
+      "Development",
+      "Full Tuition",
+      "UK"
+    ],
+    "one_line_pitch": "Fully funded master's study for students from developing Commonwealth nations committed to global development.",
+    "is_active": true
+  },
+  {
+    "id": "sch-swedish-institute-scholarship",
+    "title": "Swedish Institute Scholarship for Global Professionals (SISGP)",
+    "host_organization": "Swedish Institute",
+    "category": "Scholarship",
+    "academic_level": [
+      "Graduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "Sweden",
+    "compensation": "Fully Funded",
+    "deadline": "2027-02-10",
+    "apply_url": "https://si.se/en/apply/scholarships/swedish-institute-scholarships-for-global-professionals/",
+    "tags": [
+      "Sweden",
+      "Sustainability",
+      "Full Tuition",
+      "Stipend"
+    ],
+    "one_line_pitch": "Covers full tuition, monthly living expenses (12,000 SEK), insurance, and travel grants to study in Sweden.",
+    "is_active": true
+  },
+  {
+    "id": "sch-australia-awards-scholarship",
+    "title": "Australia Awards Scholarships",
+    "host_organization": "Department of Foreign Affairs and Trade (Australia)",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Australia",
+    "compensation": "Fully Funded",
+    "deadline": "2027-04-30",
+    "apply_url": "https://www.dfat.gov.au/people-to-people/australia-awards",
+    "tags": [
+      "Australia",
+      "Full Tuition",
+      "Airfare",
+      "Living Stipend"
+    ],
+    "one_line_pitch": "Long-term development awards providing full tuition, return air travel, establishment allowance, and living costs.",
+    "is_active": true
+  },
+  {
+    "id": "sch-korea-global-scholarship",
+    "title": "Global Korea Scholarship (GKS) for International Students",
+    "host_organization": "National Institute for International Education (Korea)",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "South Korea",
+    "compensation": "Fully Funded",
+    "deadline": "2027-03-20",
+    "apply_url": "https://www.studyinkorea.go.kr",
+    "tags": [
+      "South Korea",
+      "Language",
+      "Full Tuition",
+      "Stipend"
+    ],
+    "one_line_pitch": "Provides international students with opportunities to conduct undergraduate or graduate studies in Korea.",
+    "is_active": true
+  },
+  {
+    "id": "sch-mext-japanese-government",
+    "title": "MEXT Japanese Government Undergraduate & Research Scholarship",
+    "host_organization": "Ministry of Education, Culture, Sports, Science and Technology (MEXT)",
+    "category": "Scholarship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Japan",
+    "compensation": "Fully Funded",
+    "deadline": "2027-05-15",
+    "apply_url": "https://www.studyinjapan.go.jp/en/planning/scholarship/mext-scholarship/",
+    "tags": [
+      "Japan",
+      "Full Ride",
+      "Monthly Allowance",
+      "Airfare"
+    ],
+    "one_line_pitch": "Fully-funded scholarship covering full tuition, monthly living allowances, and round-trip airfare to Japan.",
+    "is_active": true
+  },
+  {
+    "id": "res-mit-csail-summer-ai",
+    "title": "MIT CSAIL Summer Research Program in AI & Computing",
+    "host_organization": "Massachusetts Institute of Technology (MIT)",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Cambridge, Massachusetts, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://www.csail.mit.edu/academics/undergraduate-opportunities",
+    "tags": [
+      "AI",
+      "Computer Science",
+      "MIT",
+      "REU"
+    ],
+    "one_line_pitch": "10-week summer research with CSAIL professors, $7,000 stipend, free campus housing, and travel.",
+    "is_active": true
+  },
+  {
+    "id": "res-stanford-surf-program",
+    "title": "Stanford Summer Undergraduate Research Fellowship (SURF)",
+    "host_organization": "Stanford University",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Stanford, California, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://engineering.stanford.edu/students-academics/diversity-equity-inclusion/diversity-equity-inclusion-programs/summer",
+    "tags": [
+      "Engineering",
+      "Stanford",
+      "Summer Research",
+      "SURF"
+    ],
+    "one_line_pitch": "Fully funded 10-week research fellowship including a $6,000 stipend, campus housing, and meal plan.",
+    "is_active": true
+  },
+  {
+    "id": "res-caltech-surf-program",
+    "title": "Caltech Summer Undergraduate Research Fellowships (SURF)",
+    "host_organization": "California Institute of Technology (Caltech)",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Pasadena, California, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-22",
+    "apply_url": "https://sfp.caltech.edu/undergraduate-research/programs/surf",
+    "tags": [
+      "Caltech",
+      "NASA JPL",
+      "Physics",
+      "SURF"
+    ],
+    "one_line_pitch": "10-week research under guidance of Caltech or JPL faculty with an $8,200 total fellowship stipend.",
+    "is_active": true
+  },
+  {
+    "id": "res-cern-summer-student-programme",
+    "title": "CERN Summer Student Programme (Physics & Computing)",
+    "host_organization": "CERN (European Organization for Nuclear Research)",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "Geneva, Switzerland",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-29",
+    "apply_url": "https://careers.cern/summer",
+    "tags": [
+      "Physics",
+      "Computing",
+      "Geneva",
+      "Particle Accelerator"
+    ],
+    "one_line_pitch": "8\u201313 weeks at the Large Hadron Collider with daily living allowance of 90 CHF/day and paid travel.",
+    "is_active": true
+  },
+  {
+    "id": "res-nih-summer-internship-sip",
+    "title": "NIH Summer Internship Program in Biomedical Research (SIP)",
+    "host_organization": "National Institutes of Health (NIH)",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "High School",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Bethesda, Maryland, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-16",
+    "apply_url": "https://www.training.nih.gov/research-training/pb/sip/",
+    "tags": [
+      "Biomedical",
+      "Pre-Med",
+      "Genomics",
+      "NIH"
+    ],
+    "one_line_pitch": "Hands-on research side-by-side with leading scientists at the world's premier biomedical research agency.",
+    "is_active": true
+  },
+  {
+    "id": "res-max-planck-summer-internship",
+    "title": "Max Planck Institute Summer Research Internship (MaxSIP)",
+    "host_organization": "Max Planck Institute",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "Munich, Germany",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-15",
+    "apply_url": "https://www.biochem.mpg.de/maxsip",
+    "tags": [
+      "Biochemistry",
+      "Neurobiology",
+      "Germany",
+      "Stipend"
+    ],
+    "one_line_pitch": "Fully funded 10-week laboratory placement including free student accommodation and monthly stipend.",
+    "is_active": true
+  },
+  {
+    "id": "res-harvard-prise-fellowship",
+    "title": "Harvard Program for Research in Science and Engineering (PRISE)",
+    "host_organization": "Harvard University",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Cambridge, Massachusetts, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-12",
+    "apply_url": "https://uraf.harvard.edu/prise",
+    "tags": [
+      "Harvard",
+      "STEM",
+      "Summer Research",
+      "Stipend"
+    ],
+    "one_line_pitch": "10-week residential summer community at Harvard with a $5,000 stipend and subsidized campus housing.",
+    "is_active": true
+  },
+  {
+    "id": "res-daad-rise-germany",
+    "title": "DAAD RISE Germany (Research Internships in Science and Engineering)",
+    "host_organization": "German Academic Exchange Service (DAAD)",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Various Cities, Germany",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-11-30",
+    "apply_url": "https://www.daad.de/rise/en/rise-germany/",
+    "tags": [
+      "Germany",
+      "STEM",
+      "Global",
+      "DAAD"
+    ],
+    "one_line_pitch": "Matches North American and British undergrads with top German doctoral labs, with monthly scholarship.",
+    "is_active": true
+  },
+  {
+    "id": "res-weizmann-kupcinet-getz",
+    "title": "Weizmann Institute Kupcinet-Getz International Summer School",
+    "host_organization": "Weizmann Institute of Science",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Rehovot, Israel",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-18",
+    "apply_url": "https://www.weizmann.ac.il/feinberg/admissions/kupcinet-getz-international-summer-school",
+    "tags": [
+      "Physics",
+      "Mathematics",
+      "Biology",
+      "Stipend"
+    ],
+    "one_line_pitch": "8-week intensive research program with world-renowned scientists, free on-campus housing, and weekly stipend.",
+    "is_active": true
+  },
+  {
+    "id": "res-woods-hole-summer-fellows",
+    "title": "Woods Hole Oceanographic Institution Summer Student Fellowship",
+    "host_organization": "Woods Hole Oceanographic Institution (WHOI)",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Woods Hole, Massachusetts, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-05",
+    "apply_url": "https://www.whoi.edu/what-we-do/educate/undergraduate-programs/summer-student-fellowship/",
+    "tags": [
+      "Oceanography",
+      "Marine Science",
+      "Stipend",
+      "Geophysics"
+    ],
+    "one_line_pitch": "10-week research fellowship including a $680/week stipend, housing allowance, and research cruises.",
+    "is_active": true
+  },
+  {
+    "id": "res-scripps-oceanography-surf",
+    "title": "Scripps Institution of Oceanography Summer Research",
+    "host_organization": "UC San Diego / Scripps",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "La Jolla, California, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-15",
+    "apply_url": "https://scripps.ucsd.edu/undergraduate/surf",
+    "tags": [
+      "Climate",
+      "Marine Biology",
+      "Earth Science"
+    ],
+    "one_line_pitch": "10-week paid summer research exploring ocean, earth, and atmospheric sciences on the Pacific coast.",
+    "is_active": true
+  },
+  {
+    "id": "res-pppl-plasma-physics-internship",
+    "title": "Princeton Plasma Physics Laboratory (PPPL) Summer Internship",
+    "host_organization": "Princeton University & Department of Energy",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Princeton, New Jersey, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-10",
+    "apply_url": "https://www.pppl.gov/education/undergraduate-internships",
+    "tags": [
+      "Fusion Energy",
+      "Plasma Physics",
+      "Clean Energy"
+    ],
+    "one_line_pitch": "10-week paid research program in clean fusion energy with $650/week stipend and housing.",
+    "is_active": true
+  },
+  {
+    "id": "res-fermilab-summer-internship",
+    "title": "Fermilab Summer Internships in Science and Technology (SIST)",
+    "host_organization": "Fermi National Accelerator Laboratory",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Batavia, Illinois, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-20",
+    "apply_url": "https://internships.fnal.gov/sist/",
+    "tags": [
+      "Particle Physics",
+      "Quantum",
+      "Computing",
+      "Accelerator"
+    ],
+    "one_line_pitch": "12-week paid internship at America's premier particle physics lab working on cutting-edge experiments.",
+    "is_active": true
+  },
+  {
+    "id": "res-brookhaven-suli-program",
+    "title": "Brookhaven National Laboratory Science Undergraduate Laboratory (SULI)",
+    "host_organization": "U.S. Department of Energy / BNL",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Upton, New York, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-09",
+    "apply_url": "https://www.bnl.gov/education/programs/program.php?q=116",
+    "tags": [
+      "Nuclear Physics",
+      "Quantum",
+      "Nanomaterials",
+      "DOE"
+    ],
+    "one_line_pitch": "10-week paid research placement ($650/week stipend) with world-class synchrotron and accelerator facilities.",
+    "is_active": true
+  },
+  {
+    "id": "res-berkeley-lab-suli",
+    "title": "Lawrence Berkeley National Laboratory SULI Program",
+    "host_organization": "U.S. Department of Energy / LBNL",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Berkeley, California, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-09",
+    "apply_url": "https://education.lbl.gov/internships/suli/",
+    "tags": [
+      "Computing",
+      "Clean Energy",
+      "Genomics",
+      "Berkeley"
+    ],
+    "one_line_pitch": "Conduct mentored research at the birthplace of cyclotron technology in the San Francisco Bay Area.",
+    "is_active": true
+  },
+  {
+    "id": "res-oak-ridge-suli-internship",
+    "title": "Oak Ridge National Laboratory (ORNL) SULI Internship",
+    "host_organization": "U.S. Department of Energy / ORNL",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Oak Ridge, Tennessee, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-09",
+    "apply_url": "https://education.ornl.gov/suli/",
+    "tags": [
+      "Supercomputing",
+      "Advanced Materials",
+      "Nuclear"
+    ],
+    "one_line_pitch": "Hands-on research at the home of Frontier, the world's fastest exascale supercomputer.",
+    "is_active": true
+  },
+  {
+    "id": "res-argonne-national-lab-reu",
+    "title": "Argonne National Laboratory Undergraduate Research Program",
+    "host_organization": "U.S. Department of Energy / Argonne",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Lemont, Illinois, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-15",
+    "apply_url": "https://www.anl.gov/education/undergraduate-internship-opportunities",
+    "tags": [
+      "Battery Science",
+      "AI",
+      "Physics",
+      "Photon Source"
+    ],
+    "one_line_pitch": "Work with world-leading scientists on sustainable battery tech, quantum networks, and photon science.",
+    "is_active": true
+  },
+  {
+    "id": "res-nist-surf-fellowship",
+    "title": "NIST Summer Undergraduate Research Fellowship (SURF)",
+    "host_organization": "National Institute of Standards and Technology",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Gaithersburg, Maryland / Boulder, Colorado",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-15",
+    "apply_url": "https://www.nist.gov/surf",
+    "tags": [
+      "Measurement Science",
+      "Quantum",
+      "Cybersecurity",
+      "NIST"
+    ],
+    "one_line_pitch": "11-week fellowship with a $6,600 stipend and housing working on nation-defining scientific standards.",
+    "is_active": true
+  },
+  {
+    "id": "res-nasa-lspace-academy",
+    "title": "NASA L'SPACE Virtual Student Academy",
+    "host_organization": "NASA & Arizona State University",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Free",
+    "deadline": "2027-01-08",
+    "apply_url": "https://www.lspace.asu.edu",
+    "tags": [
+      "Space Exploration",
+      "NASA",
+      "Engineering Design"
+    ],
+    "one_line_pitch": "12-week interactive workforce development academy solving NASA mission engineering challenges.",
+    "is_active": true
+  },
+  {
+    "id": "res-nasa-glenn-summer-internship",
+    "title": "NASA Glenn Research Center Summer Internships",
+    "host_organization": "NASA",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "High School",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Cleveland, Ohio, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-28",
+    "apply_url": "https://www.nasa.gov/glenn/careers/internships/",
+    "tags": [
+      "Propulsion",
+      "Space Communications",
+      "Aeronautics"
+    ],
+    "one_line_pitch": "Paid summer research on microgravity combustion, spacecraft solar electric propulsion, and lunar rovers.",
+    "is_active": true
+  },
+  {
+    "id": "res-stsci-space-telescope-research",
+    "title": "Space Telescope Science Institute (STScI) Summer Student Program",
+    "host_organization": "Space Telescope Science Institute",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Baltimore, Maryland, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-31",
+    "apply_url": "https://www.stsci.edu/opportunities/fellowships-and-internships",
+    "tags": [
+      "Hubble",
+      "JWST",
+      "Astronomy",
+      "Astrophysics"
+    ],
+    "one_line_pitch": "9-week internship analyzing live astronomical data from the Hubble and James Webb Space Telescopes.",
+    "is_active": true
+  },
+  {
+    "id": "res-cfa-harvard-astrophysics-reu",
+    "title": "Center for Astrophysics | Harvard & Smithsonian Summer REU",
+    "host_organization": "Harvard-Smithsonian Center for Astrophysics",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Cambridge, Massachusetts, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://www.cfa.harvard.edu/education-outreach/student-opportunities",
+    "tags": [
+      "Black Holes",
+      "Exoplanets",
+      "Astrophysics",
+      "Harvard"
+    ],
+    "one_line_pitch": "10-week NSF-funded REU with a $6,000 stipend and Harvard housing analyzing celestial phenomena.",
+    "is_active": true
+  },
+  {
+    "id": "res-nrao-astronomy-summer-student",
+    "title": "NRAO Summer Student Research Assistantships",
+    "host_organization": "National Radio Astronomy Observatory",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Socorro, New Mexico / Charlottesville, Virginia",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://science.nrao.edu/opportunities/student-programs/summerstudents",
+    "tags": [
+      "Radio Astronomy",
+      "Very Large Array",
+      "ALMA"
+    ],
+    "one_line_pitch": "Conduct astronomical research using the Very Large Array (VLA) and ALMA radio telescope arrays.",
+    "is_active": true
+  },
+  {
+    "id": "res-research-science-institute-rsi",
+    "title": "Research Science Institute (RSI) at MIT",
+    "host_organization": "Center for Excellence in Education (CEE) & MIT",
+    "category": "Research",
+    "academic_level": [
+      "High School"
+    ],
+    "location_type": "On-site",
+    "location": "Cambridge, Massachusetts, United States",
+    "compensation": "Fully Funded",
+    "deadline": "2027-01-15",
+    "apply_url": "https://www.cee.org/programs/research-science-institute",
+    "tags": [
+      "High School Elite",
+      "MIT",
+      "Full Scholarship"
+    ],
+    "one_line_pitch": "Cost-free 6-week summer program combining college-level coursework with off-campus scientific research.",
+    "is_active": true
+  },
+  {
+    "id": "res-simons-summer-research",
+    "title": "Simons Summer Research Program",
+    "host_organization": "Stony Brook University",
+    "category": "Research",
+    "academic_level": [
+      "High School"
+    ],
+    "location_type": "On-site",
+    "location": "Stony Brook, New York, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-08",
+    "apply_url": "https://www.stonybrook.edu/simons/",
+    "tags": [
+      "High School",
+      "Stony Brook",
+      "STEM Research"
+    ],
+    "one_line_pitch": "Gives academically talented high school juniors the opportunity to conduct university-level laboratory research.",
+    "is_active": true
+  },
+  {
+    "id": "res-jackson-lab-summer-student",
+    "title": "The Jackson Laboratory Summer Student Program in Genetics",
+    "host_organization": "The Jackson Laboratory",
+    "category": "Research",
+    "academic_level": [
+      "High School",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Bar Harbor, Maine / Farmington, Connecticut",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-30",
+    "apply_url": "https://www.jax.org/education-and-learning/high-school-students-and-undergraduates",
+    "tags": [
+      "Genomics",
+      "Cancer Research",
+      "Maine",
+      "$6,500"
+    ],
+    "one_line_pitch": "10-week summer research with a $6,500 stipend and room & board focusing on mammalian genetics.",
+    "is_active": true
+  },
+  {
+    "id": "res-cold-spring-harbor-urp",
+    "title": "Cold Spring Harbor Laboratory Undergraduate Research Program (URP)",
+    "host_organization": "Cold Spring Harbor Laboratory",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Cold Spring Harbor, New York, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-15",
+    "apply_url": "https://www.cshl.edu/education/undergraduate-research-program/",
+    "tags": [
+      "Molecular Biology",
+      "Neuroscience",
+      "Genetics"
+    ],
+    "one_line_pitch": "10-week summer research program on Long Island with $6,000 stipend, full room, and board provided.",
+    "is_active": true
+  },
+  {
+    "id": "res-st-jude-poe-program",
+    "title": "St. Jude Pediatric Oncology Education (POE) Program",
+    "host_organization": "St. Jude Children's Research Hospital",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Memphis, Tennessee, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://www.stjude.org/education-training/predoctoral-training/internships/pediatric-oncology-education-poe-program.html",
+    "tags": [
+      "Cancer Research",
+      "Pediatrics",
+      "St. Jude",
+      "$4,800"
+    ],
+    "one_line_pitch": "11-week summer placement with a $4,800 subsistence allowance and housing for students pursuing biomedical careers.",
+    "is_active": true
+  },
+  {
+    "id": "res-mskcc-surf-program",
+    "title": "Memorial Sloan Kettering Summer Undergraduate Research Fellowship",
+    "host_organization": "Memorial Sloan Kettering Cancer Center",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "New York, New York, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://www.mskcc.org/education-training/high-school-college/summer-undergraduate-research",
+    "tags": [
+      "Oncology",
+      "Immunology",
+      "NYC",
+      "$6,000"
+    ],
+    "one_line_pitch": "10-week research fellowship with $6,000 stipend and free housing on Manhattan's Upper East Side.",
+    "is_active": true
+  },
+  {
+    "id": "res-rockefeller-surf-program",
+    "title": "Rockefeller University Summer Undergraduate Research Fellowship",
+    "host_organization": "The Rockefeller University",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "New York, New York, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://www.rockefeller.edu/education-and-training/surf/",
+    "tags": [
+      "Biomedical",
+      "Rockefeller",
+      "$6,000 Stipend",
+      "Housing"
+    ],
+    "one_line_pitch": "Mentored research in 70+ world-class laboratories on cancer biology, virology, and neuroscience.",
+    "is_active": true
+  },
+  {
+    "id": "res-janelia-undergraduate-scholars",
+    "title": "Janelia Undergraduate Scholars Program",
+    "host_organization": "HHMI Janelia Research Campus",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Ashburn, Virginia, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-08",
+    "apply_url": "https://www.janelia.org/you-janelia/students-and-postdocs/undergraduate-scholars-program",
+    "tags": [
+      "Neuroscience",
+      "Optical Imaging",
+      "HHMI",
+      "$5,000"
+    ],
+    "one_line_pitch": "10-week summer placement solving challenging problems in neuroscience, microscopy, and machine learning.",
+    "is_active": true
+  },
+  {
+    "id": "res-broad-summer-research-program",
+    "title": "Broad Summer Research Program (BSRP)",
+    "host_organization": "Broad Institute of MIT and Harvard",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Cambridge, Massachusetts, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-10",
+    "apply_url": "https://www.broadinstitute.org/bsrp",
+    "tags": [
+      "Genomics",
+      "Broad Institute",
+      "MIT",
+      "Harvard",
+      "$5,500"
+    ],
+    "one_line_pitch": "Intensive 9-week computational and molecular biology research with $5,500 stipend and free housing.",
+    "is_active": true
+  },
+  {
+    "id": "res-allen-institute-internships",
+    "title": "Allen Institute for Brain Science Summer Internship",
+    "host_organization": "Allen Institute",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Seattle, Washington, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-22",
+    "apply_url": "https://alleninstitute.org/careers/internships/",
+    "tags": [
+      "Brain Science",
+      "Cell Science",
+      "Seattle",
+      "AI"
+    ],
+    "one_line_pitch": "10-week paid summer internship contributing to open science brain atlases and cellular microscopy.",
+    "is_active": true
+  },
+  {
+    "id": "res-salk-institute-summer-research",
+    "title": "Salk Institute Summer Undergraduate Research Fellowship",
+    "host_organization": "Salk Institute for Biological Studies",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "La Jolla, California, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-15",
+    "apply_url": "https://www.salk.edu/education/undergraduate-research-opportunities/",
+    "tags": [
+      "Molecular Biology",
+      "Plant Biology",
+      "Salk",
+      "La Jolla"
+    ],
+    "one_line_pitch": "Full-time 10-week laboratory immersion alongside world-renowned molecular biologists overlooking the Pacific.",
+    "is_active": true
+  },
+  {
+    "id": "res-scripps-research-surf",
+    "title": "Scripps Research Summer Undergraduate Research Fellowship",
+    "host_organization": "Scripps Research",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "La Jolla, CA / Jupiter, FL",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-15",
+    "apply_url": "https://education.scripps.edu/undergraduate/surf/",
+    "tags": [
+      "Chemical Biology",
+      "Drug Discovery",
+      "Immunology"
+    ],
+    "one_line_pitch": "10-week laboratory placement offering hands-on training in synthetic chemistry and biophysics.",
+    "is_active": true
+  },
+  {
+    "id": "res-cmu-robotics-institute-riss",
+    "title": "Carnegie Mellon Robotics Institute Summer Scholars (RISS)",
+    "host_organization": "Carnegie Mellon University",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Pittsburgh, Pennsylvania, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-15",
+    "apply_url": "https://riss.ri.cmu.edu",
+    "tags": [
+      "Robotics",
+      "Computer Vision",
+      "CMU",
+      "Autonomy"
+    ],
+    "one_line_pitch": "11-week intensive summer robotics research experience working with world leaders in autonomous systems.",
+    "is_active": true
+  },
+  {
+    "id": "res-georgia-tech-sure",
+    "title": "Georgia Tech Summer Undergraduate Research in Engineering (SURE)",
+    "host_organization": "Georgia Institute of Technology",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Atlanta, Georgia, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://sure.gatech.edu",
+    "tags": [
+      "Engineering",
+      "Georgia Tech",
+      "$6,000 Stipend"
+    ],
+    "one_line_pitch": "10-week research placement providing $6,000 stipend and campus housing to prospective graduate students.",
+    "is_active": true
+  },
+  {
+    "id": "res-amgen-scholars-berkeley",
+    "title": "UC Berkeley Amgen Scholars Program in Biotechnology",
+    "host_organization": "Amgen Foundation & UC Berkeley",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Berkeley, California, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://amgenscholars.berkeley.edu",
+    "tags": [
+      "Biotechnology",
+      "UC Berkeley",
+      "$5,000 Stipend"
+    ],
+    "one_line_pitch": "10-week research immersion in biotechnology, drug delivery, and bioengineering with housing and stipend.",
+    "is_active": true
+  },
+  {
+    "id": "res-amgen-scholars-columbia",
+    "title": "Columbia University Amgen Scholars Summer Program",
+    "host_organization": "Amgen Foundation & Columbia University",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "New York, New York, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://undergradresearch.columbia.edu/content/amgen-scholars-program",
+    "tags": [
+      "Biotechnology",
+      "Columbia",
+      "NYC",
+      "Paid"
+    ],
+    "one_line_pitch": "Conduct hands-on biomedical research in Manhattan labs with round-trip travel, housing, and stipend.",
+    "is_active": true
+  },
+  {
+    "id": "res-amgen-scholars-cambridge",
+    "title": "Cambridge University Amgen Scholars Programme",
+    "host_organization": "University of Cambridge",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Cambridge, United Kingdom",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://www.cam.ac.uk/research/amgen-scholars",
+    "tags": [
+      "Cambridge",
+      "Biotech",
+      "UK",
+      "Fully Funded"
+    ],
+    "one_line_pitch": "8-week European research placement at Cambridge with accommodation, travel grant, and subsistence allowance.",
+    "is_active": true
+  },
+  {
+    "id": "res-eth-zurich-summer-research",
+    "title": "ETH Zurich Student Summer Research Fellowship",
+    "host_organization": "ETH Zurich",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "Zurich, Switzerland",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-12-15",
+    "apply_url": "https://inf.ethz.ch/studies/summer-research-fellowship.html",
+    "tags": [
+      "Computer Science",
+      "ETH Zurich",
+      "Switzerland",
+      "Stipend"
+    ],
+    "one_line_pitch": "Fellows receive a monthly allowance of 1,750 CHF, travel expenses, and housing support for 2 months.",
+    "is_active": true
+  },
+  {
+    "id": "res-epfl-summer-internship",
+    "title": "EPFL Summer Research Internship in Computer & Communication Sciences",
+    "host_organization": "EPFL (\u00c9cole polytechnique f\u00e9d\u00e9rale de Lausanne)",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "Lausanne, Switzerland",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-11-29",
+    "apply_url": "https://www.epfl.ch/schools/ic/education/summer-at-epfl/",
+    "tags": [
+      "Switzerland",
+      "Computer Science",
+      "Algorithms",
+      "Stipend"
+    ],
+    "one_line_pitch": "3-month summer research with 1,800 CHF monthly living allowance and travel refunds on Lake Geneva.",
+    "is_active": true
+  },
+  {
+    "id": "res-riken-summer-school",
+    "title": "RIKEN Center for Brain Science Summer Program",
+    "host_organization": "RIKEN",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Wako, Saitama, Japan",
+    "compensation": "Fully Funded",
+    "deadline": "2027-02-28",
+    "apply_url": "https://cbs.riken.jp/en/summer/",
+    "tags": [
+      "Japan",
+      "Brain Science",
+      "Neuroscience",
+      "Full Funding"
+    ],
+    "one_line_pitch": "Intensive 2-month laboratory internship or lecture course with round-trip airfare and accommodation provided.",
+    "is_active": true
+  },
+  {
+    "id": "res-nus-amgen-scholars",
+    "title": "National University of Singapore Amgen Scholars",
+    "host_organization": "National University of Singapore (NUS)",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Singapore",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://www.amgenscholars.com/institution/national-university-of-singapore/",
+    "tags": [
+      "Singapore",
+      "NUS",
+      "Biotech",
+      "Asia"
+    ],
+    "one_line_pitch": "8-week summer research in Singapore with housing, travel stipend, and international symposium participation.",
+    "is_active": true
+  },
+  {
+    "id": "res-utsip-tokyo-summer-program",
+    "title": "University of Tokyo Summer Internship Program in Kashiwa (UTSIP)",
+    "host_organization": "The University of Tokyo",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Tokyo, Japan",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-25",
+    "apply_url": "https://www.ilo.k.u-tokyo.ac.jp/utsip/",
+    "tags": [
+      "Tokyo",
+      "Japan",
+      "Natural Sciences",
+      "Stipend"
+    ],
+    "one_line_pitch": "Hands-on research experience in frontier sciences with accommodation and 160,000 JPY scholarship.",
+    "is_active": true
+  },
+  {
+    "id": "res-pasteur-institute-summer",
+    "title": "Pasteur Institute International Summer Student Program",
+    "host_organization": "Institut Pasteur",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "Paris, France",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-31",
+    "apply_url": "https://www.pasteur.fr/en/education/summer-internships",
+    "tags": [
+      "Microbiology",
+      "Immunology",
+      "Paris",
+      "France"
+    ],
+    "one_line_pitch": "10-week summer research in Paris exploring infectious disease biology with living stipends and housing.",
+    "is_active": true
+  },
+  {
+    "id": "res-hhmi-summer-undergrad-research",
+    "title": "HHMI Undergraduate Research Scholars Program",
+    "host_organization": "Howard Hughes Medical Institute",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-15",
+    "apply_url": "https://www.hhmi.org/science-education",
+    "tags": [
+      "Genomics",
+      "Biochemistry",
+      "HHMI",
+      "Stipend"
+    ],
+    "one_line_pitch": "Mentored laboratory discovery supported by HHMI investigators at leading research universities nationwide.",
+    "is_active": true
+  },
+  {
+    "id": "res-sandia-national-laboratories-intern",
+    "title": "Sandia National Laboratories Technical Internship Program",
+    "host_organization": "Sandia National Laboratories / DOE",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Albuquerque, NM / Livermore, CA",
+    "compensation": "Paid Stipend",
+    "deadline": "Rolling",
+    "apply_url": "https://www.sandia.gov/careers/students-and-postdocs/internships-co-ops/",
+    "tags": [
+      "National Security",
+      "Robotics",
+      "Renewable Energy"
+    ],
+    "one_line_pitch": "Year-round and summer paid internships working on high-performance computing, pulsed power, and sensors.",
+    "is_active": true
+  },
+  {
+    "id": "res-nrel-energy-research-internship",
+    "title": "National Renewable Energy Laboratory (NREL) Summer Internships",
+    "host_organization": "NREL / U.S. Department of Energy",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Golden, Colorado, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-15",
+    "apply_url": "https://www.nrel.gov/careers/internships.html",
+    "tags": [
+      "Solar Energy",
+      "Wind Power",
+      "Biofuels",
+      "Colorado"
+    ],
+    "one_line_pitch": "10-week summer research solving the nation's most urgent renewable energy and grid challenges.",
+    "is_active": true
+  },
+  {
+    "id": "res-cmu-se-reu-software-engineering",
+    "title": "CMU REU in Software Engineering & Formal Methods",
+    "host_organization": "Carnegie Mellon University",
+    "category": "Research",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Pittsburgh, Pennsylvania, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-01",
+    "apply_url": "https://www.isri.cmu.edu/education/reu-program.html",
+    "tags": [
+      "Software Engineering",
+      "CMU",
+      "Stipend",
+      "Security"
+    ],
+    "one_line_pitch": "10-week research in programming languages, software security, and program analysis with $6,000 stipend.",
+    "is_active": true
+  },
+  {
+    "id": "fel-thiel-fellowship-2026",
+    "title": "The Thiel Fellowship ($100,000 Grant & Mentorship)",
+    "host_organization": "The Thiel Foundation",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://thielfellowship.org",
+    "tags": [
+      "Startup",
+      "Founders",
+      "Tech",
+      "$100,000",
+      "No Equity"
+    ],
+    "one_line_pitch": "Two-year, $100,000 grant and mentorship network for young people under 22 building bold technology.",
+    "is_active": true
+  },
+  {
+    "id": "fel-un-young-professionals-programme",
+    "title": "United Nations Young Professionals Programme (YPP)",
+    "host_organization": "United Nations Secretariat",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "New York, Geneva, Nairobi, Vienna",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-12-15",
+    "apply_url": "https://careers.un.org/lbw/home.aspx?viewtype=NCE",
+    "tags": [
+      "UN",
+      "Diplomacy",
+      "Global Policy",
+      "Career"
+    ],
+    "one_line_pitch": "Entry point for professional careers across the UN Secretariat with competitive international salary.",
+    "is_active": true
+  },
+  {
+    "id": "fel-hertz-foundation-fellowship",
+    "title": "Hertz Foundation Graduate Fellowship in Applied Sciences",
+    "host_organization": "Fannie and John Hertz Foundation",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Fully Funded",
+    "deadline": "2026-10-25",
+    "apply_url": "https://www.hertzfoundation.org/fellowships/apply/",
+    "tags": [
+      "PhD",
+      "Applied Sciences",
+      "Full Tuition",
+      "$250,000"
+    ],
+    "one_line_pitch": "Up to 5 years of full tuition plus a $38,000/year living stipend for applied physical sciences PhD students.",
+    "is_active": true
+  },
+  {
+    "id": "fel-echoing-green-fellowship",
+    "title": "Echoing Green Global Social Innovation Fellowship",
+    "host_organization": "Echoing Green",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "2026-10-18",
+    "apply_url": "https://echoinggreen.org/fellowship/",
+    "tags": [
+      "Social Enterprise",
+      "Seed Funding",
+      "Global",
+      "$80,000"
+    ],
+    "one_line_pitch": "$80,000 in unrestricted seed funding, leadership coaching, and global network for breakthrough social founders.",
+    "is_active": true
+  },
+  {
+    "id": "fel-schmidt-science-fellows",
+    "title": "Schmidt Science Fellows Program",
+    "host_organization": "Schmidt Sciences & Rhodes Trust",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD",
+      "Postdoctoral"
+    ],
+    "location_type": "On-site",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-11-30",
+    "apply_url": "https://schmidtsciencefellows.org",
+    "tags": [
+      "Postdoctoral",
+      "Interdisciplinary",
+      "$100,000/yr",
+      "Science"
+    ],
+    "one_line_pitch": "Provides $110,000/year postdoctoral stipend for 1-2 years to pivot into high-risk interdisciplinary science.",
+    "is_active": true
+  },
+  {
+    "id": "fel-quad-fellowship-stem",
+    "title": "The Quad Fellowship for STEM Leaders",
+    "host_organization": "Institute of International Education (IIE)",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Masters",
+      "PhD"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-03-31",
+    "apply_url": "https://www.quadfellowship.org",
+    "tags": [
+      "Quad",
+      "US",
+      "Japan",
+      "India",
+      "Australia",
+      "$40,000"
+    ],
+    "one_line_pitch": "Awards $40,000 to 100 exceptional STEM graduate students from the US, Japan, Australia, and India.",
+    "is_active": true
+  },
+  {
+    "id": "fel-white-house-fellows",
+    "title": "White House Fellows Program in Public Leadership",
+    "host_organization": "President's Commission on White House Fellowships",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Postgraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Washington, D.C., United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-10",
+    "apply_url": "https://www.whitehouse.gov/get-involved/fellowships/",
+    "tags": [
+      "Government",
+      "Policy",
+      "Leadership",
+      "White House"
+    ],
+    "one_line_pitch": "Prestigious program offering firsthand experience working at the highest levels of the federal government.",
+    "is_active": true
+  },
+  {
+    "id": "fel-presidential-management-pmf",
+    "title": "Presidential Management Fellows (PMF) Program",
+    "host_organization": "U.S. Office of Personnel Management",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Masters",
+      "PhD"
+    ],
+    "location_type": "On-site",
+    "location": "Washington, D.C. / Various",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-09-30",
+    "apply_url": "https://www.pmf.gov",
+    "tags": [
+      "Federal Service",
+      "Leadership",
+      "Government"
+    ],
+    "one_line_pitch": "Premier two-year leadership development program for advanced degree holders across the federal government.",
+    "is_active": true
+  },
+  {
+    "id": "fel-open-philanthropy-policy",
+    "title": "Open Philanthropy Early Career Technology Policy Fellowship",
+    "host_organization": "Open Philanthropy",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Washington, D.C. / Remote",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-15",
+    "apply_url": "https://www.openphilanthropy.org",
+    "tags": [
+      "AI Policy",
+      "Biosecurity",
+      "Public Good",
+      "Stipend"
+    ],
+    "one_line_pitch": "Stipends and placement support for aspiring leaders seeking careers in catastrophic risk reduction policy.",
+    "is_active": true
+  },
+  {
+    "id": "fel-ashoka-fellowship",
+    "title": "Ashoka Fellowship for Visionary Changemakers",
+    "host_organization": "Ashoka: Innovators for the Public",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "Rolling",
+    "apply_url": "https://www.ashoka.org/en-us/program/ashoka-fellowship",
+    "tags": [
+      "Social Innovation",
+      "Changemakers",
+      "Stipend",
+      "Global"
+    ],
+    "one_line_pitch": "Lifetime community membership and initial living stipends for leading social entrepreneurs worldwide.",
+    "is_active": true
+  },
+  {
+    "id": "fel-atlantic-fellows-health",
+    "title": "Atlantic Fellows for Health Equity",
+    "host_organization": "The Atlantic Philanthropies & George Washington University",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Postgraduate"
+    ],
+    "location_type": "Hybrid",
+    "location": "Global",
+    "compensation": "Fully Funded",
+    "deadline": "2027-04-15",
+    "apply_url": "https://www.atlanticfellows.org",
+    "tags": [
+      "Health Equity",
+      "Leadership",
+      "Global",
+      "Fully Funded"
+    ],
+    "one_line_pitch": "Year-long global fellowship designed to empower leaders committed to eradicating health disparities.",
+    "is_active": true
+  },
+  {
+    "id": "fel-macarthur-fellows-program",
+    "title": "MacArthur Fellowship ('Genius Grant')",
+    "host_organization": "John D. and Catherine T. MacArthur Foundation",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Postgraduate"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.macfound.org/programs/fellows/",
+    "tags": [
+      "Genius Grant",
+      "$800,000",
+      "No Strings Attached"
+    ],
+    "one_line_pitch": "Five-year, $800,000 unrestricted fellowship awarded to extraordinary individuals showing exceptional creativity.",
+    "is_active": true
+  },
+  {
+    "id": "fel-paul-daisy-soros-new-americans",
+    "title": "The Paul & Daisy Soros Fellowships for New Americans",
+    "host_organization": "The Paul & Daisy Soros Fellowships",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Masters",
+      "PhD"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-10-31",
+    "apply_url": "https://www.pdsoros.org",
+    "tags": [
+      "Immigrants",
+      "Full Tuition",
+      "$90,000",
+      "Graduate"
+    ],
+    "one_line_pitch": "Up to $90,000 over two years for immigrants and children of immigrants pursuing graduate education in the US.",
+    "is_active": true
+  },
+  {
+    "id": "fel-cbc-congressional-fellowship",
+    "title": "Congressional Black Caucus Foundation Congressional Fellowship",
+    "host_organization": "Congressional Black Caucus Foundation",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Postgraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Washington, D.C., United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-15",
+    "apply_url": "https://www.cbcfinc.org/programs/fellowships/",
+    "tags": [
+      "Capitol Hill",
+      "Policy",
+      "Stipend",
+      "Leadership"
+    ],
+    "one_line_pitch": "12-month program placing policy leaders in congressional offices with full salary, benefits, and housing.",
+    "is_active": true
+  },
+  {
+    "id": "fel-chci-public-policy-fellowship",
+    "title": "Congressional Hispanic Caucus Institute (CHCI) Public Policy Fellowship",
+    "host_organization": "Congressional Hispanic Caucus Institute",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Washington, D.C., United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-15",
+    "apply_url": "https://chci.org/programs/public-policy-fellowship/",
+    "tags": [
+      "Latino Leaders",
+      "Congress",
+      "Policy",
+      "Stipend"
+    ],
+    "one_line_pitch": "Nine-month paid fellowship in Washington, D.C., working in congressional offices and federal agencies.",
+    "is_active": true
+  },
+  {
+    "id": "fel-apaics-congressional-fellowship",
+    "title": "APAICS Congressional Fellowship Program",
+    "host_organization": "Asian Pacific American Institute for Congressional Studies",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Washington, D.C., United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-20",
+    "apply_url": "https://apaics.org/congressional-fellowship/",
+    "tags": [
+      "AAPI",
+      "Capitol Hill",
+      "Policy",
+      "$45,000"
+    ],
+    "one_line_pitch": "Nine-month fellowship providing AAPI leaders hands-on experience in congressional legislative processes.",
+    "is_active": true
+  },
+  {
+    "id": "fel-equal-justice-works",
+    "title": "Equal Justice Works Design-Your-Own Fellowship",
+    "host_organization": "Equal Justice Works",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-09-15",
+    "apply_url": "https://www.equaljusticeworks.org/fellowships/",
+    "tags": [
+      "Law",
+      "Public Interest",
+      "Legal Aid",
+      "Salary"
+    ],
+    "one_line_pitch": "Two-year fellowship funding graduating law students to launch public interest legal projects with non-profits.",
+    "is_active": true
+  },
+  {
+    "id": "fel-skadden-fellowship",
+    "title": "Skadden Fellowship for Public Interest Legal Service",
+    "host_organization": "Skadden Foundation",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-10-02",
+    "apply_url": "https://www.skaddenfellowships.org",
+    "tags": [
+      "Legal Aid",
+      "Civil Rights",
+      "Public Interest",
+      "Salary"
+    ],
+    "one_line_pitch": "Two-year fellowships providing salary and benefits to launch public interest legal services for the poor.",
+    "is_active": true
+  },
+  {
+    "id": "fel-roddenberry-fellowship",
+    "title": "The Roddenberry Fellowship for Trailblazers",
+    "host_organization": "The Roddenberry Foundation",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Cash Prize",
+    "deadline": "2026-08-31",
+    "apply_url": "https://roddenberryfoundation.org/our-work/roddenberry-fellowship/",
+    "tags": [
+      "$50,000",
+      "Civil Rights",
+      "Social Justice",
+      "No Equity"
+    ],
+    "one_line_pitch": "$50,000 grants plus tailored coaching to support activists and founders working for climate and equity.",
+    "is_active": true
+  },
+  {
+    "id": "fel-mozilla-fellowship",
+    "title": "Mozilla Fellowships in Open Source & Internet Health",
+    "host_organization": "Mozilla Foundation",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-10-15",
+    "apply_url": "https://foundation.mozilla.org/en/fellowships/",
+    "tags": [
+      "Open Web",
+      "Privacy",
+      "AI Accountability",
+      "Stipend"
+    ],
+    "one_line_pitch": "Stipend and travel support for open-source software engineers and researchers defending public internet health.",
+    "is_active": true
+  },
+  {
+    "id": "fel-bloomberg-harvard-city-leadership",
+    "title": "Bloomberg Harvard City Hall Summer Fellowship",
+    "host_organization": "Bloomberg Philanthropies & Harvard University",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Masters"
+    ],
+    "location_type": "On-site",
+    "location": "US Cities",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-30",
+    "apply_url": "https://www.cityleadership.harvard.edu/student-fellowships",
+    "tags": [
+      "Urban Innovation",
+      "Mayors",
+      "Harvard",
+      "Stipend"
+    ],
+    "one_line_pitch": "Pairs master's students with mayors' offices across the US to tackle urgent municipal strategic challenges.",
+    "is_active": true
+  },
+  {
+    "id": "fel-aspen-ideas-fellowship",
+    "title": "Aspen Ideas Festival Youth Fellowship",
+    "host_organization": "The Aspen Institute",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "High School"
+    ],
+    "location_type": "On-site",
+    "location": "Aspen, Colorado, United States",
+    "compensation": "Fully Funded",
+    "deadline": "2027-03-01",
+    "apply_url": "https://www.aspenideas.org",
+    "tags": [
+      "Aspen",
+      "Leadership",
+      "Global Leaders",
+      "Fully Funded"
+    ],
+    "one_line_pitch": "Brings exceptional youth leaders to Aspen for high-level seminars and networking with heads of state and CEOs.",
+    "is_active": true
+  },
+  {
+    "id": "fel-mats-ai-alignment-fellowship",
+    "title": "MATS AI Alignment Research Fellowship",
+    "host_organization": "ML Alignment Theory Scholars (MATS)",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "PhD"
+    ],
+    "location_type": "Hybrid",
+    "location": "Berkeley, California / Remote",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-03-15",
+    "apply_url": "https://www.matsprogram.org",
+    "tags": [
+      "AI Safety",
+      "Alignment",
+      "Machine Learning",
+      "$10,000"
+    ],
+    "one_line_pitch": "Intensive research seminar in Berkeley pairing talented scholars with leading AI alignment researchers.",
+    "is_active": true
+  },
+  {
+    "id": "fel-far-ai-research-fellowship",
+    "title": "FAR AI Frontier Alignment Research Fellowship",
+    "host_organization": "FAR.AI",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "San Francisco, California, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "Rolling",
+    "apply_url": "https://far.ai/fellowships",
+    "tags": [
+      "AI Alignment",
+      "Red Teaming",
+      "San Francisco"
+    ],
+    "one_line_pitch": "Conduct empirical safety research on frontier LLMs and autonomous agents with competitive SF tech compensation.",
+    "is_active": true
+  },
+  {
+    "id": "fel-jane-street-graduate-fellowship",
+    "title": "Jane Street Graduate Research Fellowship",
+    "host_organization": "Jane Street",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "United States / International",
+    "compensation": "Fully Funded",
+    "deadline": "2026-11-20",
+    "apply_url": "https://www.janestreet.com/fellowships/",
+    "tags": [
+      "Mathematics",
+      "Computer Science",
+      "Finance",
+      "$45,000"
+    ],
+    "one_line_pitch": "Provides full tuition coverage and a $45,000 living stipend for PhD students in math, CS, and physics.",
+    "is_active": true
+  },
+  {
+    "id": "fel-meta-phd-research-fellowship",
+    "title": "Meta PhD Research Fellowship",
+    "host_organization": "Meta (Facebook)",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Fully Funded",
+    "deadline": "2026-09-20",
+    "apply_url": "https://research.facebook.com/fellowship/",
+    "tags": [
+      "AI",
+      "AR/VR",
+      "Full Tuition",
+      "$42,000/yr"
+    ],
+    "one_line_pitch": "Covers two full academic years of tuition and fees, plus a $42,000 annual living stipend and conference travel.",
+    "is_active": true
+  },
+  {
+    "id": "fel-google-phd-fellowship",
+    "title": "Google PhD Fellowship in Computer Science",
+    "host_organization": "Google Research",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Fully Funded",
+    "deadline": "2027-04-30",
+    "apply_url": "https://research.google/outreach/phd-fellowship/",
+    "tags": [
+      "Machine Learning",
+      "Systems",
+      "Google",
+      "Full Tuition"
+    ],
+    "one_line_pitch": "Recognizes outstanding graduate students doing exceptional research in computer science and related fields.",
+    "is_active": true
+  },
+  {
+    "id": "fel-microsoft-research-phd",
+    "title": "Microsoft Research PhD Fellowship",
+    "host_organization": "Microsoft Research",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Fully Funded",
+    "deadline": "2027-06-07",
+    "apply_url": "https://www.microsoft.com/en-us/research/academic-program/phd-fellowship/",
+    "tags": [
+      "MSR",
+      "Computer Science",
+      "$42,000",
+      "Tuition"
+    ],
+    "one_line_pitch": "Two years of full tuition plus $42,000 annual stipend and invitations to Microsoft research symposiums.",
+    "is_active": true
+  },
+  {
+    "id": "fel-apple-scholars-aiml",
+    "title": "Apple Scholars in AIML Fellowship",
+    "host_organization": "Apple",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Fully Funded",
+    "deadline": "2026-09-15",
+    "apply_url": "https://machinelearning.apple.com/updates/apple-scholars-aiml",
+    "tags": [
+      "Apple",
+      "Machine Learning",
+      "Vision",
+      "Full Tuition"
+    ],
+    "one_line_pitch": "Generous funding, Apple mentorship, and opportunities to intern with Apple Machine Learning teams.",
+    "is_active": true
+  },
+  {
+    "id": "fel-ibm-phd-fellowship",
+    "title": "IBM PhD Fellowship Awards",
+    "host_organization": "IBM Research",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-10-30",
+    "apply_url": "https://www.ibm.com/academic/initiatives/phd-fellowship",
+    "tags": [
+      "IBM",
+      "Quantum",
+      "Cloud",
+      "$20,000\u2013$40,000"
+    ],
+    "one_line_pitch": "Two-year competitive fellowship supporting PhD students with innovative tech research in AI and hybrid cloud.",
+    "is_active": true
+  },
+  {
+    "id": "fel-nvidia-graduate-fellowship",
+    "title": "NVIDIA Graduate Fellowship Program",
+    "host_organization": "NVIDIA",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-09-13",
+    "apply_url": "https://www.nvidia.com/en-us/research/graduate-fellowships/",
+    "tags": [
+      "GPU Computing",
+      "Accelerated Computing",
+      "$50,000"
+    ],
+    "one_line_pitch": "Awards up to $50,000 per student to doctoral researchers advancing GPU computing, robotics, and deep learning.",
+    "is_active": true
+  },
+  {
+    "id": "fel-qualcomm-innovation-fellowship",
+    "title": "Qualcomm Innovation Fellowship (QInF)",
+    "host_organization": "Qualcomm",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "United States / Europe / India",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-12-05",
+    "apply_url": "https://www.qualcomm.com/research/university-relations/innovation-fellowship",
+    "tags": [
+      "Mobile Computing",
+      "Semiconductors",
+      "$100,000 Team"
+    ],
+    "one_line_pitch": "$100,000 award per student team and mentorship from Qualcomm engineers for pioneering hardware research.",
+    "is_active": true
+  },
+  {
+    "id": "fel-two-sigma-diversity-fellowship",
+    "title": "Two Sigma Diversity PhD Fellowship",
+    "host_organization": "Two Sigma",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-04-15",
+    "apply_url": "https://www.twosigma.com/careers/students/diversity-phd-fellowship/",
+    "tags": [
+      "Quantitative Finance",
+      "Data Science",
+      "$10,000"
+    ],
+    "one_line_pitch": "$10,000 award, a fast-track interview for quant researcher roles, and customized mentoring.",
+    "is_active": true
+  },
+  {
+    "id": "fel-bloomberg-ds-phd-fellowship",
+    "title": "Bloomberg Data Science PhD Fellowship",
+    "host_organization": "Bloomberg",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Fully Funded",
+    "deadline": "2026-12-15",
+    "apply_url": "https://www.bloomberg.com/company/values/tech-at-bloomberg/university-relations/data-science-phd-fellowship/",
+    "tags": [
+      "NLP",
+      "Information Extraction",
+      "Full Tuition"
+    ],
+    "one_line_pitch": "Provides tuition, $42,000 living stipend, travel funding, and a paid 14-week summer internship at Bloomberg.",
+    "is_active": true
+  },
+  {
+    "id": "fel-de-shaw-discovery-fellowship",
+    "title": "D. E. Shaw Discovery Fellowship",
+    "host_organization": "D. E. Shaw & Co.",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "New York, New York, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-20",
+    "apply_url": "https://www.deshaw.com/careers/internships/discovery-fellowship",
+    "tags": [
+      "Quant",
+      "Wall Street",
+      "NYC",
+      "Diversity"
+    ],
+    "one_line_pitch": "Subsidized educational program in Manhattan introducing underrepresented students to quant finance and SWE.",
+    "is_active": true
+  },
+  {
+    "id": "fel-citadel-summer-fellowship",
+    "title": "Citadel & Citadel Securities Discovery Fellowship",
+    "host_organization": "Citadel",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Miami / New York / Chicago",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-15",
+    "apply_url": "https://www.citadel.com/careers/students/",
+    "tags": [
+      "Trading",
+      "Algorithmic Finance",
+      "Competitive"
+    ],
+    "one_line_pitch": "Multi-day fully-funded fellowship introducing extraordinary STEM students to algorithmic markets and data.",
+    "is_active": true
+  },
+  {
+    "id": "fel-world-bank-ypp",
+    "title": "World Bank Group Young Professionals Program",
+    "host_organization": "World Bank Group",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Masters",
+      "PhD"
+    ],
+    "location_type": "On-site",
+    "location": "Washington, D.C., United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2026-08-15",
+    "apply_url": "https://www.worldbank.org/en/about/careers/programs-and-internships/young-professionals-program",
+    "tags": [
+      "International Development",
+      "Economics",
+      "World Bank"
+    ],
+    "one_line_pitch": "Two-year leadership development contract with full benefits and global travel across 140+ country offices.",
+    "is_active": true
+  },
+  {
+    "id": "fel-imf-youth-fellowship",
+    "title": "International Monetary Fund (IMF) Youth Fellowship",
+    "host_organization": "International Monetary Fund",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Hybrid",
+    "location": "Washington, D.C. / Remote",
+    "compensation": "Fully Funded",
+    "deadline": "2026-09-01",
+    "apply_url": "https://www.imf.org/en/News/Seminars/Conferences/youth-fellowship",
+    "tags": [
+      "Macroeconomics",
+      "IMF",
+      "Global Economy"
+    ],
+    "one_line_pitch": "Fully funded travel to IMF Annual Meetings with hands-on access to central bankers and global economic policymakers.",
+    "is_active": true
+  },
+  {
+    "id": "fel-cgi-u-fellows",
+    "title": "Clinton Global Initiative University (CGI U) Fellows",
+    "host_organization": "Clinton Foundation",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Free",
+    "deadline": "2026-12-15",
+    "apply_url": "https://www.clintonfoundation.org/our-work/clinton-global-initiative-university/",
+    "tags": [
+      "Social Impact",
+      "Action Plans",
+      "Mentorship"
+    ],
+    "one_line_pitch": "Year-round social impact curriculum, mentorship, and invitation to pitch at the CGI U annual meeting.",
+    "is_active": true
+  },
+  {
+    "id": "fel-venture-for-america",
+    "title": "Venture for America (VFA) Fellowship",
+    "host_organization": "Venture for America",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "US Cities (Detroit, Cleveland, Philly)",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-03-01",
+    "apply_url": "https://ventureforamerica.org",
+    "tags": [
+      "Startups",
+      "Entrepreneurship",
+      "Salary",
+      "Venture"
+    ],
+    "one_line_pitch": "Connects recent college grads with full-time paid salaried roles at fast-growing startups in emerging tech hubs.",
+    "is_active": true
+  },
+  {
+    "id": "fel-code-for-america-fellowship",
+    "title": "Code for America Community Fellowship",
+    "host_organization": "Code for America",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-15",
+    "apply_url": "https://codeforamerica.org/programs/fellowship/",
+    "tags": [
+      "Civic Tech",
+      "Digital Services",
+      "Government",
+      "Salary"
+    ],
+    "one_line_pitch": "Pairs technologists with local government partners to build human-centered civic digital services.",
+    "is_active": true
+  },
+  {
+    "id": "fel-coro-fellows-public-affairs",
+    "title": "Coro Fellows Program in Public Affairs",
+    "host_organization": "Coro Center for Civic Leadership",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "SF, NYC, LA, Pittsburgh, St. Louis",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-10",
+    "apply_url": "https://www.corofellowship.org",
+    "tags": [
+      "Public Affairs",
+      "Civic Leadership",
+      "Stipend"
+    ],
+    "one_line_pitch": "Nine-month full-time immersion rotating through business, government, labor, and non-profit sectors.",
+    "is_active": true
+  },
+  {
+    "id": "fel-nyc-urban-fellows",
+    "title": "New York City Urban Fellows Program",
+    "host_organization": "The City of New York",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "New York, New York, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-01-15",
+    "apply_url": "https://www.nyc.gov/site/dcas/employment/urban-fellows.page",
+    "tags": [
+      "NYC Government",
+      "Public Policy",
+      "$35,000+"
+    ],
+    "one_line_pitch": "Nine-month introduction to city government and public policy, combining work in mayoral offices with seminars.",
+    "is_active": true
+  },
+  {
+    "id": "fel-california-capital-fellows",
+    "title": "California Senate & Assembly Capital Fellows Program",
+    "host_organization": "Center for California Studies & Sac State",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Sacramento, California, United States",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-02",
+    "apply_url": "https://www.csus.edu/center/center-california-studies/capital-fellows/",
+    "tags": [
+      "State Government",
+      "Sacramento",
+      "Legislative",
+      "Salary"
+    ],
+    "one_line_pitch": "11-month paid fellowship working as full-time legislative staff in the California State Capitol.",
+    "is_active": true
+  },
+  {
+    "id": "fel-german-chancellor-fellowship",
+    "title": "German Chancellor Fellowship for Prospective Leaders",
+    "host_organization": "Alexander von Humboldt Foundation",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Germany",
+    "compensation": "Fully Funded",
+    "deadline": "2026-10-15",
+    "apply_url": "https://www.humboldt-foundation.de/en/apply/sponsorship-programmes/german-chancellor-fellowship",
+    "tags": [
+      "Germany",
+      "Leadership",
+      "Monthly Stipend",
+      "Language"
+    ],
+    "one_line_pitch": "One year in Germany conducting a self-designed project under the patronage of the German Federal Chancellor.",
+    "is_active": true
+  },
+  {
+    "id": "fel-bosch-foundation-fellowship",
+    "title": "Robert Bosch Foundation Fellowship in Global Affairs",
+    "host_organization": "Robert Bosch Foundation & Cultural Vistas",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Postgraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Berlin / Europe",
+    "compensation": "Fully Funded",
+    "deadline": "2026-11-01",
+    "apply_url": "https://culturalvistas.org/programs/abroad/robert-bosch-foundation-fellowship/",
+    "tags": [
+      "Transatlantic",
+      "Europe",
+      "Public Affairs",
+      "Stipend"
+    ],
+    "one_line_pitch": "Distinguished leadership program offering American leaders seminars and professional placements in Europe.",
+    "is_active": true
+  },
+  {
+    "id": "fel-humboldt-postdoc-fellowship",
+    "title": "Alexander von Humboldt Postdoctoral Research Fellowship",
+    "host_organization": "Alexander von Humboldt Foundation",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD",
+      "Postdoctoral"
+    ],
+    "location_type": "On-site",
+    "location": "Germany",
+    "compensation": "Paid Stipend",
+    "deadline": "Rolling",
+    "apply_url": "https://www.humboldt-foundation.de/en/apply/sponsorship-programmes/humboldt-research-fellowship",
+    "tags": [
+      "Postdoctoral",
+      "Germany",
+      "Monthly Stipend"
+    ],
+    "one_line_pitch": "Enables postdoctoral scientists and scholars worldwide to conduct long-term research in Germany.",
+    "is_active": true
+  },
+  {
+    "id": "fel-marie-curie-postdoc",
+    "title": "Marie Sk\u0142odowska-Curie Actions (MSCA) Postdoctoral Fellowships",
+    "host_organization": "European Commission",
+    "category": "Fellowship",
+    "academic_level": [
+      "PhD",
+      "Postdoctoral"
+    ],
+    "location_type": "On-site",
+    "location": "European Union",
+    "compensation": "Fully Funded",
+    "deadline": "2026-09-11",
+    "apply_url": "https://marie-sklodowska-curie-actions.ec.europa.eu",
+    "tags": [
+      "Europe",
+      "Research",
+      "Living Allowance",
+      "Travel"
+    ],
+    "one_line_pitch": "Enhances creative and innovative potential of researchers holding a PhD wishing to acquire new skills in Europe.",
+    "is_active": true
+  },
+  {
+    "id": "fel-rockefeller-bellagio-fellowship",
+    "title": "The Rockefeller Foundation Bellagio Center Residency",
+    "host_organization": "The Rockefeller Foundation",
+    "category": "Fellowship",
+    "academic_level": [
+      "Graduate",
+      "Postgraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Bellagio, Lake Como, Italy",
+    "compensation": "Fully Funded",
+    "deadline": "2027-04-15",
+    "apply_url": "https://www.rockefellerfoundation.org/bellagio-center/",
+    "tags": [
+      "Lake Como",
+      "Policy",
+      "Innovation",
+      "Full Board"
+    ],
+    "one_line_pitch": "Month-long residency on Lake Como providing scholars and practitioners space to advance breakthrough ideas.",
+    "is_active": true
+  },
+  {
+    "id": "fel-lead-da-leadership-fellowship",
+    "title": "LEAD Environmental & Social Leadership Fellowship",
+    "host_organization": "LEAD International",
+    "category": "Fellowship",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Free",
+    "deadline": "2027-02-15",
+    "apply_url": "https://lead.org",
+    "tags": [
+      "Sustainability",
+      "Systems Thinking",
+      "Global"
+    ],
+    "one_line_pitch": "Global network for cross-sector leaders working collaboratively on systemic sustainability challenges.",
+    "is_active": true
+  },
+  {
+    "id": "grt-github-accelerator",
+    "title": "GitHub Accelerator & Open Source Maintainers Fund",
+    "host_organization": "GitHub & Microsoft",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://accelerator.github.com",
+    "tags": [
+      "Open Source",
+      "GitHub",
+      "$40,000",
+      "No Equity",
+      "AI"
+    ],
+    "one_line_pitch": "$40,000 non-dilutive grant, Azure credits, and 10 weeks of mentorship from open-source leaders.",
+    "is_active": true
+  },
+  {
+    "id": "grt-google-summer-of-code",
+    "title": "Google Summer of Code (GSoC) 2026",
+    "host_organization": "Google Open Source",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "High School",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-04-02",
+    "apply_url": "https://summerofcode.withgoogle.com",
+    "tags": [
+      "Open Source",
+      "Google",
+      "Remote",
+      "Paid Stipend",
+      "Python"
+    ],
+    "one_line_pitch": "Global stipend program connecting student developers with open-source organizations worldwide.",
+    "is_active": true
+  },
+  {
+    "id": "grt-emergent-ventures-grant",
+    "title": "Emergent Ventures Fellowship & Fast Grants",
+    "host_organization": "Mercatus Center at George Mason University",
+    "category": "Grant",
+    "academic_level": [
+      "High School",
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.mercatus.org/emergent-ventures",
+    "tags": [
+      "Fast Grants",
+      "Moonshots",
+      "Tyler Cowen",
+      "No Equity"
+    ],
+    "one_line_pitch": "Unrestricted grants up to $50,000 for highly ambitious moonshot ideas, scalable projects, and young thinkers.",
+    "is_active": true
+  },
+  {
+    "id": "grt-nsf-grfp-fellowship",
+    "title": "NSF Graduate Research Fellowship Program (GRFP)",
+    "host_organization": "National Science Foundation (NSF)",
+    "category": "Grant",
+    "academic_level": [
+      "Graduate",
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Fully Funded",
+    "deadline": "2026-10-21",
+    "apply_url": "https://www.nsfgrfp.org",
+    "tags": [
+      "NSF",
+      "PhD",
+      "$159,000",
+      "STEM",
+      "Full Ride"
+    ],
+    "one_line_pitch": "Three-year annual stipend of $37,000 plus $16,000 cost-of-education allowance for research master's and PhDs.",
+    "is_active": true
+  },
+  {
+    "id": "grt-ethereum-foundation-academic",
+    "title": "Ethereum Foundation Academic & Ecosystem Grants",
+    "host_organization": "Ethereum Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://esp.ethereum.foundation",
+    "tags": [
+      "Ethereum",
+      "Web3",
+      "Cryptography",
+      "Academic Grants"
+    ],
+    "one_line_pitch": "Financial and technical grants for university students and researchers working on cryptography and open systems.",
+    "is_active": true
+  },
+  {
+    "id": "grt-1517-fund-medici",
+    "title": "The 1517 Fund Medici Project Micro-Grant",
+    "host_organization": "1517 Fund",
+    "category": "Grant",
+    "academic_level": [
+      "High School",
+      "Undergraduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.1517fund.com",
+    "tags": [
+      "Micro-Grant",
+      "$1,000",
+      "No Equity",
+      "Young Founders"
+    ],
+    "one_line_pitch": "$1,000 checks within 72 hours for students and young makers building prototypes or hardware projects.",
+    "is_active": true
+  },
+  {
+    "id": "grt-outreachy-open-source",
+    "title": "Outreachy Open Source Paid Internships & Stipends",
+    "host_organization": "Outreachy / Software Freedom Conservancy",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "High School",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Paid Stipend",
+    "deadline": "2027-02-06",
+    "apply_url": "https://www.outreachy.org",
+    "tags": [
+      "Diversity",
+      "Open Source",
+      "Remote",
+      "$7,000 Stipend"
+    ],
+    "one_line_pitch": "$7,000 total stipend for 3-month remote internships contributing to open-source software and tools.",
+    "is_active": true
+  },
+  {
+    "id": "grt-mozilla-technology-fund",
+    "title": "Mozilla Technology Fund (MTF) for Open Tech",
+    "host_organization": "Mozilla Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "2026-11-15",
+    "apply_url": "https://foundation.mozilla.org/en/what-we-fund/awards/mozilla-technology-fund/",
+    "tags": [
+      "Open Source AI",
+      "Mozilla",
+      "$50,000",
+      "Public Interest"
+    ],
+    "one_line_pitch": "Grants up to $50,000 for open-source AI and internet infrastructure projects prioritizing transparency.",
+    "is_active": true
+  },
+  {
+    "id": "grt-yc-startup-school-grants",
+    "title": "Y Combinator Startup School & Founder Grants",
+    "host_organization": "Y Combinator",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.startupschool.org",
+    "tags": [
+      "Startups",
+      "Y Combinator",
+      "Seed Grant"
+    ],
+    "one_line_pitch": "Free online courses and equity-free grants for student founders launching early-stage companies.",
+    "is_active": true
+  },
+  {
+    "id": "grt-aws-imagine-grant",
+    "title": "Amazon Web Services (AWS) Imagine Grant & Compute",
+    "host_organization": "Amazon Web Services",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://aws.amazon.com/nonprofit/grant-program/",
+    "tags": [
+      "Cloud Computing",
+      "AWS",
+      "Nonprofit",
+      "Credits"
+    ],
+    "one_line_pitch": "Up to $100,000 in unrestricted cash funding and up to $100,000 in AWS promotional credits.",
+    "is_active": true
+  },
+  {
+    "id": "grt-msft-for-startups-student",
+    "title": "Microsoft for Startups Founders Hub Student Grants",
+    "host_organization": "Microsoft",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://foundershub.startups.microsoft.com",
+    "tags": [
+      "Azure",
+      "OpenAI Credits",
+      "$150,000",
+      "Startups"
+    ],
+    "one_line_pitch": "Up to $150,000 in Azure credits, OpenAI API credits, GitHub Enterprise, and technical mentorship.",
+    "is_active": true
+  },
+  {
+    "id": "grt-natgeo-early-career",
+    "title": "National Geographic Early Career Explorer Grants",
+    "host_organization": "National Geographic Society",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Global",
+    "compensation": "Cash Prize",
+    "deadline": "2027-04-10",
+    "apply_url": "https://www.nationalgeographic.org/funding-opportunities/grants/",
+    "tags": [
+      "Field Research",
+      "Exploration",
+      "Conservation",
+      "$20,000"
+    ],
+    "one_line_pitch": "Up to $20,000 for early career researchers and conservationists driving field-based scientific projects.",
+    "is_active": true
+  },
+  {
+    "id": "grt-foresight-fast-grants",
+    "title": "Foresight Institute Nanotech & Biotech Fast Grants",
+    "host_organization": "Foresight Institute",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://foresight.org",
+    "tags": [
+      "Molecular Tech",
+      "Biosecurity",
+      "Fast Grants"
+    ],
+    "one_line_pitch": "Rapid turnaround micro-grants for researchers working on molecular machinery, longevity, and crypto-commerce.",
+    "is_active": true
+  },
+  {
+    "id": "grt-solana-foundation-student",
+    "title": "Solana Foundation Student Ecosystem Grants",
+    "host_organization": "Solana Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://solana.org/grants",
+    "tags": [
+      "Solana",
+      "Web3",
+      "Developer Grants",
+      "Crypto"
+    ],
+    "one_line_pitch": "Milestone-based non-dilutive grants supporting open-source public goods and tools built on Solana.",
+    "is_active": true
+  },
+  {
+    "id": "grt-huggingface-compute-grant",
+    "title": "Hugging Face Open Source AI Compute Grants",
+    "host_organization": "Hugging Face",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://huggingface.co",
+    "tags": [
+      "AI",
+      "Open Source",
+      "GPU Compute",
+      "Transformers"
+    ],
+    "one_line_pitch": "Provides GPU clusters and ZeroGPU compute quotas to student researchers training open-weight AI models.",
+    "is_active": true
+  },
+  {
+    "id": "grt-openai-model-safety-academic",
+    "title": "OpenAI Academic Model Safety & Governance Grants",
+    "host_organization": "OpenAI",
+    "category": "Grant",
+    "academic_level": [
+      "Graduate",
+      "PhD",
+      "Undergraduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://openai.com/research",
+    "tags": [
+      "AI Safety",
+      "API Credits",
+      "Governance"
+    ],
+    "one_line_pitch": "Grants and API credit allowances for academic researchers auditing models, red-teaming, and benchmarking safety.",
+    "is_active": true
+  },
+  {
+    "id": "grt-awesome-foundation-micro",
+    "title": "The Awesome Foundation $1,000 Micro-Grants",
+    "host_organization": "The Awesome Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "High School",
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.awesomefoundation.org",
+    "tags": [
+      "Micro-Grant",
+      "$1,000",
+      "No Strings Attached"
+    ],
+    "one_line_pitch": "$1,000 no-strings-attached grants every month from 80+ chapter chapters worldwide for creative projects.",
+    "is_active": true
+  },
+  {
+    "id": "grt-davis-projects-for-peace",
+    "title": "Davis Projects for Peace Grassroots Grants ($10,000)",
+    "host_organization": "Davis United World College Scholars Program",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "Global",
+    "compensation": "Cash Prize",
+    "deadline": "2027-01-25",
+    "apply_url": "https://www.davisfellows.org/project-for-peace",
+    "tags": [
+      "Peacebuilding",
+      "Grassroots",
+      "$10,000",
+      "Global"
+    ],
+    "one_line_pitch": "$10,000 grants for student-designed grassroots projects that promote peace anywhere in the world.",
+    "is_active": true
+  },
+  {
+    "id": "grt-linux-foundation-travel-grant",
+    "title": "The Linux Foundation Open Source Training & Travel Grants",
+    "host_organization": "The Linux Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "Rolling",
+    "apply_url": "https://www.linuxfoundation.org/about/diversity-inclusivity",
+    "tags": [
+      "Linux",
+      "Open Source",
+      "Travel Grant",
+      "Conferences"
+    ],
+    "one_line_pitch": "Covers travel, lodging, and conference tickets for underrepresented developers attending open-source summits.",
+    "is_active": true
+  },
+  {
+    "id": "grt-psf-educational-grants",
+    "title": "Python Software Foundation (PSF) Grants Program",
+    "host_organization": "Python Software Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.python.org/psf/grants/",
+    "tags": [
+      "Python",
+      "Education",
+      "Workshops",
+      "Open Source"
+    ],
+    "one_line_pitch": "Provides financial sponsorship for Python educational workshops, conferences, and development sprints.",
+    "is_active": true
+  },
+  {
+    "id": "grt-ai-grant-friedman-gross",
+    "title": "AI Grant by Nat Friedman & Daniel Gross ($250,000)",
+    "host_organization": "AI Grant",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://aigrant.com",
+    "tags": [
+      "AI Startups",
+      "$250,000",
+      "GPU Credits",
+      "Founders"
+    ],
+    "one_line_pitch": "$250,000 investment plus cloud credits and compute access for entrepreneurs building AI-first products.",
+    "is_active": true
+  },
+  {
+    "id": "grt-vitalik-buterin-biosecurity",
+    "title": "Vitalik Buterin Fellowship & Biosecurity Fast Grants",
+    "host_organization": "Foresight Institute / Vitalik Buterin",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "PhD"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://foresight.org/biostate-fellowship/",
+    "tags": [
+      "Biosecurity",
+      "Pandemic Defense",
+      "Fast Grants"
+    ],
+    "one_line_pitch": "Supports researchers working on early pathogen detection, far-UVC sterilization, and medical hardware.",
+    "is_active": true
+  },
+  {
+    "id": "grt-roddenberry-catalyst-grant",
+    "title": "Roddenberry Catalyst Foundation Micro-Grants",
+    "host_organization": "The Roddenberry Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "High School",
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://roddenberryfoundation.org/our-work/catalyst-fund/",
+    "tags": [
+      "Catalyst",
+      "$2,500\u2013$15,000",
+      "Early Stage"
+    ],
+    "one_line_pitch": "Grants between $2,500 and $15,000 for early-stage ideas tackling big challenges in education and climate.",
+    "is_active": true
+  },
+  {
+    "id": "grt-uniswap-foundation-grants",
+    "title": "Uniswap Foundation Grants for Student Builders",
+    "host_organization": "Uniswap Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.uniswapfoundation.org/grants",
+    "tags": [
+      "Uniswap",
+      "DeFi",
+      "Open Source",
+      "Solidity"
+    ],
+    "one_line_pitch": "Targeted developer grants supporting open-source automated market maker tooling and developer education.",
+    "is_active": true
+  },
+  {
+    "id": "grt-chainlink-community-grants",
+    "title": "Chainlink Community Grant Program",
+    "host_organization": "Chainlink Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://chain.link/community/grants",
+    "tags": [
+      "Oracles",
+      "Smart Contracts",
+      "Web3",
+      "Research"
+    ],
+    "one_line_pitch": "Non-dilutive grants empowering developer communities building applications connected to real-world data.",
+    "is_active": true
+  },
+  {
+    "id": "grt-filecoin-developer-grants",
+    "title": "Filecoin Foundation Developer & Micro-Grants",
+    "host_organization": "Filecoin Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://fil.org/grants/",
+    "tags": [
+      "Decentralized Storage",
+      "Filecoin",
+      "IPFS"
+    ],
+    "one_line_pitch": "Supports open-source tooling, data preservation projects, and research across the Filecoin network.",
+    "is_active": true
+  },
+  {
+    "id": "grt-stellar-community-fund",
+    "title": "Stellar Community Fund (SCF) Student Grants",
+    "host_organization": "Stellar Development Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://communityfund.stellar.org",
+    "tags": [
+      "Stellar",
+      "Cross-Border",
+      "FinTech",
+      "Soroban"
+    ],
+    "one_line_pitch": "Open-application quadratic funding rounds granting up to $150,000 worth of XLM for projects built on Stellar.",
+    "is_active": true
+  },
+  {
+    "id": "grt-algorand-developer-grants",
+    "title": "Algorand Foundation Developer & Student Grants",
+    "host_organization": "Algorand Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.algorand.foundation/grants",
+    "tags": [
+      "Algorand",
+      "Proof of Stake",
+      "Sustainability"
+    ],
+    "one_line_pitch": "Funds projects contributing to infrastructure, tooling, and applications on the Algorand blockchain.",
+    "is_active": true
+  },
+  {
+    "id": "grt-arbitrum-foundation-grants",
+    "title": "Arbitrum Foundation Ecosystem & Student Grants",
+    "host_organization": "Arbitrum Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://arbitrum.foundation/grants",
+    "tags": [
+      "Layer 2",
+      "Ethereum",
+      "Rollups",
+      "Developer Grants"
+    ],
+    "one_line_pitch": "Funding developers building scalable dApps and infrastructure on the leading Ethereum Layer 2 ecosystem.",
+    "is_active": true
+  },
+  {
+    "id": "grt-polkadot-decentralized-futures",
+    "title": "Polkadot Decentralized Futures Program ($20M)",
+    "host_organization": "Web3 Foundation / Parity",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://futures.web3.foundation",
+    "tags": [
+      "Polkadot",
+      "Substrate",
+      "Interoperability"
+    ],
+    "one_line_pitch": "Non-dilutive grants and capital investments supporting ecosystem teams expanding the Polkadot network.",
+    "is_active": true
+  },
+  {
+    "id": "grt-optimism-retropgf",
+    "title": "Optimism Retroactive Public Goods Funding (RetroPGF)",
+    "host_organization": "Optimism Collective",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://app.optimism.io/retropgf",
+    "tags": [
+      "Public Goods",
+      "Ethereum",
+      "Retroactive Funding"
+    ],
+    "one_line_pitch": "Distributes millions of OP tokens retroactively to developers who built public goods beneficial to the ecosystem.",
+    "is_active": true
+  },
+  {
+    "id": "grt-gitcoin-grants-quadratic",
+    "title": "Gitcoin Grants Quadratic Funding for Student Developers",
+    "host_organization": "Gitcoin",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.gitcoin.co/grants",
+    "tags": [
+      "Quadratic Funding",
+      "Open Source",
+      "Community"
+    ],
+    "one_line_pitch": "Quarterly crowdfunding rounds with matching partner pools for public goods software and climate solutions.",
+    "is_active": true
+  },
+  {
+    "id": "grt-starknet-foundation-grants",
+    "title": "Starknet Foundation Student Builders Grants",
+    "host_organization": "Starknet Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://starknet.io/grants/",
+    "tags": [
+      "Zero Knowledge",
+      "Cairo",
+      "ZK Rollups",
+      "Stipend"
+    ],
+    "one_line_pitch": "Funding and technical mentorship for builders developing zero-knowledge smart contracts on Starknet.",
+    "is_active": true
+  },
+  {
+    "id": "grt-polygon-community-grants",
+    "title": "Polygon Community Grants Program",
+    "host_organization": "Polygon Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://polygon.technology/grants",
+    "tags": [
+      "Polygon",
+      "ZK-EVM",
+      "Infrastructure",
+      "Developer"
+    ],
+    "one_line_pitch": "Dedicated capital pool funding high-impact open source tools, gaming, and protocols on Polygon.",
+    "is_active": true
+  },
+  {
+    "id": "grt-zcash-community-grants",
+    "title": "Zcash Community Grants (ZCG) for Privacy Tech",
+    "host_organization": "Zcash Community Grants Committee",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://zcashcommunitygrants.org",
+    "tags": [
+      "Privacy Tech",
+      "Zero Knowledge",
+      "Cryptography"
+    ],
+    "one_line_pitch": "Funds independent teams and researchers building tools that strengthen privacy and financial freedom.",
+    "is_active": true
+  },
+  {
+    "id": "grt-apache-software-foundation-travel",
+    "title": "Apache Software Foundation Travel Assistance",
+    "host_organization": "Apache Software Foundation (ASF)",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Global",
+    "compensation": "Paid Stipend",
+    "deadline": "Rolling",
+    "apply_url": "https://www.apache.org/travel/",
+    "tags": [
+      "Open Source",
+      "Apache",
+      "Conferences",
+      "Travel"
+    ],
+    "one_line_pitch": "Covers travel and lodging for open-source community members who would otherwise be unable to attend ApacheCon.",
+    "is_active": true
+  },
+  {
+    "id": "grt-perl-raku-foundation-grants",
+    "title": "The Perl and Raku Foundation Grants Program",
+    "host_organization": "The Perl and Raku Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.perlfoundation.org/grants.html",
+    "tags": [
+      "Programming Languages",
+      "Perl",
+      "Open Source"
+    ],
+    "one_line_pitch": "Provides financial sponsorship for developers writing documentation, tutorials, and core language features.",
+    "is_active": true
+  },
+  {
+    "id": "grt-rust-foundation-community",
+    "title": "Rust Foundation Community & Project Grants",
+    "host_organization": "Rust Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://foundation.rust-lang.org/grants/",
+    "tags": [
+      "Rust",
+      "Systems Programming",
+      "Fellowships"
+    ],
+    "one_line_pitch": "Direct financial support for Rust community maintainers, security researchers, and student advocates.",
+    "is_active": true
+  },
+  {
+    "id": "grt-numfocus-small-developer-grants",
+    "title": "NumFOCUS Small Developer Grants for Open Science",
+    "host_organization": "NumFOCUS",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://numfocus.org/programs/small-developer-grants",
+    "tags": [
+      "NumPy",
+      "Pandas",
+      "SciPy",
+      "Open Science"
+    ],
+    "one_line_pitch": "Grants up to $10,000 for contributors working on essential open-source scientific computing projects.",
+    "is_active": true
+  },
+  {
+    "id": "grt-czi-open-science-grants",
+    "title": "Chan Zuckerberg Initiative (CZI) Open Science Grants",
+    "host_organization": "Chan Zuckerberg Initiative",
+    "category": "Grant",
+    "academic_level": [
+      "Graduate",
+      "Undergraduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://chanzuckerberg.com/science/programs-resources/open-science/",
+    "tags": [
+      "Open Science",
+      "Biomedical Software",
+      "CZI"
+    ],
+    "one_line_pitch": "Supports open-source software projects essential for modern biomedical research and discovery.",
+    "is_active": true
+  },
+  {
+    "id": "grt-sloan-foundation-grants",
+    "title": "Alfred P. Sloan Foundation Research Grants",
+    "host_organization": "Alfred P. Sloan Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Graduate",
+      "PhD"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://sloan.org/grants",
+    "tags": [
+      "Economics",
+      "STEM",
+      "Energy",
+      "Research"
+    ],
+    "one_line_pitch": "Supports early-career researchers conducting fundamental research in science, technology, and economic behavior.",
+    "is_active": true
+  },
+  {
+    "id": "grt-templeton-world-charity",
+    "title": "Templeton World Charity Foundation Innovation Grants",
+    "host_organization": "Templeton World Charity Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Graduate",
+      "Undergraduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.templetonworldcharity.org",
+    "tags": [
+      "Human Flourishing",
+      "Philosophy",
+      "Cognitive Science"
+    ],
+    "one_line_pitch": "Funds bold research and interdisciplinary projects investigating fundamental questions about human purpose.",
+    "is_active": true
+  },
+  {
+    "id": "grt-simons-early-investigator",
+    "title": "Simons Foundation Early Career Investigator Grants",
+    "host_organization": "Simons Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Graduate",
+      "PhD",
+      "Postdoctoral"
+    ],
+    "location_type": "Remote",
+    "location": "Global",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.simonsfoundation.org/funding-opportunities/",
+    "tags": [
+      "Mathematics",
+      "Theoretical Physics",
+      "Simons"
+    ],
+    "one_line_pitch": "Awards and fellowships for outstanding early-career theoretical physicists and mathematicians worldwide.",
+    "is_active": true
+  },
+  {
+    "id": "grt-lemelson-mit-student-prize",
+    "title": "Lemelson-MIT Student Prize & Invention Grants",
+    "host_organization": "The Lemelson Foundation & MIT",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Cambridge, Massachusetts, United States",
+    "compensation": "Cash Prize",
+    "deadline": "2027-02-15",
+    "apply_url": "https://lemelson.mit.edu/student-prize",
+    "tags": [
+      "Invention",
+      "MIT",
+      "$15,000",
+      "Patents"
+    ],
+    "one_line_pitch": "Celebrates inventive college students with up to $15,000 in prizes for consumer devices, healthcare, and agritech.",
+    "is_active": true
+  },
+  {
+    "id": "grt-collegiate-inventors-competition",
+    "title": "Collegiate Inventors Competition Grants",
+    "host_organization": "National Inventors Hall of Fame & USPTO",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "On-site",
+    "location": "Alexandria, Virginia, United States",
+    "compensation": "Cash Prize",
+    "deadline": "2026-06-15",
+    "apply_url": "https://www.invent.org/collegiate-inventors",
+    "tags": [
+      "Invention",
+      "USPTO",
+      "$25,000 Top Prize",
+      "Patents"
+    ],
+    "one_line_pitch": "National competition awarding cash prizes and patent counseling for cutting-edge student inventions.",
+    "is_active": true
+  },
+  {
+    "id": "grt-venturewell-eteam-grant",
+    "title": "VentureWell E-Team Student Grant Program ($25,000)",
+    "host_organization": "VentureWell",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate"
+    ],
+    "location_type": "Remote",
+    "location": "United States",
+    "compensation": "Cash Prize",
+    "deadline": "2027-02-05",
+    "apply_url": "https://venturewell.org/e-team-grant-program/",
+    "tags": [
+      "Cleantech",
+      "Hardware",
+      "$25,000",
+      "No Equity"
+    ],
+    "one_line_pitch": "Up to $25,000 in equity-free grant funding and intensive entrepreneurship workshops for student science ventures.",
+    "is_active": true
+  },
+  {
+    "id": "grt-epic-games-megagrants",
+    "title": "Epic Games MegaGrants for Student Developers",
+    "host_organization": "Epic Games",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.epicgames.com/megagrants",
+    "tags": [
+      "Unreal Engine",
+      "Game Dev",
+      "$5,000\u2013$100,000"
+    ],
+    "one_line_pitch": "Financial grants from $5,000 to $100,000 for student creators doing innovative work in 3D graphics and games.",
+    "is_active": true
+  },
+  {
+    "id": "grt-unity-for-humanity-grant",
+    "title": "Unity for Humanity Student Impact Grants",
+    "host_organization": "Unity Technologies",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate",
+      "Graduate",
+      "High School"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://unity.com/humanity",
+    "tags": [
+      "Unity 3D",
+      "Social Good",
+      "VR/AR",
+      "$25,000"
+    ],
+    "one_line_pitch": "Funds real-time 3D creators building experiences that impact the UN Sustainable Development Goals.",
+    "is_active": true
+  },
+  {
+    "id": "grt-nvidia-applied-research-grant",
+    "title": "NVIDIA Applied Research & GPU Compute Grants",
+    "host_organization": "NVIDIA",
+    "category": "Grant",
+    "academic_level": [
+      "Graduate",
+      "PhD",
+      "Undergraduate"
+    ],
+    "location_type": "Remote",
+    "location": "Global / Remote",
+    "compensation": "Cash Prize",
+    "deadline": "Rolling",
+    "apply_url": "https://www.nvidia.com/en-us/research/academic-hardware-grant-program/",
+    "tags": [
+      "NVIDIA",
+      "GPU Hardware",
+      "Compute",
+      "AI"
+    ],
+    "one_line_pitch": "Provides enterprise GPU hardware (H100/A100) and cloud access to student researchers pushing AI limits.",
+    "is_active": true
+  },
+  {
+    "id": "grt-clark-foundation-student-grant",
+    "title": "A. James Clark Foundation Engineering Grants",
+    "host_organization": "A. James Clark Foundation",
+    "category": "Grant",
+    "academic_level": [
+      "Undergraduate"
+    ],
+    "location_type": "On-site",
+    "location": "United States",
+    "compensation": "Paid Stipend",
+    "deadline": "Rolling",
+    "apply_url": "https://clarkfoundationdc.org",
+    "tags": [
+      "Engineering",
+      "Infrastructure",
+      "Clark Scholars"
+    ],
+    "one_line_pitch": "Provides leadership training and funding to students solving transportation and urban civil engineering challenges.",
+    "is_active": true
+  }
+]
