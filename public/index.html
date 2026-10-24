@@ -204,6 +204,39 @@
           <span id="header-count">Loading…</span>
         </div>
 
+        <!-- 🔄 Refresh Live Data Button -->
+        <button
+          id="refresh-live-data-btn"
+          aria-label="Refresh live data from server"
+          title="Force-refresh data from the live database"
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-emerald-950/50 bg-emerald-50 hover:dark:bg-emerald-900/60 hover:bg-emerald-100 border dark:border-emerald-500/30 border-emerald-200 text-xs font-semibold dark:text-emerald-300 text-emerald-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer"
+        >
+          <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-emerald-400" id="refresh-icon"></i>
+          <span class="hidden sm:inline">🔄 Refresh</span>
+        </button>
+
+        <!-- 🎯 Match My Resume Button -->
+        <button
+          id="match-resume-toggle"
+          aria-label="Match my resume to opportunities"
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-violet-950/50 bg-violet-50 hover:dark:bg-violet-900/60 hover:bg-violet-100 border dark:border-violet-500/30 border-violet-200 text-xs font-semibold dark:text-violet-300 text-violet-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer"
+        >
+          <i data-lucide="target" class="w-3.5 h-3.5 text-violet-400"></i>
+          <span class="hidden sm:inline">🎯 Match Resume</span>
+          <span class="sm:hidden">🎯</span>
+        </button>
+
+        <!-- ➕ Submit Opportunity Button -->
+        <button
+          id="submit-opp-toggle"
+          aria-label="Submit a new opportunity"
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-amber-950/50 bg-amber-50 hover:dark:bg-amber-900/60 hover:bg-amber-100 border dark:border-amber-500/30 border-amber-200 text-xs font-semibold dark:text-amber-300 text-amber-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer"
+        >
+          <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-amber-400"></i>
+          <span class="hidden sm:inline">➕ Submit</span>
+          <span class="sm:hidden">➕</span>
+        </button>
+
         <!-- Saved (X) Navbar Button -->
         <button
           id="saved-drawer-toggle"
@@ -361,7 +394,7 @@
     </div>
 
     <!-- ── Cards Grid ── -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-24" id="cards-grid">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10" id="cards-grid">
       <!-- Skeleton loaders -->
       <div class="skeleton h-72 rounded-2xl"></div>
       <div class="skeleton h-72 rounded-2xl"></div>
@@ -369,6 +402,17 @@
       <div class="skeleton h-72 rounded-2xl hidden md:block"></div>
       <div class="skeleton h-72 rounded-2xl hidden lg:block"></div>
       <div class="skeleton h-72 rounded-2xl hidden lg:block"></div>
+    </div>
+
+    <!-- ── Load More Button ── -->
+    <div class="flex justify-center mb-24" id="load-more-container" style="display:none!important">
+      <button
+        id="load-more-btn"
+        class="inline-flex items-center gap-2.5 px-7 py-3 rounded-2xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 hover:-translate-y-0.5 transition-all shadow-lg shadow-indigo-500/25 cursor-pointer"
+      >
+        <i data-lucide="chevrons-down" class="w-4 h-4"></i>
+        <span id="load-more-label">Load More</span>
+      </button>
     </div>
 
   </main>
@@ -396,7 +440,8 @@
     });
 
     // ── Config ───────────────────────────────────────────────────────────────
-    const OPPORTUNITIES_URL = '/opportunities.json';
+    const OPPORTUNITIES_API_URL = '/api/opportunities';
+    const PAGE_SIZE = 24; // cards per page
 
     const CAT_EMOJI   = { Scholarship:'🎓', Internship:'💼', Research:'🔬', Hackathon:'⚡', Fellowship:'🏆', Grant:'💰' };
     const CAT_COLORS  = {
@@ -428,6 +473,7 @@
     let activeComp       = 'all';
     let searchQuery      = '';
     let sortBy           = 'deadline';
+    let currentPage      = 1; // pagination page
 
     // ── Saved Opportunities (localStorage) ───────────────────────────────────
     const SAVED_STORAGE_KEY = 'opportunity_scout_saved_ids';
@@ -705,15 +751,30 @@
       const grid    = document.getElementById('cards-grid');
       const countEl = document.getElementById('results-count');
       const resetBtn = document.getElementById('reset-btn');
+      const loadMoreContainer = document.getElementById('load-more-container');
+      const loadMoreLabel     = document.getElementById('load-more-label');
       const data    = getFiltered();
 
       resetBtn.classList.toggle('hidden', !hasActiveFilters());
 
+      // Pagination: show first PAGE_SIZE * currentPage items
+      const visibleCount = PAGE_SIZE * currentPage;
+      const visibleData  = data.slice(0, visibleCount);
+      const hasMore      = data.length > visibleCount;
+
       countEl.innerHTML = data.length
-        ? `Showing <strong class="dark:text-white text-slate-900">${data.length}</strong> of <strong class="dark:text-white text-slate-900">${allOpportunities.length}</strong> opportunities`
+        ? `Showing <strong class="dark:text-white text-slate-900">${visibleData.length}</strong> of <strong class="dark:text-white text-slate-900">${data.length}</strong> opportunities`
         : '';
 
-      if (!data.length) {
+      // Show/hide load more
+      if (hasMore) {
+        loadMoreContainer.style.removeProperty('display');
+        if (loadMoreLabel) loadMoreLabel.textContent = `Load More (Showing ${visibleData.length} of ${data.length})`;
+      } else {
+        loadMoreContainer.style.setProperty('display', 'none', 'important');
+      }
+
+      if (!visibleData.length) {
         grid.innerHTML = `
           <div class="col-span-full text-center py-20 px-6">
             <div class="text-6xl mb-5">🔍</div>
@@ -726,7 +787,7 @@
         return;
       }
 
-      grid.innerHTML = data.map((opp, i) => renderCard(opp, i)).join('');
+      grid.innerHTML = visibleData.map((opp, i) => renderCard(opp, i)).join('');
       lucide.createIcons();
 
       // Attach Bookmark click listeners
@@ -956,6 +1017,7 @@
     // ── Reset ────────────────────────────────────────────────────────────────
     function resetFilters() {
       activeCategory = 'all'; activeLevel = 'all'; activeLocation = 'all'; activeComp = 'all'; searchQuery = '';
+      currentPage = 1;
       document.getElementById('search').value = '';
       document.getElementById('filter-level').value = 'all';
       document.getElementById('filter-location').value = 'all';
@@ -1001,6 +1063,7 @@
       // Search
       document.getElementById('search').addEventListener('input', e => {
         searchQuery = e.target.value.trim();
+        currentPage = 1;
         render();
       });
 
@@ -1008,6 +1071,7 @@
       document.querySelectorAll('[data-filter]').forEach(btn => {
         btn.addEventListener('click', () => {
           activeCategory = btn.dataset.filter;
+          currentPage = 1;
           document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('pill-active'));
           btn.classList.add('pill-active');
           render();
@@ -1015,10 +1079,10 @@
       });
 
       // Dropdown filters
-      document.getElementById('filter-level').addEventListener('change', e => { activeLevel = e.target.value; render(); });
-      document.getElementById('filter-location').addEventListener('change', e => { activeLocation = e.target.value; render(); });
-      document.getElementById('filter-comp').addEventListener('change', e => { activeComp = e.target.value; render(); });
-      document.getElementById('sort-select').addEventListener('change', e => { sortBy = e.target.value; render(); });
+      document.getElementById('filter-level').addEventListener('change', e => { activeLevel = e.target.value; currentPage = 1; render(); });
+      document.getElementById('filter-location').addEventListener('change', e => { activeLocation = e.target.value; currentPage = 1; render(); });
+      document.getElementById('filter-comp').addEventListener('change', e => { activeComp = e.target.value; currentPage = 1; render(); });
+      document.getElementById('sort-select').addEventListener('change', e => { sortBy = e.target.value; currentPage = 1; render(); });
 
     // ── Admin Command Center Logic ───────────────────────────────────────────
     const ADMIN_STORAGE_KEY = 'opportunity_scout_admin_key';
@@ -1185,13 +1249,13 @@
           return;
         }
 
-        logLine('Cloud Storage', `Synced to memory, /tmp, and GitHub repo!`, 'text-teal-400');
-        logLine('Complete', `✨ Added ${data.added} new opportunities! (Total: ${data.total})`, 'text-emerald-400');
+        logLine('Cloud Storage', `Synced to memory, /tmp, GitHub, and Supabase!`, 'text-teal-400');
+        logLine('Complete', `✨ Added ${data.added} new opportunities! (Total: ${data.total})${data.supabase_synced ? ' [Supabase ✓]' : ''}`, 'text-emerald-400');
 
         showToast(`Discovered & added ${data.added} opportunities! 🚀`);
 
-        // Refresh portal grid immediately
-        await fetchOpportunitiesData();
+        // Refresh portal grid immediately (force-busted from API)
+        await fetchOpportunitiesData(true);
         if (input) input.value = '';
 
       } catch (err) {
@@ -1236,23 +1300,28 @@
       }
     }
 
-    function fetchOpportunitiesData() {
-      return fetch(OPPORTUNITIES_URL + '?t=' + Date.now())
+    function fetchOpportunitiesData(forceRefresh = false) {
+      // Always fetch from live API first (no-cache bust)
+      const url = OPPORTUNITIES_API_URL + '?t=' + Date.now();
+      return fetch(url, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } })
         .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .then(data => {
           if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
           allOpportunities = data.filter(o => o.is_active !== false);
+          currentPage = 1;
           updateStats();
           updateSavedBadges();
           render();
+          if (forceRefresh) showToast(`✅ Refreshed — ${allOpportunities.length} live opportunities loaded!`);
         })
         .catch(() => {
-          // Fallback: try /api/opportunities
-          return fetch('/api/opportunities?t=' + Date.now())
+          // Fallback: try static /opportunities.json
+          return fetch('/opportunities.json?t=' + Date.now(), { cache: 'no-store' })
             .then(r => r.json())
             .then(data => {
               if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
               allOpportunities = data.filter(o => o.is_active !== false);
+              currentPage = 1;
               updateStats();
               updateSavedBadges();
               render();
@@ -1281,6 +1350,43 @@
     document.addEventListener('DOMContentLoaded', () => {
       fetchOpportunitiesData();
       updateAdminStatusUI();
+
+      // Load More button
+      const loadMoreBtn = document.getElementById('load-more-btn');
+      if (loadMoreBtn) {
+        loadMoreBtn.addEventListener('click', () => {
+          currentPage += 1;
+          render();
+          // Smooth scroll to newly loaded cards
+          const grid = document.getElementById('cards-grid');
+          if (grid) {
+            const cards = grid.querySelectorAll('article');
+            const firstNew = cards[PAGE_SIZE * (currentPage - 1)];
+            if (firstNew) firstNew.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+
+      // 🔄 Refresh Live Data button
+      const refreshBtn = document.getElementById('refresh-live-data-btn');
+      if (refreshBtn) {
+        refreshBtn.addEventListener('click', async () => {
+          const icon = document.getElementById('refresh-icon');
+          if (icon) icon.classList.add('animate-spin');
+          refreshBtn.disabled = true;
+          await fetchOpportunitiesData(true);
+          refreshBtn.disabled = false;
+          if (icon) icon.classList.remove('animate-spin');
+        });
+      }
+
+      // 🎯 Match My Resume modal
+      const matchResumeToggle = document.getElementById('match-resume-toggle');
+      if (matchResumeToggle) matchResumeToggle.addEventListener('click', openResumeModal);
+
+      // ➕ Submit Opportunity modal
+      const submitOppToggle = document.getElementById('submit-opp-toggle');
+      if (submitOppToggle) submitOppToggle.addEventListener('click', openSubmitModal);
 
       // Admin command modal triggers
       const adminToggle = document.getElementById('admin-command-toggle');
@@ -1587,6 +1693,199 @@
 
   <!-- Embed 24/7 AI Advisor Widget -->
   <script src="/widget.js" data-api-url="/api/chat"></script>
+
+  <!-- ══════════════════ RESUME MATCHER MODAL (Agent 6) ══════════════════ -->
+  <div id="resume-modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+  <div id="resume-modal" class="fixed inset-0 z-[9995] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 transform scale-95" role="dialog" aria-modal="true">
+    <div class="relative w-full max-w-3xl max-h-[92vh] flex flex-col rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
+      <div class="p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center text-white text-lg">🎯</div>
+          <div>
+            <h3 class="text-base font-bold dark:text-white text-slate-900">Agent 6: Resume &amp; Essay Matcher</h3>
+            <p class="text-xs dark:text-slate-400 text-slate-500">Paste your resume or skills list — AI ranks your Top 5 best-match opportunities</p>
+          </div>
+        </div>
+        <button id="close-resume-modal-btn" aria-label="Close" class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:dark:text-white transition-colors cursor-pointer"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div class="flex-1 overflow-y-auto p-5 space-y-5">
+        <div class="flex flex-wrap items-center gap-3">
+          <label class="text-xs font-semibold dark:text-slate-300 text-slate-700">Target Category:</label>
+          <select id="resume-target-category" class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer focus:border-violet-500">
+            <option value="All">🌐 All Categories</option>
+            <option value="Internship">💼 Internship</option>
+            <option value="Research">🔬 Research</option>
+            <option value="Scholarship">🎓 Scholarship</option>
+            <option value="Fellowship">🏆 Fellowship</option>
+            <option value="Hackathon">⚡ Hackathon</option>
+            <option value="Grant">💰 Grant</option>
+          </select>
+        </div>
+        <div>
+          <label for="resume-textarea" class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-2">Your Resume / CV / Skills <span class="text-violet-400">(up to 8,000 chars)</span></label>
+          <textarea id="resume-textarea" rows="9" placeholder="Example:
+Name: Alex Chen | CS Junior, UCLA | GPA 3.8
+Skills: Python, TensorFlow, React, AWS, C++
+Experience: Google STEP Intern 2025, UCLA AI Lab researcher
+Interests: Machine learning, robotics, open source" class="w-full px-4 py-3 rounded-xl text-sm dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none focus:border-violet-500 resize-y font-mono placeholder:text-slate-500 placeholder:font-sans leading-relaxed"></textarea>
+          <div class="flex justify-between mt-1">
+            <span class="text-xs dark:text-slate-500 text-slate-400">Include major, year, skills &amp; experiences for best results.</span>
+            <span id="resume-char-count" class="text-xs dark:text-slate-500 text-slate-400">0 / 8000</span>
+          </div>
+        </div>
+        <button id="btn-analyze-resume" class="w-full py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-violet-600 via-fuchsia-500 to-violet-600 hover:opacity-95 shadow-lg shadow-violet-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+          <i data-lucide="sparkles" class="w-4 h-4"></i><span id="analyze-btn-text">✨ Analyze &amp; Rank My Top 5 Matches</span>
+        </button>
+        <div id="resume-results" class="hidden space-y-4"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ SUBMIT OPPORTUNITY MODAL (Agent 7) ══════════════════ -->
+  <div id="submit-modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+  <div id="submit-modal" class="fixed inset-0 z-[9995] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 transform scale-95" role="dialog" aria-modal="true">
+    <div class="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
+      <div class="p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white text-lg">➕</div>
+          <div>
+            <h3 class="text-base font-bold dark:text-white text-slate-900">Agent 7: Community Submitter</h3>
+            <p class="text-xs dark:text-slate-400 text-slate-500">Submit a URL or description — AI verifies then adds it to the live database</p>
+          </div>
+        </div>
+        <button id="close-submit-modal-btn" aria-label="Close" class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:dark:text-white transition-colors cursor-pointer"><i data-lucide="x" class="w-4 h-4"></i></button>
+      </div>
+      <div class="flex-1 overflow-y-auto p-5 space-y-5">
+        <div class="p-4 rounded-xl dark:bg-amber-950/20 bg-amber-50 border dark:border-amber-500/20 border-amber-200 text-xs dark:text-amber-200 text-amber-800 flex gap-3">
+          <span class="text-lg flex-shrink-0">🤖</span>
+          <div><strong>How it works:</strong> Paste a URL, program name, or description. Agent 7 uses Gemini + Google Search to verify it's real, active, and scam-free — then adds it instantly.</div>
+        </div>
+        <div>
+          <label for="submit-textarea" class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-2">Opportunity URL or Description <span class="text-amber-400">(up to 3,000 chars)</span></label>
+          <textarea id="submit-textarea" rows="6" placeholder="Examples:
+• https://research.google/programs/explorecsresearch/
+• MIT Summer Research Program for undergrads, March 2027 deadline
+• MLH Fellowship — 12-week remote fellowship, $5,000 stipend" class="w-full px-4 py-3 rounded-xl text-sm dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none focus:border-amber-500 resize-y font-mono placeholder:text-slate-500 placeholder:font-sans leading-relaxed"></textarea>
+          <div class="flex justify-between mt-1">
+            <span class="text-xs dark:text-slate-500 text-slate-400">Agent 7 verifies via Google Search before adding.</span>
+            <span id="submit-char-count" class="text-xs dark:text-slate-500 text-slate-400">0 / 3000</span>
+          </div>
+        </div>
+        <button id="btn-submit-opportunity" class="w-full py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:opacity-95 shadow-lg shadow-amber-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+          <i data-lucide="shield-check" class="w-4 h-4"></i><span id="submit-btn-text">🔍 Verify &amp; Add to Live Database</span>
+        </button>
+        <div id="submit-result" class="hidden"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════ AGENTS 6 & 7 JAVASCRIPT ══════════════════ -->
+  <script>
+    function openAnyModal(mId, bId) {
+      const m = document.getElementById(mId), b = document.getElementById(bId);
+      if (b) { b.classList.remove('opacity-0','pointer-events-none'); b.classList.add('opacity-100'); }
+      if (m) { m.classList.remove('opacity-0','pointer-events-none','scale-95'); m.classList.add('opacity-100','scale-100'); }
+      if (window.lucide) lucide.createIcons();
+    }
+    function closeAnyModal(mId, bId) {
+      const m = document.getElementById(mId), b = document.getElementById(bId);
+      if (b) { b.classList.remove('opacity-100'); b.classList.add('opacity-0','pointer-events-none'); }
+      if (m) { m.classList.remove('opacity-100','scale-100'); m.classList.add('opacity-0','pointer-events-none','scale-95'); }
+    }
+    function openResumeModal()  { openAnyModal('resume-modal','resume-modal-backdrop'); }
+    function closeResumeModal() { closeAnyModal('resume-modal','resume-modal-backdrop'); }
+    function openSubmitModal()  { openAnyModal('submit-modal','submit-modal-backdrop'); }
+    function closeSubmitModal() { closeAnyModal('submit-modal','submit-modal-backdrop'); }
+
+    async function handleAnalyzeResume() {
+      const textarea   = document.getElementById('resume-textarea');
+      const catSelect  = document.getElementById('resume-target-category');
+      const resultsDiv = document.getElementById('resume-results');
+      const btn        = document.getElementById('btn-analyze-resume');
+      const btnText    = document.getElementById('analyze-btn-text');
+      const resumeText = (textarea?.value || '').trim();
+      if (!resumeText) { showToast('Please paste your resume or skills first.'); return; }
+      const targetCategory = catSelect?.value || 'All';
+      btn.disabled = true;
+      if (btnText) btnText.textContent = 'Analyzing with AI…';
+      if (resultsDiv) resultsDiv.classList.add('hidden');
+      try {
+        const res  = await fetch('/api/agents/match-resume', { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ resume_text: resumeText, target_category: targetCategory }) });
+        const data = await res.json();
+        if (!res.ok) { showToast(`Error: ${data.error || 'Matching failed'}`); return; }
+        const matches = data.matches || [];
+        const scG = ['from-violet-600 to-fuchsia-600','from-indigo-600 to-violet-600','from-blue-600 to-indigo-600','from-sky-500 to-blue-600','from-slate-500 to-slate-600'];
+        const meds = ['🥇','🥈','🥉','4️⃣','5️⃣'];
+        const html = matches.length ? matches.map((m, i) => `
+          <div class="rounded-2xl dark:bg-slate-950/70 bg-slate-50 border dark:border-slate-800 border-slate-200 p-5 space-y-3 shadow-sm">
+            <div class="flex items-start justify-between gap-3">
+              <div class="min-w-0 flex-1">
+                <div class="flex items-center gap-2 mb-1"><span class="text-lg">${meds[i]}</span><span class="px-2.5 py-0.5 rounded-full text-xs font-bold text-white bg-gradient-to-r ${scG[i]}">${m.match_score}% Match</span></div>
+                <h4 class="text-sm font-bold dark:text-white text-slate-900">${esc(m.title||'')}</h4>
+                <div class="text-xs dark:text-slate-400 text-slate-500">${esc(m.host_organization||'')}</div>
+              </div>
+              <a href="${esc(m.apply_url||'#')}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 flex-shrink-0">Apply <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
+            </div>
+            <div class="space-y-2 text-xs">
+              <div class="p-3 rounded-xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-100"><div class="font-semibold dark:text-emerald-400 text-emerald-600 mb-1">✅ Why It Matches You</div><div class="dark:text-slate-300 text-slate-600 leading-relaxed">${esc(m.why_it_matches||'')}</div></div>
+              <div class="p-3 rounded-xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-100"><div class="font-semibold dark:text-amber-400 text-amber-600 mb-1">⚠️ Skill Gaps to Address</div><div class="dark:text-slate-300 text-slate-600 leading-relaxed">${esc(m.missing_skills_or_gaps||'')}</div></div>
+              <div class="p-3 rounded-xl dark:bg-violet-950/30 bg-violet-50 border dark:border-violet-500/20 border-violet-200">
+                <div class="flex items-center justify-between mb-1"><div class="font-semibold dark:text-violet-400 text-violet-600">✉️ Tailored Application Hook</div><button class="copy-hook-btn text-xs px-2 py-0.5 rounded-lg dark:bg-violet-500/20 bg-violet-100 dark:text-violet-300 text-violet-700 font-semibold cursor-pointer" data-hook="${esc(m.cold_email_or_essay_hook||'')}">📋 Copy</button></div>
+                <div class="dark:text-slate-300 text-slate-600 leading-relaxed italic">"${esc(m.cold_email_or_essay_hook||'')}"</div>
+              </div>
+            </div>
+          </div>`).join('') : '<div class="text-center py-10 dark:text-slate-400 text-slate-500">No strong matches found. Try expanding your category or adding more detail to your profile.</div>';
+        if (resultsDiv) {
+          resultsDiv.classList.remove('hidden');
+          resultsDiv.innerHTML = `<div class="text-sm font-bold dark:text-white text-slate-900 mb-1">🎯 Your Top ${matches.length} Best Matches <span class="text-xs font-normal dark:text-slate-400 text-slate-500">(from ${data.total_candidates} candidates)</span></div>${html}`;
+          lucide.createIcons();
+          resultsDiv.querySelectorAll('.copy-hook-btn').forEach(b => { b.addEventListener('click', () => { navigator.clipboard.writeText(b.dataset.hook).then(() => { b.textContent='✅ Copied!'; setTimeout(()=>{b.textContent='📋 Copy';},2000); showToast('Application hook copied! 📋'); }).catch(()=>showToast('Copy failed.')); }); });
+        }
+      } catch (err) { showToast(`Error: ${err.message}`); }
+      finally { btn.disabled=false; if(btnText) btnText.textContent='✨ Analyze & Rank My Top 5 Matches'; lucide.createIcons(); }
+    }
+
+    async function handleSubmitOpportunity() {
+      const textarea = document.getElementById('submit-textarea');
+      const resultDiv = document.getElementById('submit-result');
+      const btn      = document.getElementById('btn-submit-opportunity');
+      const btnText  = document.getElementById('submit-btn-text');
+      const urlOrDetails = (textarea?.value || '').trim();
+      if (!urlOrDetails) { showToast('Please enter a URL or description.'); return; }
+      btn.disabled = true;
+      if (btnText) btnText.textContent = 'Verifying with AI…';
+      if (resultDiv) resultDiv.classList.add('hidden');
+      try {
+        const res  = await fetch('/api/agents/submit-opportunity', { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url_or_details: urlOrDetails }) });
+        const data = await res.json();
+        if (res.status === 422) {
+          if (resultDiv) { resultDiv.classList.remove('hidden'); resultDiv.innerHTML = `<div class="p-4 rounded-xl dark:bg-rose-950/30 bg-rose-50 border dark:border-rose-500/20 border-rose-200"><div class="font-bold dark:text-rose-400 text-rose-600 mb-1">🚫 Submission Rejected</div><div class="text-xs dark:text-slate-300 text-slate-600">${esc(data.reason||'Did not pass verification.')}</div></div>`; }
+          showToast('Rejected — see reason below.'); return;
+        }
+        if (!res.ok) { showToast(`Error: ${data.error||'Submission failed'}`); return; }
+        const opp = data.opportunity || {};
+        if (resultDiv) { resultDiv.classList.remove('hidden'); resultDiv.innerHTML = `<div class="p-4 rounded-xl dark:bg-emerald-950/20 bg-emerald-50 border dark:border-emerald-500/20 border-emerald-200 space-y-2"><div class="font-bold dark:text-emerald-400 text-emerald-600">✅ Verified &amp; Added!</div><div class="text-xs dark:text-slate-300 text-slate-700"><strong>${esc(opp.title||'')}</strong> by ${esc(opp.host_organization||'')} has been added.</div>${opp.apply_url?`<a href="${esc(opp.apply_url)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-xs font-semibold dark:text-indigo-300 text-indigo-600 hover:underline">View <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>`:''}</div>`; lucide.createIcons(); }
+        showToast('✅ Opportunity verified and added! 🎉');
+        if (textarea) textarea.value = '';
+        await fetchOpportunitiesData(true);
+      } catch (err) { showToast(`Error: ${err.message}`); }
+      finally { btn.disabled=false; if(btnText) btnText.textContent='🔍 Verify & Add to Live Database'; lucide.createIcons(); }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('close-resume-modal-btn')?.addEventListener('click', closeResumeModal);
+      document.getElementById('resume-modal-backdrop')?.addEventListener('click', closeResumeModal);
+      document.getElementById('close-submit-modal-btn')?.addEventListener('click', closeSubmitModal);
+      document.getElementById('submit-modal-backdrop')?.addEventListener('click', closeSubmitModal);
+      document.getElementById('btn-analyze-resume')?.addEventListener('click', handleAnalyzeResume);
+      document.getElementById('btn-submit-opportunity')?.addEventListener('click', handleSubmitOpportunity);
+      const rta = document.getElementById('resume-textarea'), rcc = document.getElementById('resume-char-count');
+      if (rta && rcc) rta.addEventListener('input', () => { rcc.textContent = `${rta.value.length} / 8000`; });
+      const sta = document.getElementById('submit-textarea'), scc = document.getElementById('submit-char-count');
+      if (sta && scc) sta.addEventListener('input', () => { scc.textContent = `${sta.value.length} / 3000`; });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeResumeModal(); closeSubmitModal(); } });
+    });
+  </script>
+
 </body>
 </html>
-

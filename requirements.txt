@@ -1,3 +1,5 @@
 fastapi
 google-genai
 pydantic
+supabase
+python-dotenv

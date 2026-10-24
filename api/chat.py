@@ -21,10 +21,103 @@ logger = logging.getLogger("AdvisorAPI")
 try:
     from dotenv import load_dotenv
     _ROOT = Path(__file__).resolve().parent.parent
+    load_dotenv(_ROOT / ".env.local")
     load_dotenv(_ROOT / ".env")
     load_dotenv()
 except ImportError:
     pass
+
+# ---------------------------------------------------------------------------
+# No-Cache headers for all data endpoints
+# ---------------------------------------------------------------------------
+NO_CACHE_HEADERS = {
+    "Cache-Control": "no-store, no-cache, must-revalidate, max-age=0",
+    "Pragma": "no-cache",
+    "Expires": "0",
+}
+
+
+# ---------------------------------------------------------------------------
+# Supabase Helper
+# ---------------------------------------------------------------------------
+def get_supabase_client():
+    """Return a Supabase client if SUPABASE_URL and SUPABASE_KEY are set."""
+    url = os.environ.get("SUPABASE_URL") or os.environ.get("supabase_url")
+    key = os.environ.get("SUPABASE_KEY") or os.environ.get("supabase_key")
+    if not url or not key:
+        return None
+    try:
+        from supabase import create_client
+        return create_client(url, key)
+    except Exception as e:
+        logger.warning(f"Supabase init failed: {e}")
+        return None
+
+
+def fetch_from_supabase(limit: int = 1500) -> Optional[list]:
+    """Query active opportunities from Supabase, ordered by updated_at desc."""
+    sb = get_supabase_client()
+    if not sb:
+        return None
+    try:
+        result = (
+            sb.table("opportunities")
+            .select("*")
+            .eq("is_active", True)
+            .order("updated_at", desc=True)
+            .limit(limit)
+            .execute()
+        )
+        return result.data or []
+    except Exception as e:
+        logger.warning(f"Supabase fetch error: {e}")
+        return None
+
+
+def upsert_to_supabase(records: List[dict]) -> int:
+    """Upsert a list of opportunity dicts into Supabase. Returns count."""
+    sb = get_supabase_client()
+    if not sb or not records:
+        return 0
+    try:
+        now_iso = datetime.now(timezone.utc).isoformat()
+        for r in records:
+            r.setdefault("is_active", True)
+            r["updated_at"] = now_iso
+        result = sb.table("opportunities").upsert(records, on_conflict="id").execute()
+        return len(result.data) if result.data else len(records)
+    except Exception as e:
+        logger.error(f"Supabase upsert error: {e}")
+        return 0
+
+
+def fetch_broadcasts_from_supabase() -> Optional[list]:
+    """Fetch the latest broadcasts from Supabase broadcasts table."""
+    sb = get_supabase_client()
+    if not sb:
+        return None
+    try:
+        result = sb.table("broadcasts").select("data").eq("id", "latest").execute()
+        if result.data and result.data[0].get("data"):
+            return result.data[0]["data"]
+        return []
+    except Exception as e:
+        logger.warning(f"Supabase broadcasts fetch error: {e}")
+        return None
+
+
+def upsert_broadcasts_to_supabase(broadcasts: list) -> None:
+    """Store broadcasts list as a single row in Supabase."""
+    sb = get_supabase_client()
+    if not sb:
+        return
+    try:
+        sb.table("broadcasts").upsert(
+            {"id": "latest", "data": broadcasts, "updated_at": datetime.now(timezone.utc).isoformat()},
+            on_conflict="id"
+        ).execute()
+    except Exception as e:
+        logger.warning(f"Supabase broadcasts upsert error: {e}")
 
 # ---------------------------------------------------------------------------
 # App setup
@@ -781,8 +874,11 @@ async def scout_and_curate(req: ScoutCurateRequest, fastapi_req: Request):
             existing_urls.add(opp_url)
             added_count += 1
 
-    # Save opportunities everywhere
+    # Save opportunities everywhere (local + GitHub)
     save_res = save_json_everywhere("opportunities.json", existing)
+
+    # Upsert into Supabase as well
+    supabase_count = upsert_to_supabase(curated_items)
 
     # Agent 5: Broadcaster (Publish announcement)
     try:
@@ -797,6 +893,7 @@ async def scout_and_curate(req: ScoutCurateRequest, fastapi_req: Request):
         }
         broadcasts.insert(0, new_broadcast)
         save_json_everywhere("broadcasts.json", broadcasts)
+        upsert_broadcasts_to_supabase(broadcasts)
     except Exception as e:
         logger.warning(f"Error publishing broadcast: {e}")
 
@@ -805,6 +902,7 @@ async def scout_and_curate(req: ScoutCurateRequest, fastapi_req: Request):
         "topic": topic,
         "added": added_count,
         "total": len(existing),
+        "supabase_synced": supabase_count,
         "new_items": curated_items,
         "storage": save_res,
     }
@@ -908,19 +1006,276 @@ async def delete_opportunity(
 @app.get("/api/opportunities")
 async def get_opportunities():
     """
-    Serve dynamic active opportunities list to frontend.
-    Pulls freshest data from GitHub Action raw updates or local updates.
+    Serve live active opportunities list — Supabase primary, then local fallback.
+    Cache-Control: no-store so data refreshes instantly after any pipeline run.
     """
-    return JSONResponse(get_active_opportunities_list())
+    # Try Supabase first (primary live database)
+    supabase_data = fetch_from_supabase(limit=1500)
+    if supabase_data is not None:
+        return JSONResponse(supabase_data, headers=NO_CACHE_HEADERS)
+    # Fallback to local/GitHub cached list
+    return JSONResponse(get_active_opportunities_list(), headers=NO_CACHE_HEADERS)
 
 
 @app.get("/broadcasts.json")
 @app.get("/api/broadcasts")
 async def get_broadcasts():
     """
-    Serve announcements and broadcasts list to frontend.
+    Serve announcements and broadcasts list — Supabase primary, then local fallback.
     """
-    return JSONResponse(get_broadcasts_list())
+    supabase_data = fetch_broadcasts_from_supabase()
+    if supabase_data is not None:
+        return JSONResponse(supabase_data, headers=NO_CACHE_HEADERS)
+    return JSONResponse(get_broadcasts_list(), headers=NO_CACHE_HEADERS)
+
+
+# ---------------------------------------------------------------------------
+# Request Schemas for new Agents
+# ---------------------------------------------------------------------------
+class ResumeMatchRequest(BaseModel):
+    resume_text: str
+    target_category: Optional[str] = "All"
+
+
+class SubmitOpportunityRequest(BaseModel):
+    url_or_details: str
+
+
+# ---------------------------------------------------------------------------
+# Agent 6: Resume & Essay Matcher
+# ---------------------------------------------------------------------------
+AGENT6_PROMPT = """\
+You are an elite Career & Application Coach AI with deep knowledge of student opportunities.
+You will receive a student's resume/skills text and a list of active opportunities.
+
+Your task: Identify and return the TOP 5 best-matching opportunities as a valid JSON array.
+
+For each match, return a JSON object with EXACTLY these keys:
+- "opportunity_id": the id field of the opportunity
+- "title": the title of the opportunity
+- "host_organization": the host organization name
+- "apply_url": the direct application URL
+- "match_score": integer 0-100 representing percent match to this student's profile
+- "why_it_matches": exactly 2 sentences explaining the fit based on their specific skills/background
+- "missing_skills_or_gaps": 1-2 concrete skills or experiences the student should develop to be more competitive
+- "cold_email_or_essay_hook": a tailored 2-3 sentence opening hook the student can copy-paste into their application cover letter or email, referencing the specific program and their background
+
+Return ONLY a valid JSON array of 5 objects. No markdown, no extra text.
+"""
+
+
+@app.post("/api/agents/match-resume")
+async def match_resume(req: ResumeMatchRequest, fastapi_req: Request):
+    """
+    Agent 6: Resume Matcher — finds the top 5 best-matching opportunities
+    for a student's resume/skills text using Gemini AI.
+    """
+    resume_text = (req.resume_text or "").strip()
+    if not resume_text:
+        return JSONResponse({"error": "resume_text is required."}, status_code=400)
+    if len(resume_text) > 8000:
+        return JSONResponse({"error": "resume_text too long (max 8000 chars)."}, status_code=400)
+
+    target_category = (req.target_category or "All").strip()
+
+    # Load opportunities — Supabase first, then local fallback
+    supabase_opps = fetch_from_supabase(limit=1500)
+    all_opps = supabase_opps if supabase_opps is not None else get_active_opportunities_list()
+
+    # Pre-filter by target category (up to 60 candidates)
+    if target_category.lower() not in ("all", ""):
+        filtered = [o for o in all_opps if (o.get("category") or "").lower() == target_category.lower()]
+    else:
+        filtered = all_opps
+    candidates = filtered[:60]
+
+    if not candidates:
+        return JSONResponse({
+            "error": "No active opportunities found matching the target category.",
+            "matches": []
+        })
+
+    api_key = get_gemini_api_key()
+    if not api_key:
+        return JSONResponse({"error": "GEMINI_API_KEY not configured on server."}, status_code=503)
+
+    try:
+        from google import genai
+        from google.genai import types
+
+        client = genai.Client(api_key=api_key)
+        opps_json = json.dumps(candidates, indent=2, ensure_ascii=False)
+
+        prompt = (
+            f"STUDENT RESUME / SKILLS:\n{resume_text}\n\n"
+            f"ACTIVE OPPORTUNITIES DATABASE (up to 60 candidates):\n{opps_json}\n\n"
+            "Now analyze and return the Top 5 best-matching opportunities as a JSON array."
+        )
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=AGENT6_PROMPT,
+                temperature=0.3,
+                max_output_tokens=3000,
+            ),
+        )
+
+        raw = response.text.strip()
+        # Strip markdown code fences if present
+        if raw.startswith("```"):
+            raw = raw.split("\n", 1)[-1]
+            if raw.endswith("```"):
+                raw = raw[:-3]
+            raw = raw.strip()
+
+        matches = json.loads(raw)
+        return JSONResponse({
+            "status": "success",
+            "total_candidates": len(candidates),
+            "matches": matches[:5],
+        }, headers=NO_CACHE_HEADERS)
+
+    except json.JSONDecodeError:
+        return JSONResponse({"error": "AI returned malformed JSON. Please try again."}, status_code=500)
+    except Exception as e:
+        logger.error(f"Agent 6 error: {e}", exc_info=True)
+        return JSONResponse({"error": f"Resume matching failed: {str(e)}"}, status_code=500)
+
+
+# ---------------------------------------------------------------------------
+# Agent 7: Community Opportunity Submitter
+# ---------------------------------------------------------------------------
+AGENT7_SCOUT_PROMPT = """\
+You are an expert student opportunity scout and fact-checker.
+A user has submitted a URL or description of a student opportunity.
+
+Your job:
+1. Use Google Search grounding to verify this opportunity is REAL, currently open, and not a scam.
+2. Check: Is the deadline in the future? Is it from a verified organization? Is the URL official?
+3. If it passes verification, extract and structure the opportunity.
+4. If it fails (scam, expired, unverifiable), return a JSON object with {"error": "reason it failed"}
+
+Return a single valid JSON object matching this schema (no markdown, no extra text):
+{
+  "id": "url-safe-slug-lowercase-with-dashes",
+  "title": "Official program title",
+  "host_organization": "Organization or university name",
+  "category": "One of: Scholarship, Internship, Research, Hackathon, Grant, Fellowship",
+  "academic_level": ["Undergraduate", "Masters", "PhD", "High School" — include all that apply],
+  "location_type": "Remote|Hybrid|On-site",
+  "location": "City/Country or Global",
+  "compensation": "One of: Fully Funded, Paid Stipend, Cash Prize, Unpaid, N/A",
+  "stipend_amount": "Specific amount or range, e.g. '$5,000 USD'",
+  "deadline": "YYYY-MM-DD or Rolling",
+  "apply_url": "Direct official application URL",
+  "tags": ["3 to 5 relevant domain tags"],
+  "one_line_pitch": "One compelling sentence under 20 words",
+  "is_active": true
+}
+"""
+
+
+@app.post("/api/agents/submit-opportunity")
+async def submit_opportunity(req: SubmitOpportunityRequest, fastapi_req: Request):
+    """
+    Agent 7: Community Submitter — verifies a user-submitted opportunity URL or description,
+    structures it with Gemini + google_search grounding, upserts to Supabase, and returns
+    the new card immediately so users see it added to the board.
+    """
+    url_or_details = (req.url_or_details or "").strip()
+    if not url_or_details:
+        return JSONResponse({"error": "url_or_details is required."}, status_code=400)
+    if len(url_or_details) > 3000:
+        return JSONResponse({"error": "Input too long (max 3000 chars)."}, status_code=400)
+
+    api_key = get_gemini_api_key()
+    if not api_key:
+        return JSONResponse({"error": "GEMINI_API_KEY not configured on server."}, status_code=503)
+
+    try:
+        from google import genai
+        from google.genai import types
+
+        client = genai.Client(api_key=api_key)
+
+        prompt = (
+            f"A community member submitted this student opportunity for verification:\n\n"
+            f"{url_or_details}\n\n"
+            "Please verify it using Google Search, then return the structured JSON if it passes, "
+            "or {\"error\": \"reason\"} if it fails verification."
+        )
+
+        response = client.models.generate_content(
+            model="gemini-2.5-flash",
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                system_instruction=AGENT7_SCOUT_PROMPT,
+                tools=[{"google_search": {}}],
+                temperature=0.2,
+                max_output_tokens=2000,
+            ),
+        )
+
+        raw = response.text.strip()
+        # Strip markdown code fences
+        if raw.startswith("```"):
+            raw = raw.split("\n", 1)[-1]
+            if raw.endswith("```"):
+                raw = raw[:-3]
+            raw = raw.strip()
+
+        result = json.loads(raw)
+
+        if "error" in result:
+            return JSONResponse({
+                "status": "rejected",
+                "reason": result["error"],
+            }, status_code=422)
+
+        # Ensure required fields
+        result["is_active"] = True
+        result.setdefault("id", f"community-{int(time.time())}")
+
+        # Upsert into Supabase
+        upsert_to_supabase([result])
+
+        # Also merge into local JSON for fallback
+        existing = get_active_opportunities_list()
+        existing_ids = {o.get("id") for o in existing}
+        if result["id"] not in existing_ids:
+            existing.insert(0, result)
+            save_json_everywhere("opportunities.json", existing)
+
+        # Publish broadcast announcement
+        try:
+            broadcasts = get_broadcasts_list()
+            new_broadcast = {
+                "id": f"community-broadcast-{int(time.time())}",
+                "title": f"🌟 Community Add: {result.get('title', '')[:45]}",
+                "message": f"A student submitted and verified: {result.get('title')} by {result.get('host_organization')}.",
+                "category": "Community Submission",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "is_active": True,
+            }
+            broadcasts.insert(0, new_broadcast)
+            save_json_everywhere("broadcasts.json", broadcasts)
+            upsert_broadcasts_to_supabase(broadcasts)
+        except Exception as be:
+            logger.warning(f"Broadcast for submission failed: {be}")
+
+        return JSONResponse({
+            "status": "success",
+            "message": "Opportunity verified and added to the live database!",
+            "opportunity": result,
+        }, headers=NO_CACHE_HEADERS)
+
+    except json.JSONDecodeError:
+        return JSONResponse({"error": "AI returned malformed JSON. Please try again."}, status_code=500)
+    except Exception as e:
+        logger.error(f"Agent 7 error: {e}", exc_info=True)
+        return JSONResponse({"error": f"Submission failed: {str(e)}"}, status_code=500)
 
 
 
