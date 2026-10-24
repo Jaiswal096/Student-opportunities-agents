@@ -185,16 +185,19 @@ def test_live_vercel() -> dict:
         print(f"[*] Testing GET {url_opps}...")
         r_opps = requests.get(url_opps, headers={"Cache-Control": "no-cache"}, timeout=15)
         opps_data = r_opps.json() if r_opps.status_code == 200 else []
-        is_ok = r_opps.status_code == 200 and isinstance(opps_data, list) and len(opps_data) > 0
+        items = opps_data.get("data", []) if isinstance(opps_data, dict) else (opps_data if isinstance(opps_data, list) else [])
+        total_found = opps_data.get("total", len(items)) if isinstance(opps_data, dict) else len(items)
+        is_ok = r_opps.status_code == 200 and len(items) > 0
         results["endpoints"]["/api/opportunities"] = {
             "status": r_opps.status_code,
             "pass": is_ok,
-            "count": len(opps_data) if isinstance(opps_data, list) else 0,
+            "count": len(items),
+            "total_in_db": total_found,
             "cache_control": r_opps.headers.get("Cache-Control", ""),
             "latency_ms": int(r_opps.elapsed.total_seconds() * 1000)
         }
         print(f"    Status: {r_opps.status_code} ({results['endpoints']['/api/opportunities']['latency_ms']}ms) — {'PASS' if is_ok else 'FAIL'}")
-        print(f"    Items Returned: {results['endpoints']['/api/opportunities']['count']}")
+        print(f"    Items Returned: {results['endpoints']['/api/opportunities']['count']} (Total DB: {total_found})")
         print(f"    Cache-Control: {results['endpoints']['/api/opportunities']['cache_control']}")
     except Exception as e:
         results["endpoints"]["/api/opportunities"] = {"status": "ERR", "pass": False, "error": str(e)}

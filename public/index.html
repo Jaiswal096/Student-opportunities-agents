@@ -412,15 +412,19 @@
       <div class="skeleton h-72 rounded-2xl hidden lg:block"></div>
     </div>
 
-    <!-- ── Load More Button ── -->
-    <div class="flex justify-center mb-24" id="load-more-container" style="display:none!important">
-      <button
-        id="load-more-btn"
-        class="inline-flex items-center gap-2.5 px-7 py-3 rounded-2xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 hover:-translate-y-0.5 transition-all shadow-lg shadow-indigo-500/25 cursor-pointer"
-      >
-        <i data-lucide="chevrons-down" class="w-4 h-4"></i>
-        <span id="load-more-label">Load More</span>
-      </button>
+    <!-- ── Server-Side Pagination Bar ── -->
+    <div id="pagination-container" class="mb-24 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 shadow-sm max-w-4xl mx-auto lg:max-w-none transition-all">
+      <!-- Status Info -->
+      <div class="text-xs sm:text-sm font-semibold dark:text-slate-300 text-slate-600 flex items-center gap-2" id="pagination-summary">
+        <span>Page <strong class="dark:text-white text-slate-900" id="pg-current">1</strong> of <strong class="dark:text-white text-slate-900" id="pg-total">1</strong></span>
+        <span class="text-slate-400 dark:text-slate-600">•</span>
+        <span class="text-slate-500 dark:text-slate-400 font-normal">(Showing <strong class="dark:text-white text-slate-900 font-semibold" id="pg-count">0</strong> total opportunities)</span>
+      </div>
+
+      <!-- Page Navigation Controls -->
+      <nav class="flex items-center gap-1.5 flex-wrap justify-center" aria-label="Pagination Navigation" id="pagination-nav">
+        <!-- Rendered dynamically via renderPagination() -->
+      </nav>
     </div>
 
   </main>
@@ -474,17 +478,41 @@
     };
 
     // ── State ────────────────────────────────────────────────────────────────
-    let allOpportunities = [];
-    let activeCategory   = 'all';
-    let activeLevel      = 'all';
-    let activeLocation   = 'all';
-    let activeComp       = 'all';
-    let searchQuery      = '';
-    let sortBy           = 'deadline';
-    let currentPage      = 1; // pagination page
+    let allOpportunities        = [];
+    let currentOpportunities    = [];
+    let activeCategory          = 'all';
+    let activeLevel             = 'all';
+    let activeLocation          = 'all';
+    let activeComp              = 'all';
+    let searchQuery             = '';
+    let sortBy                  = 'deadline';
+    let currentPage             = 1; // current pagination page
+    let totalPages              = 1;
+    let totalOpportunitiesCount = 0;
+    let searchDebounceTimer     = null;
+    let currentFetchController  = null;
 
     // ── Saved Opportunities (localStorage) ───────────────────────────────────
     const SAVED_STORAGE_KEY = 'opportunity_scout_saved_ids';
+    const SAVED_ITEMS_KEY   = 'opportunity_scout_saved_items_map';
+
+    function getSavedMap() {
+      try {
+        const raw = localStorage.getItem(SAVED_ITEMS_KEY);
+        return raw ? JSON.parse(raw) : {};
+      } catch (e) {
+        return {};
+      }
+    }
+
+    function rememberOpportunities(list) {
+      if (!Array.isArray(list)) return;
+      try {
+        const map = getSavedMap();
+        list.forEach(o => { if (o && o.id) map[o.id] = o; });
+        localStorage.setItem(SAVED_ITEMS_KEY, JSON.stringify(map));
+      } catch (e) {}
+    }
 
     function getSavedIds() {
       try {
@@ -715,26 +743,23 @@
         </article>`;
     }
 
-    // ── Filter & sort ────────────────────────────────────────────────────────
-    function getFiltered() {
-      let data = [...allOpportunities];
-      if (activeCategory !== 'all')
-        data = data.filter(o => (o.category||'').toLowerCase() === activeCategory.toLowerCase());
-      if (activeLevel !== 'all')
-        data = data.filter(o => Array.isArray(o.academic_level) && o.academic_level.includes(activeLevel));
-      if (activeLocation !== 'all')
-        data = data.filter(o => o.location_type === activeLocation);
-      if (activeComp !== 'all')
-        data = data.filter(o => o.compensation === activeComp);
-      if (searchQuery) {
-        const q = searchQuery.toLowerCase();
-        data = data.filter(o =>
-          (o.title||'').toLowerCase().includes(q) ||
-          (o.host_organization||'').toLowerCase().includes(q) ||
-          (o.one_line_pitch||'').toLowerCase().includes(q) ||
-          (o.tags||[]).some(t => t.toLowerCase().includes(q))
-        );
-      }
+    // ── Skeletons ────────────────────────────────────────────────────────────
+    function showSkeletons() {
+      const grid = document.getElementById('cards-grid');
+      if (!grid) return;
+      grid.innerHTML = `
+        <div class="skeleton h-72 rounded-2xl"></div>
+        <div class="skeleton h-72 rounded-2xl"></div>
+        <div class="skeleton h-72 rounded-2xl"></div>
+        <div class="skeleton h-72 rounded-2xl hidden md:block"></div>
+        <div class="skeleton h-72 rounded-2xl hidden lg:block"></div>
+        <div class="skeleton h-72 rounded-2xl hidden lg:block"></div>
+      `;
+    }
+
+    // ── Client-side Sort of Current Page Results ─────────────────────────────
+    function getSortedData() {
+      let data = [...currentOpportunities];
       if (sortBy === 'deadline') {
         data.sort((a,b) => {
           const da = a.deadline === 'Rolling' ? 9999 : daysUntil(a.deadline) ?? 9999;
@@ -754,35 +779,141 @@
       return activeCategory !== 'all' || activeLevel !== 'all' || activeLocation !== 'all' || activeComp !== 'all' || searchQuery !== '';
     }
 
-    // ── Render grid ──────────────────────────────────────────────────────────
+    // ── Pagination Bar Renderer ──────────────────────────────────────────────
+    function renderPagination() {
+      const container = document.getElementById('pagination-container');
+      const nav       = document.getElementById('pagination-nav');
+      const pgCurrent = document.getElementById('pg-current');
+      const pgTotal   = document.getElementById('pg-total');
+      const pgCount   = document.getElementById('pg-count');
+
+      if (!container || !nav) return;
+
+      if (totalOpportunitiesCount === 0) {
+        container.classList.add('hidden');
+        return;
+      }
+      container.classList.remove('hidden');
+
+      if (pgCurrent) pgCurrent.textContent = currentPage;
+      if (pgTotal) pgTotal.textContent = totalPages;
+      if (pgCount) pgCount.textContent = totalOpportunitiesCount.toLocaleString();
+
+      let html = '';
+
+      // Prev Button
+      const prevDisabled = currentPage <= 1;
+      html += `
+        <button
+          type="button"
+          class="pagination-btn px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 border transition-all cursor-pointer ${prevDisabled ? 'opacity-35 cursor-not-allowed dark:bg-slate-900 bg-slate-100 border-transparent text-slate-400' : 'dark:bg-slate-800 bg-slate-100 dark:text-slate-200 text-slate-700 hover:dark:bg-slate-700 hover:bg-slate-200 border-slate-200 dark:border-slate-700'}"
+          ${prevDisabled ? 'disabled' : ''}
+          data-page="${currentPage - 1}"
+          aria-label="Previous Page"
+        >
+          <i data-lucide="chevron-left" class="w-3.5 h-3.5"></i>
+          <span>Prev</span>
+        </button>
+      `;
+
+      // Page numbers with ellipses
+      const pagesToShow = getPageRange(currentPage, totalPages);
+      for (const p of pagesToShow) {
+        if (p === '...') {
+          html += `<span class="px-2 py-1 text-slate-400 dark:text-slate-600 text-xs font-bold select-none">…</span>`;
+        } else {
+          const isActive = p === currentPage;
+          html += `
+            <button
+              type="button"
+              class="pagination-btn w-8 h-8 rounded-xl text-xs font-semibold flex items-center justify-center transition-all cursor-pointer ${isActive ? 'bg-gradient-to-r from-indigo-600 to-violet-600 text-white font-bold shadow-md shadow-indigo-500/25 border-transparent' : 'dark:bg-slate-900/90 bg-white border dark:border-slate-800 border-slate-200 dark:text-slate-300 text-slate-700 hover:dark:bg-slate-800 hover:bg-slate-100'}"
+              data-page="${p}"
+              aria-label="Page ${p}"
+              ${isActive ? 'aria-current="page"' : ''}
+            >${p}</button>
+          `;
+        }
+      }
+
+      // Next Button
+      const nextDisabled = currentPage >= totalPages;
+      html += `
+        <button
+          type="button"
+          class="pagination-btn px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 border transition-all cursor-pointer ${nextDisabled ? 'opacity-35 cursor-not-allowed dark:bg-slate-900 bg-slate-100 border-transparent text-slate-400' : 'dark:bg-slate-800 bg-slate-100 dark:text-slate-200 text-slate-700 hover:dark:bg-slate-700 hover:bg-slate-200 border-slate-200 dark:border-slate-700'}"
+          ${nextDisabled ? 'disabled' : ''}
+          data-page="${currentPage + 1}"
+          aria-label="Next Page"
+        >
+          <span>Next</span>
+          <i data-lucide="chevron-right" class="w-3.5 h-3.5"></i>
+        </button>
+      `;
+
+      nav.innerHTML = html;
+      lucide.createIcons();
+
+      // Attach click listeners to page jump buttons
+      nav.querySelectorAll('.pagination-btn:not([disabled])').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const target = parseInt(btn.dataset.page, 10);
+          if (target && target >= 1 && target <= totalPages && target !== currentPage) {
+            goToPage(target);
+          }
+        });
+      });
+    }
+
+    function getPageRange(current, total) {
+      if (total <= 7) {
+        return Array.from({ length: total }, (_, i) => i + 1);
+      }
+      const range = [];
+      range.push(1);
+      if (current > 3) range.push('...');
+      const start = Math.max(2, current - 1);
+      const end = Math.min(total - 1, current + 1);
+      for (let i = start; i <= end; i++) {
+        range.push(i);
+      }
+      if (current < total - 2) range.push('...');
+      range.push(total);
+      return range;
+    }
+
+    function goToPage(page) {
+      currentPage = page;
+      fetchOpportunitiesData(currentPage, false, true);
+      const targetEl = document.getElementById('cards-grid');
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+
+    // ── Render Cards Grid ────────────────────────────────────────────────────
     function render() {
       const grid    = document.getElementById('cards-grid');
       const countEl = document.getElementById('results-count');
       const resetBtn = document.getElementById('reset-btn');
-      const loadMoreContainer = document.getElementById('load-more-container');
-      const loadMoreLabel     = document.getElementById('load-more-label');
-      const data    = getFiltered();
 
-      resetBtn.classList.toggle('hidden', !hasActiveFilters());
+      if (resetBtn) resetBtn.classList.toggle('hidden', !hasActiveFilters());
 
-      // Pagination: show first PAGE_SIZE * currentPage items
-      const visibleCount = PAGE_SIZE * currentPage;
-      const visibleData  = data.slice(0, visibleCount);
-      const hasMore      = data.length > visibleCount;
+      // Save opportunities in offline cache
+      rememberOpportunities(currentOpportunities);
 
-      countEl.innerHTML = data.length
-        ? `Showing <strong class="dark:text-white text-slate-900">${visibleData.length}</strong> of <strong class="dark:text-white text-slate-900">${data.length}</strong> opportunities`
-        : '';
+      const sortedData = getSortedData();
 
-      // Show/hide load more
-      if (hasMore) {
-        loadMoreContainer.style.removeProperty('display');
-        if (loadMoreLabel) loadMoreLabel.textContent = `Load More (Showing ${visibleData.length} of ${data.length})`;
-      } else {
-        loadMoreContainer.style.setProperty('display', 'none', 'important');
+      if (countEl) {
+        const showingFrom = totalOpportunitiesCount > 0 ? (currentPage - 1) * PAGE_SIZE + 1 : 0;
+        const showingTo = Math.min(currentPage * PAGE_SIZE, totalOpportunitiesCount);
+        countEl.innerHTML = totalOpportunitiesCount > 0
+          ? `Page <strong class="dark:text-white text-slate-900">${currentPage}</strong> of <strong class="dark:text-white text-slate-900">${totalPages}</strong> (Showing <strong class="dark:text-white text-slate-900">${showingFrom}–${showingTo}</strong> of <strong class="dark:text-white text-slate-900">${totalOpportunitiesCount.toLocaleString()}</strong> opportunities)`
+          : '';
       }
 
-      if (!visibleData.length) {
+      renderPagination();
+
+      if (!sortedData.length) {
         grid.innerHTML = `
           <div class="col-span-full text-center py-20 px-6">
             <div class="text-6xl mb-5">🔍</div>
@@ -795,7 +926,7 @@
         return;
       }
 
-      grid.innerHTML = visibleData.map((opp, i) => renderCard(opp, i)).join('');
+      grid.innerHTML = sortedData.map((opp, i) => renderCard(opp, i)).join('');
       lucide.createIcons();
 
       // Attach Bookmark click listeners
@@ -833,7 +964,28 @@
     // ── Saved Opportunities Drawer Logic ─────────────────────────────────────
     function getSavedOpportunitiesList() {
       const savedIds = getSavedIds();
-      return allOpportunities.filter(opp => savedIds.includes(opp.id));
+      const map = getSavedMap();
+      const found = [];
+      const seen = new Set();
+      allOpportunities.forEach(opp => {
+        if (opp && opp.id && savedIds.includes(opp.id) && !seen.has(opp.id)) {
+          seen.add(opp.id);
+          found.push(opp);
+        }
+      });
+      currentOpportunities.forEach(opp => {
+        if (opp && opp.id && savedIds.includes(opp.id) && !seen.has(opp.id)) {
+          seen.add(opp.id);
+          found.push(opp);
+        }
+      });
+      savedIds.forEach(id => {
+        if (!seen.has(id) && map[id]) {
+          seen.add(id);
+          found.push(map[id]);
+        }
+      });
+      return found;
     }
 
     function renderSavedDrawer() {
@@ -1014,24 +1166,40 @@
     // ── Stats ────────────────────────────────────────────────────────────────
     function updateStats() {
       const d = allOpportunities;
-      document.getElementById('stat-total').textContent        = d.length;
-      document.getElementById('stat-funded').textContent       = d.filter(o => o.compensation === 'Fully Funded' || o.compensation === 'Paid Stipend').length;
-      document.getElementById('stat-closing').textContent      = d.filter(o => { const days = daysUntil(o.deadline); return days !== null && days >= 0 && days <= 14; }).length;
-      document.getElementById('stat-scholarship').textContent  = d.filter(o => o.category === 'Scholarship').length;
-      document.getElementById('stat-internship').textContent   = d.filter(o => o.category === 'Internship').length;
-      document.getElementById('header-count').textContent = `${d.length} live opportunities`;
+      const count = totalOpportunitiesCount > 0 ? totalOpportunitiesCount : d.length;
+      const statTotal = document.getElementById('stat-total');
+      const statFunded = document.getElementById('stat-funded');
+      const statClosing = document.getElementById('stat-closing');
+      const statScholarship = document.getElementById('stat-scholarship');
+      const statInternship = document.getElementById('stat-internship');
+      const headerCount = document.getElementById('header-count');
+
+      if (statTotal) statTotal.textContent = count;
+      if (statFunded) statFunded.textContent = d.filter(o => o.compensation === 'Fully Funded' || o.compensation === 'Paid Stipend').length;
+      if (statClosing) statClosing.textContent = d.filter(o => { const days = daysUntil(o.deadline); return days !== null && days >= 0 && days <= 14; }).length;
+      if (statScholarship) statScholarship.textContent = d.filter(o => o.category === 'Scholarship').length;
+      if (statInternship) statInternship.textContent = d.filter(o => o.category === 'Internship').length;
+      if (headerCount) headerCount.textContent = `${count} live opportunities`;
     }
 
     // ── Reset ────────────────────────────────────────────────────────────────
     function resetFilters() {
-      activeCategory = 'all'; activeLevel = 'all'; activeLocation = 'all'; activeComp = 'all'; searchQuery = '';
+      activeCategory = 'all';
+      activeLevel = 'all';
+      activeLocation = 'all';
+      activeComp = 'all';
+      searchQuery = '';
       currentPage = 1;
-      document.getElementById('search').value = '';
-      document.getElementById('filter-level').value = 'all';
-      document.getElementById('filter-location').value = 'all';
-      document.getElementById('filter-comp').value = 'all';
+      const s = document.getElementById('search');
+      if (s) s.value = '';
+      const fl = document.getElementById('filter-level');
+      if (fl) fl.value = 'all';
+      const floc = document.getElementById('filter-location');
+      if (floc) floc.value = 'all';
+      const fc = document.getElementById('filter-comp');
+      if (fc) fc.value = 'all';
       document.querySelectorAll('[data-filter]').forEach(b => b.classList.toggle('pill-active', b.dataset.filter === 'all'));
-      render();
+      fetchOpportunitiesData(1, false, true);
     }
 
     // ── Event listeners ──────────────────────────────────────────────────────
@@ -1068,29 +1236,65 @@
         if (e.key === 'Escape') closeDrawer();
       });
 
-      // Search
-      document.getElementById('search').addEventListener('input', e => {
-        searchQuery = e.target.value.trim();
-        currentPage = 1;
-        render();
-      });
+      // Search with 300ms server-side debounce
+      const searchInput = document.getElementById('search');
+      if (searchInput) {
+        searchInput.addEventListener('input', e => {
+          searchQuery = e.target.value.trim();
+          clearTimeout(searchDebounceTimer);
+          searchDebounceTimer = setTimeout(() => {
+            currentPage = 1;
+            fetchOpportunitiesData(1, false, true);
+          }, 300);
+        });
+      }
 
-      // Category pills
+      // Category pills (server-driven)
       document.querySelectorAll('[data-filter]').forEach(btn => {
         btn.addEventListener('click', () => {
           activeCategory = btn.dataset.filter;
           currentPage = 1;
           document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('pill-active'));
           btn.classList.add('pill-active');
-          render();
+          fetchOpportunitiesData(1, false, true);
         });
       });
 
-      // Dropdown filters
-      document.getElementById('filter-level').addEventListener('change', e => { activeLevel = e.target.value; currentPage = 1; render(); });
-      document.getElementById('filter-location').addEventListener('change', e => { activeLocation = e.target.value; currentPage = 1; render(); });
-      document.getElementById('filter-comp').addEventListener('change', e => { activeComp = e.target.value; currentPage = 1; render(); });
-      document.getElementById('sort-select').addEventListener('change', e => { sortBy = e.target.value; currentPage = 1; render(); });
+      // Dropdown filters (server-driven)
+      const filterLvlEl = document.getElementById('filter-level');
+      if (filterLvlEl) {
+        filterLvlEl.addEventListener('change', e => {
+          activeLevel = e.target.value;
+          currentPage = 1;
+          fetchOpportunitiesData(1, false, true);
+        });
+      }
+
+      const filterLocEl = document.getElementById('filter-location');
+      if (filterLocEl) {
+        filterLocEl.addEventListener('change', e => {
+          activeLocation = e.target.value;
+          currentPage = 1;
+          fetchOpportunitiesData(1, false, true);
+        });
+      }
+
+      const filterCompEl = document.getElementById('filter-comp');
+      if (filterCompEl) {
+        filterCompEl.addEventListener('change', e => {
+          activeComp = e.target.value;
+          currentPage = 1;
+          fetchOpportunitiesData(1, false, true);
+        });
+      }
+
+      const sortSelectEl = document.getElementById('sort-select');
+      if (sortSelectEl) {
+        sortSelectEl.addEventListener('change', e => {
+          sortBy = e.target.value;
+          render();
+        });
+      }
 
     // ── Admin Command Center Logic ───────────────────────────────────────────
     const ADMIN_STORAGE_KEY = 'opportunity_scout_admin_key';
@@ -1336,75 +1540,124 @@
         });
     }
 
-    function fetchOpportunitiesData(forceRefresh = false) {
-      // Always fetch from live API with limit=1000 and cache-busting timestamp
-      const url = `${OPPORTUNITIES_API_URL}?limit=1000&t=${Date.now()}`;
-      return fetch(url, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } })
-        .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
-        .then(data => {
-          if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
-          allOpportunities = data.filter(o => o.is_active !== false);
-          currentPage = 1;
+    async function fetchOpportunitiesData(targetPage = 1, forceRefresh = false, showSkeleton = true) {
+      if (showSkeleton) {
+        showSkeletons();
+      }
+
+      if (currentFetchController) {
+        currentFetchController.abort();
+      }
+      currentFetchController = new AbortController();
+
+      currentPage = targetPage;
+
+      // Construct server-side query params
+      const params = new URLSearchParams();
+      params.set('page', currentPage);
+      params.set('limit', PAGE_SIZE);
+      params.set('t', Date.now());
+
+      if (searchQuery && searchQuery.trim()) {
+        params.set('search', searchQuery.trim());
+      }
+      if (activeCategory && activeCategory !== 'all') {
+        params.set('category', activeCategory);
+      }
+      if (activeLevel && activeLevel !== 'all') {
+        params.set('academic_level', activeLevel);
+      }
+      if (activeLocation && activeLocation !== 'all') {
+        params.set('location_type', activeLocation);
+      }
+      if (activeComp && activeComp !== 'all') {
+        params.set('compensation', activeComp);
+      }
+
+      const url = `${OPPORTUNITIES_API_URL}?${params.toString()}`;
+
+      try {
+        const res = await fetch(url, {
+          cache: 'no-store',
+          headers: { 'Cache-Control': 'no-cache' },
+          signal: currentFetchController.signal,
+        });
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        const data = await res.json();
+
+        let items = [];
+        if (Array.isArray(data)) {
+          items = data;
+          totalOpportunitiesCount = items.length;
+          totalPages = Math.max(1, Math.ceil(totalOpportunitiesCount / PAGE_SIZE));
+        } else if (data && Array.isArray(data.data)) {
+          items = data.data;
+          totalOpportunitiesCount = typeof data.total === 'number' ? data.total : items.length;
+          totalPages = data.total_pages || Math.max(1, Math.ceil(totalOpportunitiesCount / PAGE_SIZE));
+          currentPage = data.page || currentPage;
+        }
+
+        currentOpportunities = items.filter(o => o.is_active !== false);
+
+        // Update overall stats chips when on page 1 without filters
+        if (!hasActiveFilters() && currentPage === 1) {
+          allOpportunities = currentOpportunities;
           updateStats();
-          updateSavedBadges();
+        }
+
+        render();
+        checkHealthStatus();
+        if (forceRefresh) showToast(`✅ Refreshed live data (${totalOpportunitiesCount} opportunities in DB)!`);
+      } catch (err) {
+        if (err.name === 'AbortError') return;
+        console.warn('Live API fetch error, attempting fallback:', err);
+        // Fallback to static /opportunities.json
+        try {
+          const fbRes = await fetch(`/opportunities.json?t=${Date.now()}`, { cache: 'no-store' });
+          const fbData = await fbRes.json();
+          const fbList = (Array.isArray(fbData) ? fbData : (fbData.data || [])).filter(o => o.is_active !== false);
+          allOpportunities = fbList;
+
+          let filtered = [...fbList];
+          if (activeCategory !== 'all') filtered = filtered.filter(o => (o.category || '').toLowerCase() === activeCategory.toLowerCase());
+          if (activeLevel !== 'all') filtered = filtered.filter(o => Array.isArray(o.academic_level) && o.academic_level.includes(activeLevel));
+          if (activeLocation !== 'all') filtered = filtered.filter(o => o.location_type === activeLocation);
+          if (activeComp !== 'all') filtered = filtered.filter(o => o.compensation === activeComp);
+          if (searchQuery) {
+            const q = searchQuery.toLowerCase();
+            filtered = filtered.filter(o => (o.title||'').toLowerCase().includes(q) || (o.host_organization||'').toLowerCase().includes(q) || (o.one_line_pitch||'').toLowerCase().includes(q));
+          }
+          totalOpportunitiesCount = filtered.length;
+          totalPages = Math.max(1, Math.ceil(totalOpportunitiesCount / PAGE_SIZE));
+          const start = (currentPage - 1) * PAGE_SIZE;
+          currentOpportunities = filtered.slice(start, start + PAGE_SIZE);
+
+          updateStats();
           render();
           checkHealthStatus();
-          if (forceRefresh) showToast(`✅ Refreshed — ${allOpportunities.length} live opportunities loaded!`);
-        })
-        .catch(() => {
-          // Fallback: try static /opportunities.json
-          return fetch(`/opportunities.json?t=${Date.now()}`, { cache: 'no-store' })
-            .then(r => r.json())
-            .then(data => {
-              if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
-              allOpportunities = data.filter(o => o.is_active !== false);
-              currentPage = 1;
-              updateStats();
-              updateSavedBadges();
-              render();
-              checkHealthStatus();
-            });
-        })
-        .catch(() => {
+        } catch (fbErr) {
+          console.error('All fetch attempts failed:', fbErr);
+          const grid = document.getElementById('cards-grid');
+          if (grid) {
+            grid.innerHTML = `
+              <div class="col-span-full text-center py-20 px-6">
+                <div class="text-6xl mb-5">⚠️</div>
+                <div class="text-xl font-bold dark:text-white text-slate-900 mb-3">Unable to connect to opportunities server</div>
+                <div class="text-sm dark:text-slate-400 text-slate-500 max-w-sm mx-auto mb-6">Please check your internet connection or click below to retry.</div>
+                <button onclick="fetchOpportunitiesData(1, true, true)" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 transition-opacity cursor-pointer">
+                  🔄 Retry
+                </button>
+              </div>`;
+          }
           checkHealthStatus();
-          document.getElementById('header-count').textContent = 'Pipeline pending';
-          document.getElementById('cards-grid').innerHTML = `
-            <div class="col-span-full text-center py-20 px-6">
-              <div class="text-6xl mb-5">🤖</div>
-              <div class="text-xl font-bold dark:text-white text-slate-900 mb-3">Pipeline hasn't run yet</div>
-              <div class="text-sm dark:text-slate-400 text-slate-500 max-w-md mx-auto mb-6">
-                The AI agents run daily at 04:00 UTC to discover and verify new opportunities.
-                Check back tomorrow — or ask <strong>Opportunity Scout</strong> chat (bottom-right) for advice right now!
-              </div>
-              <button onclick="if(window.askAdvisor) window.askAdvisor('What are some good opportunities for students right now?')" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 transition-opacity">
-                💬 Ask the Advisor
-              </button>
-            </div>`;
-          document.querySelectorAll('.stat-chip strong').forEach(el => el.textContent = '0');
-          lucide.createIcons();
-        });
+        }
+      }
     }
 
     // ── Bootstrap Listeners ──────────────────────────────────────────────────
     document.addEventListener('DOMContentLoaded', () => {
       fetchOpportunitiesData();
       updateAdminStatusUI();
-
-      // Load More button
-      const loadMoreBtn = document.getElementById('load-more-btn');
-      if (loadMoreBtn) {
-        loadMoreBtn.addEventListener('click', () => {
-          currentPage += 1;
-          render();
-          // Smooth scroll to newly loaded cards
-          const grid = document.getElementById('cards-grid');
-          if (grid) {
-            const cards = grid.querySelectorAll('article');
-            const firstNew = cards[PAGE_SIZE * (currentPage - 1)];
-            if (firstNew) firstNew.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        });
-      }
 
       // 🔄 Refresh Live Data button
       const refreshBtn = document.getElementById('refresh-live-data-btn');

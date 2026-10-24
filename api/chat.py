@@ -2,10 +2,12 @@ import os
 import re
 import json
 import time
+import math
 import base64
 import logging
 import urllib.request
 import urllib.error
+import urllib.parse
 from datetime import datetime, timezone
 from collections import defaultdict
 from pathlib import Path
@@ -84,6 +86,165 @@ def fetch_from_supabase(limit: int = 1500) -> Optional[list]:
     except Exception as e:
         logger.warning(f"Supabase fetch error: {e}")
         return None
+
+
+def fetch_filtered_opportunities(
+    search: Optional[str] = None,
+    category: Optional[str] = "All",
+    academic_level: Optional[str] = "All",
+    location_type: Optional[str] = "All",
+    compensation: Optional[str] = "All",
+    page: int = 1,
+    limit: int = 30,
+) -> Dict[str, Any]:
+    """
+    Server-side filtering, full-text search, and pagination.
+    1. Attempts Supabase Python SDK
+    2. Falls back to direct PostgREST REST query via urllib
+    3. Falls back to local/GitHub catalog
+    Returns: { "data": [...], "total": count, "page": page, "limit": limit, "total_pages": math.ceil(count / limit) }
+    """
+    page = max(1, int(page or 1))
+    limit = max(1, min(int(limit or 30), 1500))
+    start = (page - 1) * limit
+    end = start + limit - 1
+
+    # 1. Try Supabase Python SDK
+    sb = get_supabase_client()
+    if sb:
+        try:
+            q = sb.table("opportunities").select("*", count="exact").eq("is_active", True)
+            if search and search.strip():
+                clean_s = search.strip().replace("%", "")
+                q = q.or_(f"title.ilike.%{clean_s}%,host_organization.ilike.%{clean_s}%,one_line_pitch.ilike.%{clean_s}%")
+            if category and category.strip() and category.lower() != "all":
+                q = q.eq("category", category.strip())
+            if location_type and location_type.strip() and location_type.lower() != "all":
+                q = q.ilike("location_type", f"%{location_type.strip()}%")
+            if compensation and compensation.strip() and compensation.lower() != "all":
+                q = q.ilike("compensation", f"%{compensation.strip()}%")
+            if academic_level and academic_level.strip() and academic_level.lower() != "all":
+                q = q.contains("academic_level", [academic_level.strip()])
+            q = q.order("updated_at", desc=True)
+            q = q.range(start, end)
+            res = q.execute()
+            rows = res.data or []
+            count = res.count if res.count is not None else len(rows)
+            total_pages = max(1, math.ceil(count / limit)) if count > 0 else 1
+            return {
+                "data": rows,
+                "total": count,
+                "page": page,
+                "limit": limit,
+                "total_pages": total_pages,
+            }
+        except Exception as e:
+            logger.warning(f"Supabase SDK filtered query failed, trying REST fallback: {e}")
+
+    # 2. Try direct Supabase PostgREST REST API
+    url = (
+        os.environ.get("SUPABASE_URL")
+        or os.environ.get("supabase_url")
+        or os.environ.get("Supabase_Url")
+    )
+    key = (
+        os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        or os.environ.get("SUPABASE_KEY")
+        or os.environ.get("supabase_service_role_key")
+        or os.environ.get("supabase_key")
+        or os.environ.get("Supabase_Service_Role_Key")
+        or os.environ.get("Supabase_Key")
+    )
+    if url and key:
+        try:
+            params = {
+                "select": "*",
+                "is_active": "eq.true",
+                "order": "updated_at.desc",
+                "limit": str(limit),
+                "offset": str(start),
+            }
+            if search and search.strip():
+                clean_s = search.strip().replace("*", "").replace("%", "")
+                params["or"] = f"(title.ilike.*{clean_s}*,host_organization.ilike.*{clean_s}*,one_line_pitch.ilike.*{clean_s}*)"
+            if category and category.strip() and category.lower() != "all":
+                params["category"] = f"eq.{category.strip()}"
+            if location_type and location_type.strip() and location_type.lower() != "all":
+                params["location_type"] = f"ilike.*{location_type.strip()}*"
+            if compensation and compensation.strip() and compensation.lower() != "all":
+                params["compensation"] = f"ilike.*{compensation.strip()}*"
+            if academic_level and academic_level.strip() and academic_level.lower() != "all":
+                params["academic_level"] = f"cs.{{{academic_level.strip()}}}"
+
+            qs = urllib.parse.urlencode(params)
+            rest_url = f"{url.rstrip('/')}/rest/v1/opportunities?{qs}"
+            req = urllib.request.Request(
+                rest_url,
+                headers={
+                    "apikey": key,
+                    "Authorization": f"Bearer {key}",
+                    "Prefer": "count=exact",
+                }
+            )
+            with urllib.request.urlopen(req, timeout=10) as resp:
+                content_range = resp.headers.get("Content-Range") or ""
+                total_count = 0
+                if "/" in content_range:
+                    try:
+                        total_count = int(content_range.split("/")[1])
+                    except Exception:
+                        pass
+                rows = json.loads(resp.read().decode("utf-8"))
+                if not total_count:
+                    total_count = len(rows)
+                total_pages = max(1, math.ceil(total_count / limit)) if total_count > 0 else 1
+                return {
+                    "data": rows,
+                    "total": total_count,
+                    "page": page,
+                    "limit": limit,
+                    "total_pages": total_pages,
+                }
+        except Exception as e:
+            logger.warning(f"Supabase REST query failed, falling back to local: {e}")
+
+    # 3. Fallback to local active opportunities list
+    local = [dict(o) for o in get_active_opportunities_list() if o.get("is_active") is not False]
+    if search and search.strip():
+        q = search.lower().strip()
+        local = [
+            o for o in local
+            if q in (o.get("title") or "").lower()
+            or q in (o.get("host_organization") or "").lower()
+            or q in (o.get("one_line_pitch") or "").lower()
+            or any(q in str(t).lower() for t in (o.get("tags") or []))
+        ]
+    if category and category.strip() and category.lower() != "all":
+        cat_lower = category.strip().lower()
+        local = [o for o in local if (o.get("category") or "").lower() == cat_lower]
+    if location_type and location_type.strip() and location_type.lower() != "all":
+        loc_lower = location_type.strip().lower()
+        local = [o for o in local if loc_lower in (o.get("location_type") or "").lower()]
+    if compensation and compensation.strip() and compensation.lower() != "all":
+        comp_lower = compensation.strip().lower()
+        local = [o for o in local if comp_lower in (o.get("compensation") or "").lower()]
+    if academic_level and academic_level.strip() and academic_level.lower() != "all":
+        lvl_target = academic_level.strip().lower()
+        local = [
+            o for o in local
+            if any(lvl_target in str(lvl).lower() for lvl in (o.get("academic_level") or []))
+        ]
+
+    total_count = len(local)
+    total_pages = max(1, math.ceil(total_count / limit)) if total_count > 0 else 1
+    rows = local[start:start + limit]
+    return {
+        "data": rows,
+        "total": total_count,
+        "page": page,
+        "limit": limit,
+        "total_pages": total_pages,
+    }
 
 
 def upsert_to_supabase(records: List[dict]) -> int:
@@ -1096,18 +1257,32 @@ async def delete_opportunity(
 
 @app.get("/opportunities.json")
 @app.get("/api/opportunities")
-async def get_opportunities(limit: int = 1500):
+async def get_opportunities(
+    search: Optional[str] = None,
+    category: Optional[str] = "All",
+    academic_level: Optional[str] = "All",
+    location_type: Optional[str] = "All",
+    compensation: Optional[str] = "All",
+    page: int = 1,
+    limit: int = 30,
+    raw: Optional[bool] = False,
+):
     """
-    Serve live active opportunities list — Supabase primary, then local fallback.
-    Cache-Control: no-store so data refreshes instantly after any pipeline run.
+    Server-side filtering, full-text search, and pagination endpoint for live opportunities.
+    Returns: { "data": [...], "total": count, "page": page, "limit": limit, "total_pages": math.ceil(count / limit) }
     """
-    # Try Supabase first (primary live database)
-    supabase_data = fetch_from_supabase(limit=limit)
-    if supabase_data is not None:
-        return JSONResponse(supabase_data, headers=NO_CACHE_HEADERS)
-    # Fallback to local/GitHub cached list
-    local = get_active_opportunities_list()
-    return JSONResponse(local[:limit], headers=NO_CACHE_HEADERS)
+    res = fetch_filtered_opportunities(
+        search=search,
+        category=category,
+        academic_level=academic_level,
+        location_type=location_type,
+        compensation=compensation,
+        page=page,
+        limit=limit,
+    )
+    if raw:
+        return JSONResponse(res["data"], headers=NO_CACHE_HEADERS)
+    return JSONResponse(res, headers=NO_CACHE_HEADERS)
 
 
 @app.get("/broadcasts.json")
