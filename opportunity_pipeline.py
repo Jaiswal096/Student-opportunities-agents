@@ -36,8 +36,19 @@ from pipeline import run_daily_pipeline, run_topic_pipeline, update_opportunitie
 # ---------------------------------------------------------------------------
 def get_supabase_client():
     """Return a Supabase client if credentials are configured, else None."""
-    url = os.environ.get("SUPABASE_URL") or os.environ.get("supabase_url")
-    key = os.environ.get("SUPABASE_KEY") or os.environ.get("supabase_key")
+    url = (
+        os.environ.get("SUPABASE_URL")
+        or os.environ.get("supabase_url")
+        or os.environ.get("Supabase_Url")
+    )
+    key = (
+        os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        or os.environ.get("SUPABASE_KEY")
+        or os.environ.get("supabase_service_role_key")
+        or os.environ.get("supabase_key")
+        or os.environ.get("Supabase_Service_Role_Key")
+        or os.environ.get("Supabase_Key")
+    )
     if not url or not key:
         return None
     try:

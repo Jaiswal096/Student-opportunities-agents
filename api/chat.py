@@ -41,9 +41,20 @@ NO_CACHE_HEADERS = {
 # Supabase Helper
 # ---------------------------------------------------------------------------
 def get_supabase_client():
-    """Return a Supabase client if SUPABASE_URL and SUPABASE_KEY are set."""
-    url = os.environ.get("SUPABASE_URL") or os.environ.get("supabase_url")
-    key = os.environ.get("SUPABASE_KEY") or os.environ.get("supabase_key")
+    """Return a Supabase client if SUPABASE_URL and SUPABASE_KEY/SUPABASE_SERVICE_ROLE_KEY are set."""
+    url = (
+        os.environ.get("SUPABASE_URL")
+        or os.environ.get("supabase_url")
+        or os.environ.get("Supabase_Url")
+    )
+    key = (
+        os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+        or os.environ.get("SUPABASE_KEY")
+        or os.environ.get("supabase_service_role_key")
+        or os.environ.get("supabase_key")
+        or os.environ.get("Supabase_Service_Role_Key")
+        or os.environ.get("Supabase_Key")
+    )
     if not url or not key:
         return None
     try:
@@ -789,8 +800,30 @@ def generate_local_fallback_reply(query: str, opps: list) -> str:
 @app.get("/health")
 @app.get("/api/chat")
 async def health():
+    sb = get_supabase_client()
+    supabase_connected = False
+    total_count = 0
+    storage_source = "local_json"
+
+    if sb:
+        try:
+            res = sb.table("opportunities").select("id", count="exact").execute()
+            total_count = res.count if res.count is not None else (len(res.data) if res.data else 0)
+            supabase_connected = True
+            storage_source = "supabase"
+        except Exception as e:
+            logger.warning(f"Supabase health check query failed: {e}")
+
+    if not supabase_connected:
+        local_opps = get_active_opportunities_list()
+        total_count = len(local_opps)
+
     return {
         "status": "ok",
+        "storage_source": storage_source,
+        "supabase_connected": supabase_connected,
+        "total_opportunities": total_count,
+        "gemini_configured": bool(get_gemini_api_key()),
         "api_key_configured": bool(get_gemini_api_key()),
         "admin_key_configured": bool(get_admin_key_env() != ADMIN_KEY_DEFAULT or os.environ.get("ADMIN_KEY")),
         "github_token_configured": bool(get_github_token_env()),
@@ -830,18 +863,62 @@ async def scout_and_curate(req: ScoutCurateRequest, fastapi_req: Request):
 
     if api_key:
         try:
-            logger.info(f"Command Center: Running Agent 1-3 pipeline for: {topic}")
-            c = get_client(api_key)
-            # Agent 1: Scout
-            raw_leads = run_scout_agent(topic, active_client=c)
-            # Agent 2: Gatekeeper
-            vetted_leads = run_gatekeeper_agent(raw_leads, active_client=c)
-            # Agent 3: Curator
-            curated_objs = run_curator_agent(vetted_leads, active_client=c)
-            curated_items = [o.model_dump() for o in curated_objs]
+            logger.info(f"Command Center: High-speed Agent execution for: {topic}")
+            from google import genai
+            from google.genai import types
+
+            client = genai.Client(api_key=api_key)
+            fast_scout_prompt = (
+                f'You are Opportunity Scout Agent.\n'
+                f'Search for 2-3 genuine, prestigious, and currently active student opportunities matching: "{topic}".\n'
+                f'Output ONLY a valid JSON array of objects with EXACTLY these fields:\n'
+                f'- "id": unique kebab-case slug (e.g. "mit-summer-reu-2025")\n'
+                f'- "title": full official title\n'
+                f'- "host_organization": company or university name\n'
+                f'- "category": one of ["Scholarship", "Internship", "Research", "Hackathon", "Fellowship", "Grant"]\n'
+                f'- "academic_level": list e.g. ["Undergraduate", "Masters"]\n'
+                f'- "location_type": "Remote", "In-Person", or "Hybrid"\n'
+                f'- "location": city/country or "Global / Remote"\n'
+                f'- "compensation": e.g. "Paid Stipend", "Fully Funded", "Cash Prize", or "Free"\n'
+                f'- "stipend_amount": dollar amount or stipend details\n'
+                f'- "deadline": YYYY-MM-DD or "Rolling"\n'
+                f'- "apply_url": valid direct application or program URL\n'
+                f'- "tags": list of 3-5 relevant skill or field keywords\n'
+                f'- "one_line_pitch": one engaging sentence explaining why students should apply\n'
+                f'- "is_active": true\n\n'
+                f'Return ONLY the raw JSON array. No markdown code blocks, no other text.'
+            )
+
+            response = client.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=fast_scout_prompt,
+                config=types.GenerateContentConfig(
+                    temperature=0.2,
+                    max_output_tokens=2048,
+                ),
+            )
+            raw_text = response.text.strip()
+            if raw_text.startswith("```"):
+                raw_text = raw_text.split("\n", 1)[-1]
+                if raw_text.endswith("```"):
+                    raw_text = raw_text[:-3]
+                raw_text = raw_text.strip()
+
+            curated_items = json.loads(raw_text)
+            if not isinstance(curated_items, list):
+                curated_items = [curated_items]
         except Exception as e:
-            logger.error(f"Error executing Gemini pipeline: {e}", exc_info=True)
-            return JSONResponse({"error": f"AI Agent pipeline failed: {str(e)}"}, status_code=500)
+            logger.warning(f"Fast agent pipeline warning: {e}, falling back to pipeline module")
+            try:
+                from pipeline import run_scout_agent, run_gatekeeper_agent, run_curator_agent, get_client
+                c = get_client(api_key)
+                raw_leads = run_scout_agent(topic, active_client=c)
+                vetted_leads = run_gatekeeper_agent(raw_leads, active_client=c)
+                curated_objs = run_curator_agent(vetted_leads, active_client=c)
+                curated_items = [o.model_dump() for o in curated_objs]
+            except Exception as e2:
+                logger.error(f"Fallback pipeline failed: {e2}")
+                curated_items = []
     else:
         # Fallback structured mock curation for local/demo admin testing
         slug_topic = "".join(c if c.isalnum() else "-" for c in topic.lower()).strip("-")[:35]
@@ -1018,17 +1095,18 @@ async def delete_opportunity(
 
 @app.get("/opportunities.json")
 @app.get("/api/opportunities")
-async def get_opportunities():
+async def get_opportunities(limit: int = 1500):
     """
     Serve live active opportunities list — Supabase primary, then local fallback.
     Cache-Control: no-store so data refreshes instantly after any pipeline run.
     """
     # Try Supabase first (primary live database)
-    supabase_data = fetch_from_supabase(limit=1500)
+    supabase_data = fetch_from_supabase(limit=limit)
     if supabase_data is not None:
         return JSONResponse(supabase_data, headers=NO_CACHE_HEADERS)
     # Fallback to local/GitHub cached list
-    return JSONResponse(get_active_opportunities_list(), headers=NO_CACHE_HEADERS)
+    local = get_active_opportunities_list()
+    return JSONResponse(local[:limit], headers=NO_CACHE_HEADERS)
 
 
 @app.get("/broadcasts.json")

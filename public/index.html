@@ -198,10 +198,10 @@
           <p class="text-xs dark:text-slate-400 text-slate-500 font-normal hidden sm:block">AI-curated student opportunities, updated daily</p>
         </div>
 
-        <!-- Live badge -->
-        <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-indigo-500/10 bg-indigo-50 border dark:border-indigo-500/20 border-indigo-200 text-xs font-semibold dark:text-indigo-300 text-indigo-600 flex-shrink-0">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-[blink_2s_ease-in-out_infinite]"></span>
-          <span id="header-count">Loading…</span>
+        <!-- Live Connection Pill -->
+        <div id="connection-pill" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-emerald-500/10 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-200 text-xs font-semibold dark:text-emerald-300 text-emerald-700 flex-shrink-0 transition-colors">
+          <span id="connection-indicator-dot" class="w-2 h-2 rounded-full bg-emerald-400 animate-[blink_2s_ease-in-out_infinite]"></span>
+          <span id="header-count">Checking connection…</span>
         </div>
 
         <!-- 🔄 Refresh Live Data Button -->
@@ -441,7 +441,7 @@
 
     // ── Config ───────────────────────────────────────────────────────────────
     const OPPORTUNITIES_API_URL = '/api/opportunities';
-    const PAGE_SIZE = 24; // cards per page
+    const PAGE_SIZE = 30; // cards per page (chunks of 30)
 
     const CAT_EMOJI   = { Scholarship:'🎓', Internship:'💼', Research:'🔬', Hackathon:'⚡', Fellowship:'🏆', Grant:'💰' };
     const CAT_COLORS  = {
@@ -1300,9 +1300,37 @@
       }
     }
 
+    function checkHealthStatus() {
+      return fetch('/api/health?t=' + Date.now(), { cache: 'no-store' })
+        .then(r => r.json())
+        .then(data => {
+          const pill = document.getElementById('connection-pill');
+          const dot = document.getElementById('connection-indicator-dot');
+          const countEl = document.getElementById('header-count');
+          if (!pill || !countEl) return;
+          const count = (typeof data.total_opportunities === 'number' && data.total_opportunities > 0)
+            ? data.total_opportunities
+            : allOpportunities.length;
+
+          if (data.supabase_connected || data.storage_source === 'supabase') {
+            pill.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-emerald-500/10 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-200 text-xs font-semibold dark:text-emerald-300 text-emerald-700 flex-shrink-0 transition-colors';
+            if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-[blink_2s_ease-in-out_infinite]';
+            countEl.textContent = `🟢 Supabase Connected (${count} Opportunities)`;
+          } else {
+            pill.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-amber-500/10 bg-amber-50 border dark:border-amber-500/30 border-amber-200 text-xs font-semibold dark:text-amber-300 text-amber-700 flex-shrink-0 transition-colors';
+            if (dot) dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+            countEl.textContent = `🟠 Local JSON Fallback (${count} Opportunities)`;
+          }
+        })
+        .catch(() => {
+          const countEl = document.getElementById('header-count');
+          if (countEl) countEl.textContent = `🟠 Local JSON Fallback (${allOpportunities.length} Opportunities)`;
+        });
+    }
+
     function fetchOpportunitiesData(forceRefresh = false) {
-      // Always fetch from live API first (no-cache bust)
-      const url = OPPORTUNITIES_API_URL + '?t=' + Date.now();
+      // Always fetch from live API with limit=1000 and cache-busting timestamp
+      const url = `${OPPORTUNITIES_API_URL}?limit=1000&t=${Date.now()}`;
       return fetch(url, { cache: 'no-store', headers: { 'Cache-Control': 'no-cache' } })
         .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
         .then(data => {
@@ -1312,11 +1340,12 @@
           updateStats();
           updateSavedBadges();
           render();
+          checkHealthStatus();
           if (forceRefresh) showToast(`✅ Refreshed — ${allOpportunities.length} live opportunities loaded!`);
         })
         .catch(() => {
           // Fallback: try static /opportunities.json
-          return fetch('/opportunities.json?t=' + Date.now(), { cache: 'no-store' })
+          return fetch(`/opportunities.json?t=${Date.now()}`, { cache: 'no-store' })
             .then(r => r.json())
             .then(data => {
               if (!Array.isArray(data) || data.length === 0) throw new Error('empty');
@@ -1325,9 +1354,11 @@
               updateStats();
               updateSavedBadges();
               render();
+              checkHealthStatus();
             });
         })
         .catch(() => {
+          checkHealthStatus();
           document.getElementById('header-count').textContent = 'Pipeline pending';
           document.getElementById('cards-grid').innerHTML = `
             <div class="col-span-full text-center py-20 px-6">
