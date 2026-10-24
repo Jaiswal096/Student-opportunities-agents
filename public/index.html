@@ -57,6 +57,14 @@
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
 
+  <!-- Mozilla PDF.js for Client-Side PDF Resume Parsing -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
+
   <style>
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -1727,47 +1735,102 @@
 
   <!-- ══════════════════ RESUME MATCHER MODAL (Agent 6) ══════════════════ -->
   <div id="resume-modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] opacity-0 pointer-events-none transition-opacity duration-300"></div>
-  <div id="resume-modal" class="fixed inset-0 z-[9995] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 transform scale-95" role="dialog" aria-modal="true">
-    <div class="relative w-full max-w-3xl max-h-[92vh] flex flex-col rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
-      <div class="p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
+  <div id="resume-modal" class="fixed inset-0 z-[9995] flex items-center justify-center p-3 sm:p-4 opacity-0 pointer-events-none transition-all duration-300 transform scale-95" role="dialog" aria-modal="true">
+    <div class="relative w-full max-w-4xl max-h-[92vh] flex flex-col rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center text-white text-lg">🎯</div>
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center text-white text-lg shadow-md shadow-violet-500/20">🎯</div>
           <div>
-            <h3 class="text-base font-bold dark:text-white text-slate-900">Agent 6: Resume &amp; Essay Matcher</h3>
-            <p class="text-xs dark:text-slate-400 text-slate-500">Paste your resume or skills list — AI ranks your Top 5 best-match opportunities</p>
+            <h3 class="text-base font-bold dark:text-white text-slate-900 flex items-center gap-2">
+              Agent 6: Resume Matcher &amp; Application Coach
+              <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-violet-500/20 text-violet-400 border border-violet-500/30">6,000+ Deep Scan</span>
+            </h3>
+            <p class="text-xs dark:text-slate-400 text-slate-500">Upload your PDF/TXT resume or paste text — two-stage Supabase pre-filter + AI ranks your Top 5 best matches</p>
           </div>
         </div>
         <button id="close-resume-modal-btn" aria-label="Close" class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:dark:text-white transition-colors cursor-pointer"><i data-lucide="x" class="w-4 h-4"></i></button>
       </div>
-      <div class="flex-1 overflow-y-auto p-5 space-y-5">
-        <div class="flex flex-wrap items-center gap-3">
-          <label class="text-xs font-semibold dark:text-slate-300 text-slate-700">Target Category:</label>
-          <select id="resume-target-category" class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer focus:border-violet-500">
-            <option value="All">🌐 All Categories</option>
-            <option value="Internship">💼 Internship</option>
-            <option value="Research">🔬 Research</option>
-            <option value="Scholarship">🎓 Scholarship</option>
-            <option value="Fellowship">🏆 Fellowship</option>
-            <option value="Hackathon">⚡ Hackathon</option>
-            <option value="Grant">💰 Grant</option>
-          </select>
+
+      <!-- Modal Body -->
+      <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-5">
+
+        <!-- Drag & Drop PDF / TXT Zone -->
+        <div
+          id="resume-dropzone"
+          class="relative border-2 border-dashed dark:border-slate-700 border-slate-300 hover:border-violet-500 dark:hover:border-violet-500 rounded-2xl p-5 sm:p-6 text-center cursor-pointer transition-all duration-200 dark:bg-slate-950/50 bg-slate-50/70 group"
+        >
+          <input type="file" id="resume-file-input" accept=".pdf,.txt,.md" class="hidden" />
+          <div class="flex flex-col items-center justify-center gap-2">
+            <div class="w-12 h-12 rounded-2xl dark:bg-violet-950/60 bg-violet-100 flex items-center justify-center text-violet-500 dark:text-violet-400 group-hover:scale-110 group-hover:bg-violet-500 group-hover:text-white transition-all shadow-sm">
+              <i data-lucide="file-up" class="w-6 h-6"></i>
+            </div>
+            <div class="text-sm font-semibold dark:text-slate-200 text-slate-800">
+              Drag &amp; drop your resume here (<span class="text-violet-500 dark:text-violet-400">.pdf, .txt, .md</span>) or <span class="text-violet-600 dark:text-violet-400 underline underline-offset-2">browse files</span>
+            </div>
+            <p class="text-xs dark:text-slate-400 text-slate-500">
+              Parsed 100% in your browser via Mozilla PDF.js — fast, private, zero document leakage.
+            </p>
+          </div>
+          <div id="resume-file-status" class="hidden mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-emerald-950/70 bg-emerald-100 text-emerald-600 dark:text-emerald-300 border dark:border-emerald-500/30 border-emerald-300 shadow-sm animate-fade-up"></div>
         </div>
-        <div>
-          <label for="resume-textarea" class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-2">Your Resume / CV / Skills <span class="text-violet-400">(up to 8,000 chars)</span></label>
-          <textarea id="resume-textarea" rows="9" placeholder="Example:
-Name: Alex Chen | CS Junior, UCLA | GPA 3.8
-Skills: Python, TensorFlow, React, AWS, C++
-Experience: Google STEP Intern 2025, UCLA AI Lab researcher
-Interests: Machine learning, robotics, open source" class="w-full px-4 py-3 rounded-xl text-sm dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none focus:border-violet-500 resize-y font-mono placeholder:text-slate-500 placeholder:font-sans leading-relaxed"></textarea>
-          <div class="flex justify-between mt-1">
-            <span class="text-xs dark:text-slate-500 text-slate-400">Include major, year, skills &amp; experiences for best results.</span>
-            <span id="resume-char-count" class="text-xs dark:text-slate-500 text-slate-400">0 / 8000</span>
+
+        <!-- 3 Filter Selectors: Category, Academic Level, Location Type -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div>
+            <label class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-1.5">Target Domain:</label>
+            <select id="resume-target-category" class="w-full px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none cursor-pointer focus:border-violet-500">
+              <option value="All">🌐 All Categories (1,000+/domain)</option>
+              <option value="Internship">💼 Internship</option>
+              <option value="Research">🔬 Research</option>
+              <option value="Scholarship">🎓 Scholarship</option>
+              <option value="Fellowship">🏆 Fellowship</option>
+              <option value="Hackathon">⚡ Hackathon</option>
+              <option value="Grant">💰 Grant</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-1.5">Academic Level:</label>
+            <select id="resume-academic-level" class="w-full px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none cursor-pointer focus:border-violet-500">
+              <option value="All">🎓 All Academic Levels</option>
+              <option value="High School">High School</option>
+              <option value="Undergraduate">Undergraduate</option>
+              <option value="Masters">Masters</option>
+              <option value="PhD">PhD</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-1.5">Location Preference:</label>
+            <select id="resume-location-type" class="w-full px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none cursor-pointer focus:border-violet-500">
+              <option value="All">🌍 All Locations</option>
+              <option value="Remote">🌐 Remote</option>
+              <option value="Hybrid">🏢 Hybrid</option>
+              <option value="On-site">📍 On-site</option>
+            </select>
           </div>
         </div>
-        <button id="btn-analyze-resume" class="w-full py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-violet-600 via-fuchsia-500 to-violet-600 hover:opacity-95 shadow-lg shadow-violet-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-          <i data-lucide="sparkles" class="w-4 h-4"></i><span id="analyze-btn-text">✨ Analyze &amp; Rank My Top 5 Matches</span>
+
+        <!-- Resume Textarea (Extracted or Manual Paste) -->
+        <div>
+          <div class="flex items-center justify-between mb-1.5">
+            <label for="resume-textarea" class="block text-xs font-semibold dark:text-slate-300 text-slate-700">Resume / Skills Text <span class="text-violet-400 font-normal">(editable, up to 15,000 chars)</span></label>
+            <span id="resume-char-count" class="text-xs dark:text-slate-500 text-slate-400">0 / 15000</span>
+          </div>
+          <textarea id="resume-textarea" rows="6" placeholder="Paste your resume or drop a .pdf/.txt above...
+Example:
+Name: Alex Chen | CS Junior, UCLA | GPA 3.8
+Skills: Python, PyTorch, React, SQL, Git, AWS
+Projects: Autonomous vision drone; Distributed raft kv-store
+Experience: Research Assistant at UCLA Vision Lab" class="w-full px-4 py-3 rounded-xl text-xs sm:text-sm dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none focus:border-violet-500 resize-y font-mono placeholder:text-slate-500 placeholder:font-sans leading-relaxed"></textarea>
+        </div>
+
+        <!-- Action Button -->
+        <button id="btn-analyze-resume" class="w-full py-3.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-violet-600 via-fuchsia-500 to-violet-600 hover:opacity-95 shadow-lg shadow-violet-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+          <i data-lucide="sparkles" class="w-4 h-4"></i><span id="analyze-btn-text">✨ Scan Database &amp; Rank Top 5 Matches</span>
         </button>
-        <div id="resume-results" class="hidden space-y-4"></div>
+
+        <!-- Upgraded Results Container -->
+        <div id="resume-results" class="hidden space-y-4 pt-2"></div>
       </div>
     </div>
   </div>
@@ -1828,52 +1891,274 @@ Interests: Machine learning, robotics, open source" class="w-full px-4 py-3 roun
     function openSubmitModal()  { openAnyModal('submit-modal','submit-modal-backdrop'); }
     function closeSubmitModal() { closeAnyModal('submit-modal','submit-modal-backdrop'); }
 
+    // Client-Side PDF Parser using Mozilla PDF.js
+    async function parsePdfFile(file) {
+      const arrayBuffer = await file.arrayBuffer();
+      if (!window.pdfjsLib) {
+        throw new Error('PDF.js is still initializing. Please try again in a moment.');
+      }
+      const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+      const pdf = await loadingTask.promise;
+      let fullText = '';
+      for (let i = 1; i <= pdf.numPages; i++) {
+        const page = await pdf.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageStr = textContent.items.map(item => item.str).join(' ');
+        fullText += pageStr + '\n\n';
+      }
+      return fullText.trim();
+    }
+
+    // Handle Dropped or Selected Resume File (.pdf, .txt, .md)
+    async function handleResumeFile(file) {
+      if (!file) return;
+      const ext = file.name.split('.').pop().toLowerCase();
+      const statusBadge = document.getElementById('resume-file-status');
+      const textarea = document.getElementById('resume-textarea');
+      const charCount = document.getElementById('resume-char-count');
+
+      if (statusBadge) {
+        statusBadge.classList.remove('hidden');
+        statusBadge.className = 'mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-violet-950/70 bg-violet-100 text-violet-600 dark:text-violet-300 border dark:border-violet-500/30 border-violet-300 shadow-sm animate-pulse';
+        statusBadge.innerHTML = `<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Parsing ${esc(file.name)} in browser…`;
+        if (window.lucide) lucide.createIcons();
+      }
+
+      try {
+        let extractedText = '';
+        if (ext === 'pdf') {
+          extractedText = await parsePdfFile(file);
+        } else if (['txt', 'md', 'markdown', 'text'].includes(ext)) {
+          extractedText = await file.text();
+        } else {
+          showToast('Please upload a .pdf, .txt, or .md file.');
+          if (statusBadge) statusBadge.classList.add('hidden');
+          return;
+        }
+
+        if (!extractedText.trim()) {
+          showToast('Could not extract readable text from this file.');
+          if (statusBadge) statusBadge.classList.add('hidden');
+          return;
+        }
+
+        if (textarea) textarea.value = extractedText;
+        if (charCount) charCount.textContent = `${extractedText.length} / 15000`;
+
+        const wordCount = extractedText.split(/\s+/).filter(Boolean).length;
+        if (statusBadge) {
+          statusBadge.className = 'mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-emerald-950/70 bg-emerald-100 text-emerald-600 dark:text-emerald-300 border dark:border-emerald-500/30 border-emerald-300 shadow-sm animate-fade-up';
+          statusBadge.innerHTML = `<span>✅ Extracted ${wordCount.toLocaleString()} words from ${esc(file.name)}</span>`;
+        }
+        showToast(`✅ Extracted ${wordCount.toLocaleString()} words from ${file.name}`);
+        if (window.lucide) lucide.createIcons();
+      } catch (err) {
+        console.error('File parsing error:', err);
+        showToast(`File error: ${err.message}`);
+        if (statusBadge) {
+          statusBadge.className = 'mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-rose-950/70 bg-rose-100 text-rose-600 dark:text-rose-300 border dark:border-rose-500/30 border-rose-300 shadow-sm';
+          statusBadge.innerHTML = `<span>⚠️ Could not parse file (${esc(err.message)})</span>`;
+        }
+      }
+    }
+
     async function handleAnalyzeResume() {
       const textarea   = document.getElementById('resume-textarea');
       const catSelect  = document.getElementById('resume-target-category');
+      const lvlSelect  = document.getElementById('resume-academic-level');
+      const locSelect  = document.getElementById('resume-location-type');
       const resultsDiv = document.getElementById('resume-results');
       const btn        = document.getElementById('btn-analyze-resume');
       const btnText    = document.getElementById('analyze-btn-text');
       const resumeText = (textarea?.value || '').trim();
-      if (!resumeText) { showToast('Please paste your resume or skills first.'); return; }
+
+      if (!resumeText) {
+        showToast('Please upload a resume or paste your profile first.');
+        return;
+      }
+
       const targetCategory = catSelect?.value || 'All';
+      const academicLevel  = lvlSelect?.value || 'All';
+      const locationType   = locSelect?.value || 'All';
+
       btn.disabled = true;
-      if (btnText) btnText.textContent = 'Analyzing with AI…';
+      if (btnText) btnText.innerHTML = '<span class="inline-flex items-center gap-2"><i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Scanning 6,000+ Opportunities…</span>';
+      if (window.lucide) lucide.createIcons();
       if (resultsDiv) resultsDiv.classList.add('hidden');
+
       try {
-        const res  = await fetch('/api/agents/match-resume', { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ resume_text: resumeText, target_category: targetCategory }) });
+        const res = await fetch('/api/agents/match-resume', {
+          method: 'POST',
+          cache: 'no-store',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            resume_text: resumeText,
+            target_category: targetCategory,
+            academic_level: academicLevel,
+            location_type: locationType
+          })
+        });
+
         const data = await res.json();
-        if (!res.ok) { showToast(`Error: ${data.error || 'Matching failed'}`); return; }
+        if (!res.ok) {
+          showToast(`Error: ${data.error || 'Matching failed'}`);
+          return;
+        }
+
         const matches = data.matches || [];
-        const scG = ['from-violet-600 to-fuchsia-600','from-indigo-600 to-violet-600','from-blue-600 to-indigo-600','from-sky-500 to-blue-600','from-slate-500 to-slate-600'];
-        const meds = ['🥇','🥈','🥉','4️⃣','5️⃣'];
-        const html = matches.length ? matches.map((m, i) => `
-          <div class="rounded-2xl dark:bg-slate-950/70 bg-slate-50 border dark:border-slate-800 border-slate-200 p-5 space-y-3 shadow-sm">
-            <div class="flex items-start justify-between gap-3">
-              <div class="min-w-0 flex-1">
-                <div class="flex items-center gap-2 mb-1"><span class="text-lg">${meds[i]}</span><span class="px-2.5 py-0.5 rounded-full text-xs font-bold text-white bg-gradient-to-r ${scG[i]}">${m.match_score}% Match</span></div>
-                <h4 class="text-sm font-bold dark:text-white text-slate-900">${esc(m.title||'')}</h4>
-                <div class="text-xs dark:text-slate-400 text-slate-500">${esc(m.host_organization||'')}</div>
+        const detectedSkills = data.detected_skills || [];
+        const scannedTotal = data.scanned_total || 0;
+        const shortlistedCount = data.shortlisted_count || matches.length;
+
+        const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+
+        const cardsHtml = matches.length ? matches.map((m, i) => {
+          const score = m.match_score || 85;
+          const isHigh = score >= 90;
+          const isMid = score >= 75 && score < 90;
+
+          const scoreBadgeClass = isHigh
+            ? 'dark:bg-emerald-950/80 bg-emerald-50 dark:text-emerald-300 text-emerald-700 border-emerald-500/40 shadow-emerald-500/20'
+            : isMid
+            ? 'dark:bg-cyan-950/80 bg-cyan-50 dark:text-cyan-300 text-cyan-700 border-cyan-500/40 shadow-cyan-500/20'
+            : 'dark:bg-violet-950/80 bg-violet-50 dark:text-violet-300 text-violet-700 border-violet-500/40 shadow-violet-500/20';
+
+          const matchedSkillsList = Array.isArray(m.matched_skills) ? m.matched_skills : [];
+
+          return `
+            <div class="rounded-2xl dark:bg-slate-950/70 bg-slate-50 border dark:border-slate-800 border-slate-200 p-5 space-y-4 shadow-sm hover:border-violet-500/50 transition-all">
+              <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                <div class="min-w-0 flex-1">
+                  <div class="flex flex-wrap items-center gap-2 mb-2">
+                    <span class="text-lg">${medals[i] || '🎯'}</span>
+                    <span class="px-3 py-1 rounded-full text-xs font-black border shadow-sm ${scoreBadgeClass}">
+                      ${score}% Match
+                    </span>
+                    <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold dark:bg-slate-800 bg-slate-200 dark:text-slate-300 text-slate-700">
+                      ${esc(m.category || 'Opportunity')}
+                    </span>
+                    ${m.compensation ? `<span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold dark:bg-emerald-950/50 bg-emerald-100 text-emerald-600 dark:text-emerald-300">💰 ${esc(m.compensation)}</span>` : ''}
+                    ${m.deadline ? `<span class="text-[11px] dark:text-slate-400 text-slate-500">📅 ${esc(m.deadline)}</span>` : ''}
+                  </div>
+                  <h4 class="text-base font-bold dark:text-white text-slate-900 leading-snug">${esc(m.title || '')}</h4>
+                  <div class="text-xs font-semibold dark:text-slate-400 text-slate-600 mt-0.5">${esc(m.host_organization || '')}</div>
+                </div>
+                <a href="${esc(m.apply_url || '#')}" target="_blank" rel="noopener" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-violet-600 to-indigo-600 hover:opacity-90 shadow-md shadow-violet-500/20 flex-shrink-0 self-start sm:self-auto cursor-pointer">
+                  Apply Directly <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+                </a>
               </div>
-              <a href="${esc(m.apply_url||'#')}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 flex-shrink-0">Apply <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
-            </div>
-            <div class="space-y-2 text-xs">
-              <div class="p-3 rounded-xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-100"><div class="font-semibold dark:text-emerald-400 text-emerald-600 mb-1">✅ Why It Matches You</div><div class="dark:text-slate-300 text-slate-600 leading-relaxed">${esc(m.why_it_matches||'')}</div></div>
-              <div class="p-3 rounded-xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-100"><div class="font-semibold dark:text-amber-400 text-amber-600 mb-1">⚠️ Skill Gaps to Address</div><div class="dark:text-slate-300 text-slate-600 leading-relaxed">${esc(m.missing_skills_or_gaps||'')}</div></div>
-              <div class="p-3 rounded-xl dark:bg-violet-950/30 bg-violet-50 border dark:border-violet-500/20 border-violet-200">
-                <div class="flex items-center justify-between mb-1"><div class="font-semibold dark:text-violet-400 text-violet-600">✉️ Tailored Application Hook</div><button class="copy-hook-btn text-xs px-2 py-0.5 rounded-lg dark:bg-violet-500/20 bg-violet-100 dark:text-violet-300 text-violet-700 font-semibold cursor-pointer" data-hook="${esc(m.cold_email_or_essay_hook||'')}">📋 Copy</button></div>
-                <div class="dark:text-slate-300 text-slate-600 leading-relaxed italic">"${esc(m.cold_email_or_essay_hook||'')}"</div>
+
+              <!-- Matched Skills Pills -->
+              ${matchedSkillsList.length ? `
+                <div class="flex flex-wrap items-center gap-1.5 pt-1">
+                  <span class="text-[11px] font-semibold dark:text-slate-400 text-slate-500 mr-1">Matched Skills:</span>
+                  ${matchedSkillsList.map(s => `<span class="px-2 py-0.5 rounded-lg text-[11px] font-bold dark:bg-emerald-950/60 bg-emerald-100 dark:text-emerald-300 text-emerald-700 border dark:border-emerald-500/30 border-emerald-300">✓ ${esc(s)}</span>`).join('')}
+                </div>
+              ` : ''}
+
+              <!-- Why It Fits & Missing Gaps -->
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                <div class="p-3.5 rounded-xl dark:bg-slate-900/90 bg-white border dark:border-slate-800 border-slate-200">
+                  <div class="font-bold dark:text-emerald-400 text-emerald-600 mb-1 flex items-center gap-1.5">
+                    <span>✅ Why Your Profile Fits</span>
+                  </div>
+                  <div class="dark:text-slate-300 text-slate-600 leading-relaxed">${esc(m.why_it_fits || m.why_it_matches || '')}</div>
+                </div>
+
+                <div class="p-3.5 rounded-xl dark:bg-slate-900/90 bg-white border dark:border-slate-800 border-slate-200">
+                  <div class="font-bold dark:text-amber-400 text-amber-600 mb-1 flex items-center gap-1.5">
+                    <span>⚠️ Opportunity Gap / Suggestion</span>
+                  </div>
+                  <div class="dark:text-slate-300 text-slate-600 leading-relaxed">${esc(m.missing_gaps || m.missing_skills_or_gaps || '')}</div>
+                </div>
+              </div>
+
+              <!-- Tailored Pitch / Application Hook -->
+              <div class="p-4 rounded-xl dark:bg-violet-950/30 bg-violet-50 border dark:border-violet-500/25 border-violet-200">
+                <div class="flex items-center justify-between mb-2">
+                  <div class="font-bold dark:text-violet-300 text-violet-800 text-xs flex items-center gap-1.5">
+                    <span>✉️ Tailored Cold Email &amp; Application Essay Hook</span>
+                  </div>
+                  <button
+                    class="copy-hook-btn text-xs px-2.5 py-1 rounded-lg dark:bg-violet-500/20 bg-violet-200/80 hover:dark:bg-violet-500/30 dark:text-violet-200 text-violet-800 font-bold transition-colors cursor-pointer flex items-center gap-1"
+                    data-hook="${esc(m.tailored_pitch || m.cold_email_or_essay_hook || '')}"
+                  >
+                    <span>📋 Copy Pitch</span>
+                  </button>
+                </div>
+                <div class="dark:text-slate-300 text-slate-700 text-xs leading-relaxed italic border-l-2 border-violet-500/40 pl-3">
+                  "${esc(m.tailored_pitch || m.cold_email_or_essay_hook || '')}"
+                </div>
               </div>
             </div>
-          </div>`).join('') : '<div class="text-center py-10 dark:text-slate-400 text-slate-500">No strong matches found. Try expanding your category or adding more detail to your profile.</div>';
+          `;
+        }).join('') : `
+          <div class="text-center py-10 dark:text-slate-400 text-slate-500">
+            No strong matches found. Try selecting "All Categories" or expanding your resume text.
+          </div>
+        `;
+
         if (resultsDiv) {
           resultsDiv.classList.remove('hidden');
-          resultsDiv.innerHTML = `<div class="text-sm font-bold dark:text-white text-slate-900 mb-1">🎯 Your Top ${matches.length} Best Matches <span class="text-xs font-normal dark:text-slate-400 text-slate-500">(from ${data.total_candidates} candidates)</span></div>${html}`;
-          lucide.createIcons();
-          resultsDiv.querySelectorAll('.copy-hook-btn').forEach(b => { b.addEventListener('click', () => { navigator.clipboard.writeText(b.dataset.hook).then(() => { b.textContent='✅ Copied!'; setTimeout(()=>{b.textContent='📋 Copy';},2000); showToast('Application hook copied! 📋'); }).catch(()=>showToast('Copy failed.')); }); });
+          resultsDiv.innerHTML = `
+            <!-- Scan Summary Banner -->
+            <div class="p-4 rounded-2xl dark:bg-gradient-to-r dark:from-violet-950/60 dark:to-indigo-950/60 bg-gradient-to-r from-violet-50 to-indigo-50 border dark:border-violet-500/30 border-violet-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
+              <div class="flex items-center gap-3">
+                <span class="text-2xl">🔍</span>
+                <div>
+                  <div class="text-xs sm:text-sm font-bold dark:text-violet-300 text-violet-900">
+                    Scanned ${scannedTotal.toLocaleString()} Active Opportunities in Supabase
+                  </div>
+                  <div class="text-[11px] dark:text-slate-400 text-slate-600">
+                    Shortlisted Top ${shortlistedCount} Candidates → Ranked Your Top 5 Best Matches
+                  </div>
+                </div>
+              </div>
+              <span class="px-3 py-1 rounded-full text-[11px] font-bold dark:bg-emerald-500/20 bg-emerald-100 dark:text-emerald-300 text-emerald-700 border dark:border-emerald-500/30 border-emerald-300 self-start sm:self-auto flex items-center gap-1.5 shadow-sm">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>Live Supabase Scan</span>
+              </span>
+            </div>
+
+            <!-- Detected Skills -->
+            ${detectedSkills.length ? `
+              <div class="p-3.5 rounded-xl dark:bg-slate-950/80 bg-slate-100/90 border dark:border-slate-800 border-slate-200">
+                <div class="text-[11px] font-bold uppercase tracking-wider dark:text-slate-400 text-slate-500 mb-2 flex items-center gap-1.5">
+                  <i data-lucide="cpu" class="w-3.5 h-3.5 text-violet-400"></i>
+                  <span>Top Detected Skills from Resume</span>
+                </div>
+                <div class="flex flex-wrap gap-1.5">
+                  ${detectedSkills.map(s => `<span class="px-2.5 py-1 rounded-lg text-xs font-semibold dark:bg-violet-950/80 bg-violet-100 dark:text-violet-300 text-violet-800 border dark:border-violet-500/30 border-violet-300 shadow-sm">✨ ${esc(s)}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Matches List -->
+            <div class="space-y-4">
+              ${cardsHtml}
+            </div>
+          `;
+
+          if (window.lucide) lucide.createIcons();
+
+          resultsDiv.querySelectorAll('.copy-hook-btn').forEach(b => {
+            b.addEventListener('click', () => {
+              const hook = b.dataset.hook || '';
+              navigator.clipboard.writeText(hook).then(() => {
+                b.innerHTML = '<span>✅ Copied!</span>';
+                setTimeout(() => { b.innerHTML = '<span>📋 Copy Pitch</span>'; }, 2000);
+                showToast('Application pitch copied to clipboard! 📋');
+              }).catch(() => showToast('Copy failed.'));
+            });
+          });
         }
-      } catch (err) { showToast(`Error: ${err.message}`); }
-      finally { btn.disabled=false; if(btnText) btnText.textContent='✨ Analyze & Rank My Top 5 Matches'; lucide.createIcons(); }
+      } catch (err) {
+        showToast(`Error: ${err.message}`);
+      } finally {
+        btn.disabled = false;
+        if (btnText) btnText.innerHTML = '<span>✨ Scan Database &amp; Rank Top 5 Matches</span>';
+        if (window.lucide) lucide.createIcons();
+      }
     }
 
     async function handleSubmitOpportunity() {
@@ -1911,7 +2196,30 @@ Interests: Machine learning, robotics, open source" class="w-full px-4 py-3 roun
       document.getElementById('btn-analyze-resume')?.addEventListener('click', handleAnalyzeResume);
       document.getElementById('btn-submit-opportunity')?.addEventListener('click', handleSubmitOpportunity);
       const rta = document.getElementById('resume-textarea'), rcc = document.getElementById('resume-char-count');
-      if (rta && rcc) rta.addEventListener('input', () => { rcc.textContent = `${rta.value.length} / 8000`; });
+      if (rta && rcc) rta.addEventListener('input', () => { rcc.textContent = `${rta.value.length} / 15000`; });
+      const dropzone = document.getElementById('resume-dropzone');
+      const fileInput = document.getElementById('resume-file-input');
+      dropzone?.addEventListener('click', (e) => { if (e.target !== fileInput) fileInput?.click(); });
+      fileInput?.addEventListener('change', function() { if (this.files && this.files[0]) handleResumeFile(this.files[0]); });
+      ['dragenter', 'dragover'].forEach(ev => {
+        dropzone?.addEventListener(ev, (e) => {
+          e.preventDefault(); e.stopPropagation();
+          dropzone.classList.add('border-violet-500', 'dark:border-violet-400', 'bg-violet-500/10');
+        });
+      });
+      ['dragleave', 'dragend'].forEach(ev => {
+        dropzone?.addEventListener(ev, (e) => {
+          e.preventDefault(); e.stopPropagation();
+          dropzone.classList.remove('border-violet-500', 'dark:border-violet-400', 'bg-violet-500/10');
+        });
+      });
+      dropzone?.addEventListener('drop', (e) => {
+        e.preventDefault(); e.stopPropagation();
+        dropzone.classList.remove('border-violet-500', 'dark:border-violet-400', 'bg-violet-500/10');
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+          handleResumeFile(e.dataTransfer.files[0]);
+        }
+      });
       const sta = document.getElementById('submit-textarea'), scc = document.getElementById('submit-char-count');
       if (sta && scc) sta.addEventListener('input', () => { scc.textContent = `${sta.value.length} / 3000`; });
       document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeResumeModal(); closeSubmitModal(); } });
