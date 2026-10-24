@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" class="dark">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Opportunity Scout — Student Opportunities Portal</title>
-  <meta name="description" content="Discover verified scholarships, internships, research programs, fellowships and hackathons curated daily by AI agents. Chat with your 24/7 student advisor." />
+  <meta name="description"
+    content="Discover verified scholarships, internships, research programs, fellowships and hackathons curated daily by AI agents. Chat with your 24/7 student advisor." />
 
   <!-- Tailwind CSS CDN (with dark mode class strategy) -->
   <script>
     // Apply dark mode from localStorage before Tailwind loads to avoid FOUC
-    (function() {
+    (function () {
       const saved = localStorage.getItem('theme');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       if (saved === 'light') {
@@ -52,7 +54,8 @@
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
 
   <!-- Lucide Icons -->
   <script src="https://unpkg.com/lucide@latest"></script>
@@ -66,84 +69,174 @@
   </script>
 
   <style>
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
 
     /* Animated background orbs */
     .bg-orb-1 {
-      position: fixed; top: -20%; left: -10%; width: 60vw; height: 60vw;
-      background: radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%);
-      border-radius: 50%; pointer-events: none; z-index: 0;
+      position: fixed;
+      top: -20%;
+      left: -10%;
+      width: 60vw;
+      height: 60vw;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
       animation: orb1 12s ease-in-out infinite alternate;
     }
+
     .bg-orb-2 {
-      position: fixed; bottom: -20%; right: -10%; width: 50vw; height: 50vw;
-      background: radial-gradient(circle, rgba(139,92,246,0.10) 0%, transparent 70%);
-      border-radius: 50%; pointer-events: none; z-index: 0;
+      position: fixed;
+      bottom: -20%;
+      right: -10%;
+      width: 50vw;
+      height: 50vw;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.10) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
       animation: orb2 15s ease-in-out infinite alternate;
     }
-    @keyframes orb1 { from { transform: translate(0,0) scale(1); } to { transform: translate(5%,5%) scale(1.1); } }
-    @keyframes orb2 { from { transform: translate(0,0) scale(1); } to { transform: translate(-5%,-5%) scale(1.15); } }
+
+    @keyframes orb1 {
+      from {
+        transform: translate(0, 0) scale(1);
+      }
+
+      to {
+        transform: translate(5%, 5%) scale(1.1);
+      }
+    }
+
+    @keyframes orb2 {
+      from {
+        transform: translate(0, 0) scale(1);
+      }
+
+      to {
+        transform: translate(-5%, -5%) scale(1.15);
+      }
+    }
 
     /* Glowing gradient text */
     .gradient-text {
       background: linear-gradient(135deg, #ffffff 0%, #c4b5fd 55%, #818cf8 100%);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
+
     .gradient-text-brand {
       background: linear-gradient(90deg, #e0e7ff, #c4b5fd);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
     }
 
     /* Glassmorphism card */
     .glass-card {
-      background: rgba(255,255,255,0.04);
+      background: rgba(255, 255, 255, 0.04);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(255,255,255,0.08);
+      border: 1px solid rgba(255, 255, 255, 0.08);
     }
+
     .light-glass-card {
-      background: rgba(255,255,255,0.9);
+      background: rgba(255, 255, 255, 0.9);
       backdrop-filter: blur(12px);
-      border: 1px solid rgba(0,0,0,0.06);
+      border: 1px solid rgba(0, 0, 0, 0.06);
     }
 
     /* Opportunity card hover glow */
     .opp-card {
       transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
-      position: relative; overflow: hidden;
+      position: relative;
+      overflow: hidden;
     }
+
     .opp-card::before {
-      content: ''; position: absolute; inset: 0;
-      background: linear-gradient(135deg, rgba(99,102,241,0.05) 0%, transparent 60%);
-      opacity: 0; transition: opacity 0.25s ease; pointer-events: none;
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, transparent 60%);
+      opacity: 0;
+      transition: opacity 0.25s ease;
+      pointer-events: none;
     }
-    .opp-card:hover { transform: translateY(-4px); box-shadow: 0 20px 60px rgba(0,0,0,0.4); }
-    .opp-card:hover::before { opacity: 1; }
-    .dark .opp-card:hover { border-color: rgba(99,102,241,0.5) !important; }
-    .light .opp-card:hover { border-color: rgba(99,102,241,0.4) !important; }
+
+    .opp-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    }
+
+    .opp-card:hover::before {
+      opacity: 1;
+    }
+
+    .dark .opp-card:hover {
+      border-color: rgba(99, 102, 241, 0.5) !important;
+    }
+
+    .light .opp-card:hover {
+      border-color: rgba(99, 102, 241, 0.4) !important;
+    }
 
     /* Skeleton loading animation */
     .skeleton {
-      background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.04) 75%);
       background-size: 200% 100%;
       animation: shimmer 1.5s infinite;
     }
+
     .dark .skeleton {
-      background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.04) 75%);
+      background: linear-gradient(90deg, rgba(255, 255, 255, 0.04) 25%, rgba(255, 255, 255, 0.08) 50%, rgba(255, 255, 255, 0.04) 75%);
       background-size: 200% 100%;
     }
-    :root.light .skeleton, html:not(.dark) .skeleton {
-      background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.04) 75%);
+
+    :root.light .skeleton,
+    html:not(.dark) .skeleton {
+      background: linear-gradient(90deg, rgba(0, 0, 0, 0.04) 25%, rgba(0, 0, 0, 0.08) 50%, rgba(0, 0, 0, 0.04) 75%);
       background-size: 200% 100%;
     }
-    @keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+    @keyframes shimmer {
+      from {
+        background-position: 200% 0;
+      }
+
+      to {
+        background-position: -200% 0;
+      }
+    }
 
     /* Scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    .dark ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
-    html:not(.dark) ::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); border-radius: 3px; }
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .dark ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+    }
+
+    html:not(.dark) ::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.15);
+      border-radius: 3px;
+    }
 
     /* Filter pill active */
     .pill-active {
@@ -153,25 +246,58 @@
     }
 
     /* Theme toggle transition */
-    html { transition: background-color 0.3s ease, color 0.3s ease; }
+    html {
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
 
     /* Kbd shortcut badge */
     kbd {
-      display: inline-flex; align-items: center; justify-content: center;
-      padding: 2px 6px; border-radius: 4px; font-size: 11px; font-weight: 600;
-      border: 1px solid; font-family: inherit; line-height: 1.4;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+      border: 1px solid;
+      font-family: inherit;
+      line-height: 1.4;
     }
-    .dark kbd { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.15); color: rgba(255,255,255,0.5); }
-    html:not(.dark) kbd { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.15); color: rgba(0,0,0,0.4); }
+
+    .dark kbd {
+      background: rgba(255, 255, 255, 0.07);
+      border-color: rgba(255, 255, 255, 0.15);
+      color: rgba(255, 255, 255, 0.5);
+    }
+
+    html:not(.dark) kbd {
+      background: rgba(0, 0, 0, 0.05);
+      border-color: rgba(0, 0, 0, 0.15);
+      color: rgba(0, 0, 0, 0.4);
+    }
 
     /* Deadline badge animations */
-    @keyframes urgentPulse { 0%,100% { opacity: 1; } 50% { opacity: 0.65; } }
-    .deadline-urgent { animation: urgentPulse 1.5s ease-in-out infinite; }
+    @keyframes urgentPulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.65;
+      }
+    }
+
+    .deadline-urgent {
+      animation: urgentPulse 1.5s ease-in-out infinite;
+    }
 
     /* Slide-out drawer animation classes */
     #saved-drawer.drawer-open {
       transform: translateX(0) !important;
     }
+
     #drawer-backdrop.backdrop-open {
       opacity: 1 !important;
       pointer-events: auto !important;
@@ -181,87 +307,102 @@
     .toast-pill {
       animation: toastIn 0.25s cubic-bezier(0.16, 1, 0.3, 1), toastOut 0.25s cubic-bezier(0.16, 1, 0.3, 1) 2.5s forwards;
     }
-    @keyframes toastIn { from { opacity: 0; transform: translateY(14px) scale(0.95); } to { opacity: 1; transform: translateY(0) scale(1); } }
-    @keyframes toastOut { from { opacity: 1; transform: translateY(0) scale(1); } to { opacity: 0; transform: translateY(-10px) scale(0.95); } }
+
+    @keyframes toastIn {
+      from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes toastOut {
+      from {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+
+      to {
+        opacity: 0;
+        transform: translateY(-10px) scale(0.95);
+      }
+    }
   </style>
 </head>
 
-<body class="dark:bg-slate-950 dark:text-slate-100 bg-slate-50 text-slate-900 min-h-screen transition-colors duration-300">
+<body
+  class="dark:bg-slate-950 dark:text-slate-100 bg-slate-50 text-slate-900 min-h-screen transition-colors duration-300">
 
   <!-- Background orbs -->
   <div class="bg-orb-1"></div>
   <div class="bg-orb-2"></div>
 
   <!-- ══════════════════ HEADER ══════════════════ -->
-  <header class="sticky top-0 z-50 dark:bg-slate-950/85 bg-white/85 backdrop-blur-xl border-b dark:border-slate-800/60 border-slate-200/80 transition-colors duration-300">
+  <header
+    class="sticky top-0 z-50 backdrop-blur-md dark:bg-slate-900/80 bg-white/85 border-b dark:border-slate-800/50 border-slate-200/80 transition-colors duration-300 shadow-sm">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 py-3">
       <div class="flex items-center gap-3">
 
         <!-- Logo -->
-        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 flex-shrink-0 text-white text-xl">🎓</div>
+        <div
+          class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center shadow-lg shadow-indigo-500/30 flex-shrink-0 text-white text-xl">
+          🎓</div>
 
         <!-- Wordmark -->
         <div class="flex-1 min-w-0">
           <h1 class="text-lg font-extrabold gradient-text-brand leading-tight">Opportunity Scout</h1>
-          <p class="text-xs dark:text-slate-400 text-slate-500 font-normal hidden sm:block">AI-curated student opportunities, updated daily</p>
+          <p class="text-xs dark:text-slate-400 text-slate-500 font-normal hidden sm:block">AI-curated student
+            opportunities, updated daily</p>
         </div>
 
         <!-- Live Connection Pill -->
-        <div id="connection-pill" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-emerald-500/10 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-200 text-xs font-semibold dark:text-emerald-300 text-emerald-700 flex-shrink-0 transition-colors">
-          <span id="connection-indicator-dot" class="w-2 h-2 rounded-full bg-emerald-400 animate-[blink_2s_ease-in-out_infinite]"></span>
+        <div id="connection-pill"
+          class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-emerald-500/10 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-200 text-xs font-semibold dark:text-emerald-300 text-emerald-700 flex-shrink-0 transition-colors">
+          <span id="connection-indicator-dot"
+            class="w-2 h-2 rounded-full bg-emerald-400 animate-[blink_2s_ease-in-out_infinite]"></span>
           <span id="header-count">Checking connection…</span>
         </div>
 
         <!-- 🔄 Refresh Live Data Button -->
-        <button
-          id="refresh-live-data-btn"
-          aria-label="Refresh live data from server"
+        <button id="refresh-live-data-btn" aria-label="Refresh live data from server"
           title="Force-refresh data from the live database"
-          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-emerald-950/50 bg-emerald-50 hover:dark:bg-emerald-900/60 hover:bg-emerald-100 border dark:border-emerald-500/30 border-emerald-200 text-xs font-semibold dark:text-emerald-300 text-emerald-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer"
-        >
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-emerald-950/50 bg-emerald-50 hover:dark:bg-emerald-900/60 hover:bg-emerald-100 border dark:border-emerald-500/30 border-emerald-200 text-xs font-semibold dark:text-emerald-300 text-emerald-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer">
           <i data-lucide="refresh-cw" class="w-3.5 h-3.5 text-emerald-400" id="refresh-icon"></i>
           <span class="hidden sm:inline">🔄 Refresh</span>
         </button>
 
         <!-- 🎯 Match My Resume Button -->
-        <button
-          id="match-resume-toggle"
-          aria-label="Match my resume to opportunities"
-          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-violet-950/50 bg-violet-50 hover:dark:bg-violet-900/60 hover:bg-violet-100 border dark:border-violet-500/30 border-violet-200 text-xs font-semibold dark:text-violet-300 text-violet-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer"
-        >
+        <button id="match-resume-toggle" aria-label="Match my resume to opportunities"
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-violet-950/50 bg-violet-50 hover:dark:bg-violet-900/60 hover:bg-violet-100 border dark:border-violet-500/30 border-violet-200 text-xs font-semibold dark:text-violet-300 text-violet-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer">
           <i data-lucide="target" class="w-3.5 h-3.5 text-violet-400"></i>
           <span class="hidden sm:inline">🎯 Match Resume</span>
           <span class="sm:hidden">🎯</span>
         </button>
 
         <!-- ➕ Submit Opportunity Button -->
-        <button
-          id="submit-opp-toggle"
-          aria-label="Submit a new opportunity"
-          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-amber-950/50 bg-amber-50 hover:dark:bg-amber-900/60 hover:bg-amber-100 border dark:border-amber-500/30 border-amber-200 text-xs font-semibold dark:text-amber-300 text-amber-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer"
-        >
+        <button id="submit-opp-toggle" aria-label="Submit a new opportunity"
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-amber-950/50 bg-amber-50 hover:dark:bg-amber-900/60 hover:bg-amber-100 border dark:border-amber-500/30 border-amber-200 text-xs font-semibold dark:text-amber-300 text-amber-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer">
           <i data-lucide="plus-circle" class="w-3.5 h-3.5 text-amber-400"></i>
           <span class="hidden sm:inline">➕ Submit</span>
           <span class="sm:hidden">➕</span>
         </button>
 
         <!-- Saved (X) Navbar Button -->
-        <button
-          id="saved-drawer-toggle"
-          aria-label="View saved opportunities"
-          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-slate-900 bg-white hover:dark:bg-slate-800 hover:bg-slate-100 border dark:border-slate-800 border-slate-200 dark:hover:border-indigo-500/50 hover:border-indigo-500/50 text-xs font-semibold dark:text-slate-200 text-slate-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer"
-        >
+        <button id="saved-drawer-toggle" aria-label="View saved opportunities"
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-slate-900 bg-white hover:dark:bg-slate-800 hover:bg-slate-100 border dark:border-slate-800 border-slate-200 dark:hover:border-indigo-500/50 hover:border-indigo-500/50 text-xs font-semibold dark:text-slate-200 text-slate-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer">
           <i data-lucide="bookmark" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
           <span>Saved</span>
-          <span id="saved-count-badge" class="px-1.5 py-0.5 rounded-full dark:bg-amber-400/20 bg-amber-100 text-amber-500 dark:text-amber-300 text-[11px] font-bold">0</span>
+          <span id="saved-count-badge"
+            class="px-1.5 py-0.5 rounded-full dark:bg-amber-400/20 bg-amber-100 text-amber-500 dark:text-amber-300 text-[11px] font-bold">0</span>
         </button>
 
         <!-- ⚙️ Agent Command Center Navbar Button -->
-        <button
-          id="admin-command-toggle"
-          aria-label="Open Agent Command Center"
-          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-indigo-950/50 bg-indigo-50 hover:dark:bg-indigo-900/60 hover:bg-indigo-100 border dark:border-indigo-500/30 border-indigo-200 text-xs font-semibold dark:text-indigo-300 text-indigo-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer"
-        >
+        <button id="admin-command-toggle" aria-label="Open Agent Command Center"
+          class="flex items-center gap-2 px-3.5 py-1.5 rounded-xl dark:bg-indigo-950/50 bg-indigo-50 hover:dark:bg-indigo-900/60 hover:bg-indigo-100 border dark:border-indigo-500/30 border-indigo-200 text-xs font-semibold dark:text-indigo-300 text-indigo-700 transition-all duration-200 shadow-sm flex-shrink-0 cursor-pointer">
           <i data-lucide="cpu" class="w-3.5 h-3.5 text-indigo-400"></i>
           <span class="hidden sm:inline">⚙️ Agent Control</span>
           <span class="sm:hidden">⚙️ Agents</span>
@@ -269,13 +410,12 @@
         </button>
 
         <!-- Dark/Light Toggle -->
-        <button
-          id="theme-toggle"
-          aria-label="Toggle dark/light mode"
-          class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 dark:hover:bg-slate-700 hover:bg-slate-200 border dark:border-slate-700 border-slate-200 flex items-center justify-center transition-all duration-200 flex-shrink-0"
-        >
-          <i id="theme-icon-moon" data-lucide="moon" class="w-4 h-4 dark:text-slate-300 text-slate-600 block dark:block hidden"></i>
-          <i id="theme-icon-sun" data-lucide="sun" class="w-4 h-4 dark:text-slate-300 text-slate-600 dark:hidden block"></i>
+        <button id="theme-toggle" aria-label="Toggle dark/light mode"
+          class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 dark:hover:bg-slate-700 hover:bg-slate-200 border dark:border-slate-700 border-slate-200 flex items-center justify-center transition-all duration-200 flex-shrink-0">
+          <i id="theme-icon-moon" data-lucide="moon"
+            class="w-4 h-4 dark:text-slate-300 text-slate-600 block dark:block hidden"></i>
+          <i id="theme-icon-sun" data-lucide="sun"
+            class="w-4 h-4 dark:text-slate-300 text-slate-600 dark:hidden block"></i>
         </button>
 
       </div>
@@ -287,39 +427,52 @@
 
     <!-- ── Hero ── -->
     <section class="text-center pt-14 pb-10">
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full dark:bg-indigo-500/10 bg-indigo-50 border dark:border-indigo-500/20 border-indigo-200 text-xs font-semibold dark:text-indigo-300 text-indigo-600 mb-5">
+      <div
+        class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full dark:bg-indigo-500/10 bg-indigo-50 border dark:border-indigo-500/20 border-indigo-200 text-xs font-semibold dark:text-indigo-300 text-indigo-600 mb-5">
         <i data-lucide="bot" class="w-3.5 h-3.5"></i>
         Powered by AI Agents — Scout → Gatekeeper → Curator
       </div>
       <h2 class="text-4xl sm:text-5xl lg:text-6xl font-black gradient-text leading-tight mb-4">
-        Find Your Next Big<br/>Student Opportunity
+        Find Your Next Big<br />Student Opportunity
       </h2>
-      <p class="text-base sm:text-lg dark:text-slate-400 text-slate-500 max-w-xl mx-auto mb-0 font-normal leading-relaxed">
-        Verified scholarships, internships, research programs, fellowships &amp; hackathons — discovered and vetted by AI agents every day.
+      <p
+        class="text-base sm:text-lg dark:text-slate-400 text-slate-500 max-w-xl mx-auto mb-0 font-normal leading-relaxed">
+        Verified scholarships, internships, research programs, fellowships &amp; hackathons — discovered and vetted by
+        AI agents every day.
       </p>
     </section>
 
     <!-- ── Stats Bar ── -->
     <div class="flex flex-wrap gap-3 justify-center mb-10" id="stats-bar">
-      <div class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
+      <div
+        class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
         <span class="text-xl">📋</span>
-        <div><strong id="stat-total" class="font-bold text-lg dark:text-white text-slate-900">—</strong> <span class="dark:text-slate-400 text-slate-500">Total Active</span></div>
+        <div><strong id="stat-total" class="font-bold text-lg dark:text-white text-slate-900">—</strong> <span
+            class="dark:text-slate-400 text-slate-500">Total Active</span></div>
       </div>
-      <div class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
+      <div
+        class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
         <span class="text-xl">✅</span>
-        <div><strong id="stat-funded" class="font-bold text-lg dark:text-emerald-400 text-emerald-600">—</strong> <span class="dark:text-slate-400 text-slate-500">Fully Funded / Paid</span></div>
+        <div><strong id="stat-funded" class="font-bold text-lg dark:text-emerald-400 text-emerald-600">—</strong> <span
+            class="dark:text-slate-400 text-slate-500">Fully Funded / Paid</span></div>
       </div>
-      <div class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
+      <div
+        class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
         <span class="text-xl">🔥</span>
-        <div><strong id="stat-closing" class="font-bold text-lg dark:text-amber-400 text-amber-600">—</strong> <span class="dark:text-slate-400 text-slate-500">Closing Soon (14 days)</span></div>
+        <div><strong id="stat-closing" class="font-bold text-lg dark:text-amber-400 text-amber-600">—</strong> <span
+            class="dark:text-slate-400 text-slate-500">Closing Soon (14 days)</span></div>
       </div>
-      <div class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
+      <div
+        class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
         <span class="text-xl">🎓</span>
-        <div><strong id="stat-scholarship" class="font-bold text-lg dark:text-amber-300 text-amber-600">—</strong> <span class="dark:text-slate-400 text-slate-500">Scholarships</span></div>
+        <div><strong id="stat-scholarship" class="font-bold text-lg dark:text-amber-300 text-amber-600">—</strong> <span
+            class="dark:text-slate-400 text-slate-500">Scholarships</span></div>
       </div>
-      <div class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
+      <div
+        class="stat-chip flex items-center gap-2.5 dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-xl px-4 py-2.5 text-sm shadow-sm">
         <span class="text-xl">💼</span>
-        <div><strong id="stat-internship" class="font-bold text-lg dark:text-blue-400 text-blue-600">—</strong> <span class="dark:text-slate-400 text-slate-500">Internships</span></div>
+        <div><strong id="stat-internship" class="font-bold text-lg dark:text-blue-400 text-blue-600">—</strong> <span
+            class="dark:text-slate-400 text-slate-500">Internships</span></div>
       </div>
     </div>
 
@@ -328,15 +481,11 @@
 
       <!-- Search bar -->
       <div class="relative">
-        <i data-lucide="search" class="absolute left-4 top-1/2 -translate-y-1/2 w-4.5 h-4.5 dark:text-slate-500 text-slate-400 pointer-events-none"></i>
-        <input
-          type="search"
-          id="search"
-          placeholder="Search by title, organization, tag, or keyword…"
-          aria-label="Search opportunities"
-          autocomplete="off"
-          class="w-full pl-11 pr-24 py-3.5 dark:bg-slate-900/70 bg-white border dark:border-slate-800 border-slate-200 rounded-2xl dark:text-slate-100 text-slate-900 text-sm placeholder:dark:text-slate-600 placeholder:text-slate-400 outline-none focus:ring-2 dark:focus:ring-indigo-500/40 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-200 shadow-sm font-medium"
-        />
+        <i data-lucide="search"
+          class="absolute left-4 top-1/2 -translate-y-1/2 w-4.5 h-4.5 dark:text-slate-500 text-slate-400 pointer-events-none"></i>
+        <input type="search" id="search" placeholder="Search by title, organization, tag, or keyword…"
+          aria-label="Search opportunities" autocomplete="off"
+          class="w-full pl-11 pr-24 py-3.5 dark:bg-slate-900/70 bg-white border dark:border-slate-800 border-slate-200 rounded-2xl dark:text-slate-100 text-slate-900 text-sm placeholder:dark:text-slate-600 placeholder:text-slate-400 outline-none focus:ring-2 dark:focus:ring-indigo-500/40 focus:ring-indigo-500/30 focus:border-indigo-500 transition-all duration-200 shadow-sm font-medium" />
         <span class="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-1">
           <kbd>⌘</kbd><kbd>K</kbd>
         </span>
@@ -344,21 +493,38 @@
 
       <!-- Category pills -->
       <div class="flex flex-wrap gap-2 items-center">
-        <span class="text-xs font-semibold dark:text-slate-500 text-slate-400 uppercase tracking-widest mr-1">Category:</span>
-        <button class="filter-btn pill-active px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="all">All</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Internship">💼 Internship</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Research">🔬 Research</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Scholarship">🎓 Scholarship</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Fellowship">🏆 Fellowship</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Hackathon">⚡ Hackathon</button>
-        <button class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150" data-filter="Grant">💰 Grant</button>
+        <span
+          class="text-xs font-semibold dark:text-slate-500 text-slate-400 uppercase tracking-widest mr-1">Category:</span>
+        <button
+          class="filter-btn pill-active px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150"
+          data-filter="all">All</button>
+        <button
+          class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150"
+          data-filter="Internship">💼 Internship</button>
+        <button
+          class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150"
+          data-filter="Research">🔬 Research</button>
+        <button
+          class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150"
+          data-filter="Scholarship">🎓 Scholarship</button>
+        <button
+          class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150"
+          data-filter="Fellowship">🏆 Fellowship</button>
+        <button
+          class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150"
+          data-filter="Hackathon">⚡ Hackathon</button>
+        <button
+          class="filter-btn px-4 py-1.5 rounded-full text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 hover:border-indigo-500 transition-all duration-150"
+          data-filter="Grant">💰 Grant</button>
       </div>
 
       <!-- Secondary dropdown filters -->
       <div class="flex flex-wrap gap-3 items-center">
-        <span class="text-xs font-semibold dark:text-slate-500 text-slate-400 uppercase tracking-widest mr-1">Filter:</span>
+        <span
+          class="text-xs font-semibold dark:text-slate-500 text-slate-400 uppercase tracking-widest mr-1">Filter:</span>
 
-        <select id="filter-level" aria-label="Filter by academic level" class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500">
+        <select id="filter-level" aria-label="Filter by academic level"
+          class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500">
           <option value="all">🎒 All Levels</option>
           <option value="High School">High School</option>
           <option value="Undergraduate">Undergraduate</option>
@@ -366,14 +532,16 @@
           <option value="PhD">PhD</option>
         </select>
 
-        <select id="filter-location" aria-label="Filter by location type" class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500">
+        <select id="filter-location" aria-label="Filter by location type"
+          class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500">
           <option value="all">📍 All Locations</option>
           <option value="Remote">Remote</option>
           <option value="Hybrid">Hybrid</option>
           <option value="On-site">On-site</option>
         </select>
 
-        <select id="filter-comp" aria-label="Filter by compensation" class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500">
+        <select id="filter-comp" aria-label="Filter by compensation"
+          class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500">
           <option value="all">💰 All Compensation</option>
           <option value="Fully Funded">✅ Fully Funded</option>
           <option value="Paid Stipend">💵 Paid Stipend</option>
@@ -381,7 +549,8 @@
           <option value="Unpaid">Unpaid</option>
         </select>
 
-        <select id="sort-select" aria-label="Sort opportunities" class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500 ml-auto">
+        <select id="sort-select" aria-label="Sort opportunities"
+          class="px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-200 dark:text-slate-300 text-slate-600 outline-none cursor-pointer transition-all duration-150 focus:border-indigo-500 ml-auto">
           <option value="deadline">⏰ Deadline (Soonest)</option>
           <option value="title">🔤 Title (A–Z)</option>
           <option value="compensation">💎 Compensation</option>
@@ -392,19 +561,23 @@
     <!-- ── Results bar ── -->
     <div class="flex items-center justify-between mb-5 flex-wrap gap-3 max-w-4xl mx-auto lg:max-w-none">
       <p class="text-sm dark:text-slate-400 text-slate-500 font-medium" id="results-count"></p>
-      <button
-        id="reset-btn"
-        onclick="resetFilters()"
-        class="hidden text-xs font-semibold px-3 py-1.5 rounded-lg dark:bg-slate-800 bg-slate-100 dark:text-slate-300 text-slate-600 hover:dark:bg-slate-700 hover:bg-slate-200 transition-colors border dark:border-slate-700 border-slate-200"
-      >
+      <button id="reset-btn" onclick="resetFilters()"
+        class="hidden text-xs font-semibold px-3 py-1.5 rounded-lg dark:bg-slate-800 bg-slate-100 dark:text-slate-300 text-slate-600 hover:dark:bg-slate-700 hover:bg-slate-200 transition-colors border dark:border-slate-700 border-slate-200">
         ✕ Clear Filters
       </button>
     </div>
 
     <!-- ── Cards Grid ── -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-10" id="cards-grid">
-      <!-- Skeleton loaders -->
-      <div class="skeleton h-72 rounded-2xl"></div>
+    <!-- ── Opportunities Horizontal List ── -->
+    <div class="space-y-3 mb-10" id="cards-grid">
+      <!-- Skeleton loaders (compact rows) -->
+      <div class="skeleton h-20 rounded-2xl w-full"></div>
+      <div class="skeleton h-20 rounded-2xl w-full"></div>
+      <div class="skeleton h-20 rounded-2xl w-full"></div>
+      <div class="skeleton h-20 rounded-2xl w-full"></div>
+      <div class="skeleton h-20 rounded-2xl w-full"></div>
+      <div class="skeleton h-20 rounded-2xl w-full"></div>
+    </div>
       <div class="skeleton h-72 rounded-2xl"></div>
       <div class="skeleton h-72 rounded-2xl"></div>
       <div class="skeleton h-72 rounded-2xl hidden md:block"></div>
@@ -413,16 +586,21 @@
     </div>
 
     <!-- ── Server-Side Pagination Bar ── -->
-    <div id="pagination-container" class="mb-24 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 shadow-sm max-w-4xl mx-auto lg:max-w-none transition-all">
+    <div id="pagination-container"
+      class="mb-24 flex flex-col sm:flex-row items-center justify-between gap-4 p-4 rounded-2xl dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 shadow-sm max-w-4xl mx-auto lg:max-w-none transition-all">
       <!-- Status Info -->
-      <div class="text-xs sm:text-sm font-semibold dark:text-slate-300 text-slate-600 flex items-center gap-2" id="pagination-summary">
-        <span>Page <strong class="dark:text-white text-slate-900" id="pg-current">1</strong> of <strong class="dark:text-white text-slate-900" id="pg-total">1</strong></span>
+      <div class="text-xs sm:text-sm font-semibold dark:text-slate-300 text-slate-600 flex items-center gap-2"
+        id="pagination-summary">
+        <span>Page <strong class="dark:text-white text-slate-900" id="pg-current">1</strong> of <strong
+            class="dark:text-white text-slate-900" id="pg-total">1</strong></span>
         <span class="text-slate-400 dark:text-slate-600">•</span>
-        <span class="text-slate-500 dark:text-slate-400 font-normal">(Showing <strong class="dark:text-white text-slate-900 font-semibold" id="pg-count">0</strong> total opportunities)</span>
+        <span class="text-slate-500 dark:text-slate-400 font-normal">(Showing <strong
+            class="dark:text-white text-slate-900 font-semibold" id="pg-count">0</strong> total opportunities)</span>
       </div>
 
       <!-- Page Navigation Controls -->
-      <nav class="flex items-center gap-1.5 flex-wrap justify-center" aria-label="Pagination Navigation" id="pagination-nav">
+      <nav class="flex items-center gap-1.5 flex-wrap justify-center" aria-label="Pagination Navigation"
+        id="pagination-nav">
         <!-- Rendered dynamically via renderPagination() -->
       </nav>
     </div>
@@ -453,48 +631,66 @@
 
     // ── Config ───────────────────────────────────────────────────────────────
     const OPPORTUNITIES_API_URL = '/api/opportunities';
-    const PAGE_SIZE = 30; // cards per page (chunks of 30)
+    const PAGE_SIZE = 40; // High-density list (40 opportunities per page)
 
-    const CAT_EMOJI   = { Scholarship:'🎓', Internship:'💼', Research:'🔬', Hackathon:'⚡', Fellowship:'🏆', Grant:'💰' };
-    const CAT_COLORS  = {
-      Scholarship: { bg: 'rgba(245,158,11,0.12)', badge: 'bg-amber-500/10 text-amber-400 border border-amber-500/20' },
-      Internship:  { bg: 'rgba(59,130,246,0.12)',  badge: 'bg-blue-500/10 text-blue-400 border border-blue-500/20' },
-      Research:    { bg: 'rgba(139,92,246,0.12)',  badge: 'bg-violet-500/10 text-violet-400 border border-violet-500/20' },
-      Hackathon:   { bg: 'rgba(16,185,129,0.12)',  badge: 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' },
-      Fellowship:  { bg: 'rgba(249,115,22,0.12)',  badge: 'bg-orange-500/10 text-orange-400 border border-orange-500/20' },
-      Grant:       { bg: 'rgba(236,72,153,0.12)',  badge: 'bg-pink-500/10 text-pink-400 border border-pink-500/20' },
+    const CAT_EMOJI = { Scholarship: '🎓', Internship: '💼', Research: '🔬', Hackathon: '⚡', Fellowship: '🏆', Grant: '💰' };
+    const CAT_COLORS = {
+      Scholarship: {
+        bg: 'rgba(16,185,129,0.12)',
+        badge: 'dark:bg-emerald-500/10 bg-emerald-50 dark:text-emerald-400 text-emerald-700 border dark:border-emerald-500/25 border-emerald-200'
+      },
+      Internship: {
+        bg: 'rgba(99,102,241,0.12)',
+        badge: 'dark:bg-indigo-500/10 bg-indigo-50 dark:text-indigo-400 text-indigo-700 border dark:border-indigo-500/25 border-indigo-200'
+      },
+      Research: {
+        bg: 'rgba(139,92,246,0.12)',
+        badge: 'dark:bg-violet-500/10 bg-violet-50 dark:text-violet-400 text-violet-700 border dark:border-violet-500/25 border-violet-200'
+      },
+      Hackathon: {
+        bg: 'rgba(245,158,11,0.12)',
+        badge: 'dark:bg-amber-500/10 bg-amber-50 dark:text-amber-400 text-amber-700 border dark:border-amber-500/25 border-amber-200'
+      },
+      Grant: {
+        bg: 'rgba(6,182,212,0.12)',
+        badge: 'dark:bg-cyan-500/10 bg-cyan-50 dark:text-cyan-400 text-cyan-700 border dark:border-cyan-500/25 border-cyan-200'
+      },
+      Fellowship: {
+        bg: 'rgba(249,115,22,0.12)',
+        badge: 'dark:bg-orange-500/10 bg-orange-50 dark:text-orange-400 text-orange-700 border dark:border-orange-500/25 border-orange-200'
+      },
     };
-    const COMP_BADGE  = {
-      'Fully Funded': 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20',
-      'Paid Stipend': 'bg-blue-500/10 text-blue-400 border border-blue-500/20',
-      'Cash Prize':   'bg-amber-500/10 text-amber-400 border border-amber-500/20',
-      'Unpaid':       'dark:bg-slate-700/50 bg-slate-100 dark:text-slate-400 text-slate-500 border dark:border-slate-600 border-slate-200',
-      'N/A':          'dark:bg-slate-700/50 bg-slate-100 dark:text-slate-400 text-slate-500 border dark:border-slate-600 border-slate-200',
+    const COMP_BADGE = {
+      'Fully Funded': 'dark:bg-emerald-500/15 bg-emerald-50 dark:text-emerald-300 text-emerald-700 border dark:border-emerald-500/30 border-emerald-300 font-bold shadow-sm shadow-emerald-500/10',
+      'Paid Stipend': 'dark:bg-indigo-500/15 bg-indigo-50 dark:text-indigo-300 text-indigo-700 border dark:border-indigo-500/30 border-indigo-300 font-semibold',
+      'Cash Prize': 'dark:bg-amber-500/15 bg-amber-50 dark:text-amber-300 text-amber-700 border dark:border-amber-500/30 border-amber-300 font-semibold',
+      'Unpaid': 'dark:bg-slate-800 bg-slate-100 dark:text-slate-400 text-slate-500 border dark:border-slate-700 border-slate-200',
+      'N/A': 'dark:bg-slate-800 bg-slate-100 dark:text-slate-400 text-slate-500 border dark:border-slate-700 border-slate-200',
     };
     const LOC_BADGE = {
-      'Remote':  'bg-sky-500/10 text-sky-400 border border-sky-500/20',
-      'Hybrid':  'bg-purple-500/10 text-purple-400 border border-purple-500/20',
+      'Remote': 'bg-sky-500/10 text-sky-400 border border-sky-500/20',
+      'Hybrid': 'bg-purple-500/10 text-purple-400 border border-purple-500/20',
       'On-site': 'dark:bg-slate-700/50 bg-slate-100 dark:text-slate-400 text-slate-500 border dark:border-slate-600 border-slate-200',
     };
 
     // ── State ────────────────────────────────────────────────────────────────
-    let allOpportunities        = [];
-    let currentOpportunities    = [];
-    let activeCategory          = 'all';
-    let activeLevel             = 'all';
-    let activeLocation          = 'all';
-    let activeComp              = 'all';
-    let searchQuery             = '';
-    let sortBy                  = 'deadline';
-    let currentPage             = 1; // current pagination page
-    let totalPages              = 1;
+    let allOpportunities = [];
+    let currentOpportunities = [];
+    let activeCategory = 'all';
+    let activeLevel = 'all';
+    let activeLocation = 'all';
+    let activeComp = 'all';
+    let searchQuery = '';
+    let sortBy = 'deadline';
+    let currentPage = 1; // current pagination page
+    let totalPages = 1;
     let totalOpportunitiesCount = 0;
-    let searchDebounceTimer     = null;
-    let currentFetchController  = null;
+    let searchDebounceTimer = null;
+    let currentFetchController = null;
 
     // ── Saved Opportunities (localStorage) ───────────────────────────────────
     const SAVED_STORAGE_KEY = 'opportunity_scout_saved_ids';
-    const SAVED_ITEMS_KEY   = 'opportunity_scout_saved_items_map';
+    const SAVED_ITEMS_KEY = 'opportunity_scout_saved_items_map';
 
     function getSavedMap() {
       try {
@@ -511,7 +707,7 @@
         const map = getSavedMap();
         list.forEach(o => { if (o && o.id) map[o.id] = o; });
         localStorage.setItem(SAVED_ITEMS_KEY, JSON.stringify(map));
-      } catch (e) {}
+      } catch (e) { }
     }
 
     function getSavedIds() {
@@ -526,7 +722,7 @@
     function setSavedIds(ids) {
       try {
         localStorage.setItem(SAVED_STORAGE_KEY, JSON.stringify(ids));
-      } catch (e) {}
+      } catch (e) { }
       updateSavedBadges();
     }
 
@@ -607,7 +803,7 @@
           const eStr = end.toISOString().replace(/-|:|\.\d\d\d/g, '').slice(0, 8);
           return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${sStr}/${eStr}`;
         }
-      } catch (e) {}
+      } catch (e) { }
 
       const clean = (opp.deadline || '').replace(/-/g, '');
       return `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&details=${details}&dates=${clean}/${clean}`;
@@ -623,123 +819,247 @@
       if (!dateStr || dateStr === 'Rolling')
         return { text: 'Rolling', cls: 'dark:text-slate-400 text-slate-500', icon: 'refresh-cw', urgent: false };
       const d = daysUntil(dateStr);
-      if (d < 0)   return { text: 'Deadline passed', cls: 'text-slate-500 line-through', icon: 'x-circle', urgent: false };
+      if (d < 0) return { text: 'Deadline passed', cls: 'text-slate-500 line-through', icon: 'x-circle', urgent: false };
       if (d === 0) return { text: 'Closes TODAY!', cls: 'text-red-400 deadline-urgent font-bold', icon: 'alert-circle', urgent: true };
-      if (d <= 7)  return { text: `${d}d left`, cls: 'text-red-400 deadline-urgent font-semibold', icon: 'alert-triangle', urgent: true };
+      if (d <= 7) return { text: `${d}d left`, cls: 'text-red-400 deadline-urgent font-semibold', icon: 'alert-triangle', urgent: true };
       if (d <= 14) return { text: `${d}d left`, cls: 'text-amber-400 font-semibold', icon: 'clock', urgent: true };
       if (d <= 30) return { text: `${d} days left`, cls: 'dark:text-slate-300 text-slate-600', icon: 'clock', urgent: false };
       return { text: dateStr, cls: 'dark:text-slate-400 text-slate-500', icon: 'calendar', urgent: false };
     }
 
     function esc(s) {
-      return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
     }
 
-    // ── Render card ──────────────────────────────────────────────────────────
+    // ── Details Modal Logic ──────────────────────────────────────────────────
+    let currentModalOpp = null;
+
+    function openDetailsModal(opp) {
+      if (!opp) return;
+      currentModalOpp = opp;
+
+      const modal = document.getElementById('details-modal');
+      const backdrop = document.getElementById('details-modal-backdrop');
+      if (!modal || !backdrop) return;
+
+      const cat = opp.category || 'Opportunity';
+      const emoji = CAT_EMOJI[cat] || '📌';
+      const catInfo = CAT_COLORS[cat] || { bg: 'rgba(99,102,241,0.12)', badge: 'dark:bg-indigo-500/10 bg-indigo-50 dark:text-indigo-400 text-indigo-700 border dark:border-indigo-500/25 border-indigo-200' };
+      const comp = opp.compensation || 'N/A';
+      const dl = deadlineInfo(opp.deadline);
+
+      const iconEl = document.getElementById('modal-opp-icon');
+      if (iconEl) {
+        iconEl.style.background = catInfo.bg;
+        iconEl.textContent = emoji;
+      }
+
+      const catBadge = document.getElementById('modal-opp-cat-badge');
+      if (catBadge) {
+        catBadge.className = `px-2.5 py-0.5 rounded-full text-xs font-bold ${catInfo.badge}`;
+        catBadge.textContent = `${emoji} ${cat}`;
+      }
+
+      const orgEl = document.getElementById('modal-opp-org');
+      if (orgEl) orgEl.textContent = `by ${opp.host_organization || 'Organization'}`;
+
+      const titleEl = document.getElementById('modal-opp-title');
+      if (titleEl) titleEl.textContent = opp.title || 'Untitled Opportunity';
+
+      const pitchEl = document.getElementById('modal-opp-pitch');
+      const pitchCont = document.getElementById('modal-opp-pitch-container');
+      if (opp.one_line_pitch) {
+        if (pitchCont) pitchCont.classList.remove('hidden');
+        if (pitchEl) pitchEl.textContent = opp.one_line_pitch;
+      } else {
+        if (pitchCont) pitchCont.classList.add('hidden');
+      }
+
+      const compEl = document.getElementById('modal-opp-comp');
+      if (compEl) compEl.textContent = comp;
+
+      const locEl = document.getElementById('modal-opp-location');
+      if (locEl) locEl.textContent = opp.location || opp.location_type || 'Global / Remote';
+
+      const levelEl = document.getElementById('modal-opp-level');
+      if (levelEl) {
+        const levels = Array.isArray(opp.academic_level) ? opp.academic_level.join(', ') : (opp.academic_level || 'Open to All Students');
+        levelEl.textContent = levels || 'All Students';
+      }
+
+      const dlEl = document.getElementById('modal-opp-deadline');
+      if (dlEl) {
+        dlEl.textContent = dl.text;
+        dlEl.className = `text-xs sm:text-sm font-bold ${dl.cls}`;
+      }
+
+      const tagsEl = document.getElementById('modal-opp-tags');
+      if (tagsEl) {
+        const tags = Array.isArray(opp.tags) ? opp.tags : [];
+        tagsEl.innerHTML = tags.length
+          ? tags.map(t => `<span class="text-xs px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-100 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-200 font-medium">${esc(t)}</span>`).join('')
+          : '<span class="text-xs dark:text-slate-500 text-slate-400">General student opportunity</span>';
+      }
+
+      const descEl = document.getElementById('modal-opp-desc');
+      if (descEl) {
+        const desc = opp.description || opp.one_line_pitch || 'Detailed application instructions, eligibility criteria, and requirements are available on the official application link below.';
+        descEl.textContent = desc;
+      }
+
+      const calLink = document.getElementById('modal-cal-link');
+      if (calLink) calLink.href = getGoogleCalendarUrl(opp);
+
+      const applyBtn = document.getElementById('modal-apply-btn');
+      if (applyBtn) {
+        applyBtn.href = opp.apply_url || '#';
+      }
+
+      // Show modal
+      backdrop.classList.remove('opacity-0', 'pointer-events-none');
+      backdrop.classList.add('opacity-100');
+      modal.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+      modal.classList.add('opacity-100', 'scale-100');
+
+      lucide.createIcons();
+    }
+
+    function closeDetailsModal() {
+      const modal = document.getElementById('details-modal');
+      const backdrop = document.getElementById('details-modal-backdrop');
+      if (backdrop) {
+        backdrop.classList.remove('opacity-100');
+        backdrop.classList.add('opacity-0', 'pointer-events-none');
+      }
+      if (modal) {
+        modal.classList.remove('opacity-100', 'scale-100');
+        modal.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
+      }
+    }
+
+    // ── Render Compact Horizontal Row ─────────────────────────────────────────
     function renderCard(opp, idx) {
-      const cat       = opp.category || 'Other';
-      const emoji     = CAT_EMOJI[cat] || '📌';
-      const catInfo   = CAT_COLORS[cat] || { bg: 'rgba(255,255,255,0.06)', badge: 'dark:bg-slate-700 bg-slate-100 dark:text-slate-300 text-slate-500' };
-      const comp      = opp.compensation || 'N/A';
+      const cat = opp.category || 'Other';
+      const emoji = CAT_EMOJI[cat] || '📌';
+      const catInfo = CAT_COLORS[cat] || { bg: 'rgba(99,102,241,0.12)', badge: 'dark:bg-indigo-500/10 bg-indigo-50 dark:text-indigo-400 text-indigo-700 border dark:border-indigo-500/25 border-indigo-200' };
+      const comp = opp.compensation || 'N/A';
       const compBadge = COMP_BADGE[comp] || COMP_BADGE['N/A'];
-      const locBadge  = opp.location_type ? (LOC_BADGE[opp.location_type] || LOC_BADGE['On-site']) : '';
-      const dl        = deadlineInfo(opp.deadline);
-      const tags      = (opp.tags || []).slice(0, 4);
-      const delay     = Math.min(idx * 0.05, 0.4);
-      const compIcon  = comp === 'Fully Funded' ? '✅ ' : comp === 'Paid Stipend' ? '💵 ' : comp === 'Cash Prize' ? '🏅 ' : '';
-      const locIcon   = opp.location_type === 'Remote' ? '🌐' : opp.location_type === 'Hybrid' ? '🔀' : '📍';
-      const isSaved   = isOpportunitySaved(opp.id);
-      const calUrl    = getGoogleCalendarUrl(opp);
+      const locBadge = opp.location_type ? (LOC_BADGE[opp.location_type] || LOC_BADGE['On-site']) : '';
+      const dl = deadlineInfo(opp.deadline);
+      const tags = (opp.tags || []).slice(0, 3);
+      const delay = Math.min(idx * 0.02, 0.3);
+      const compIcon = comp === 'Fully Funded' ? '✅ ' : comp === 'Paid Stipend' ? '💵 ' : comp === 'Cash Prize' ? '🏅 ' : '';
+      const locIcon = opp.location_type === 'Remote' ? '🌐' : opp.location_type === 'Hybrid' ? '🔀' : '📍';
+      const isSaved = isOpportunitySaved(opp.id);
+      const calUrl = getGoogleCalendarUrl(opp);
 
       return `
-        <article class="opp-card dark:bg-slate-900/60 bg-white border dark:border-slate-800 border-slate-200 rounded-2xl p-5 flex flex-col gap-3.5 shadow-sm" style="animation: fadeUp 0.4s ease ${delay}s both" aria-label="${esc(opp.title)}">
-
-          <!-- Top: icon + org + title + bookmark button -->
-          <div class="flex items-start justify-between gap-2.5">
-            <div class="flex items-start gap-3 min-w-0">
-              <div class="w-11 h-11 rounded-xl flex items-center justify-center text-2xl flex-shrink-0" style="background:${catInfo.bg}">${emoji}</div>
-              <div class="flex-1 min-w-0">
-                <div class="text-xs dark:text-slate-500 text-slate-400 font-medium truncate mb-0.5">${esc(opp.host_organization)}</div>
-                <div class="text-sm font-bold dark:text-white text-slate-900 leading-snug line-clamp-2">${esc(opp.title)}</div>
-              </div>
+        <article
+          class="opp-row group relative p-3.5 sm:p-4 rounded-2xl dark:bg-slate-900/60 bg-white border dark:border-slate-800/80 border-slate-200 shadow-sm hover:border-indigo-500/50 hover:shadow-md hover:shadow-indigo-500/5 transition-all duration-200 cursor-pointer flex flex-col lg:flex-row lg:items-center justify-between gap-3 sm:gap-4"
+          data-id="${esc(opp.id)}"
+          aria-label="${esc(opp.title)}"
+          style="animation: fadeUp 0.3s ease ${delay}s both"
+          tabindex="0"
+        >
+          <!-- Left section: Org avatar, Category badge, Title, Org name, domain tags -->
+          <div class="flex items-start sm:items-center gap-3.5 min-w-0 flex-1">
+            <!-- Icon/Avatar -->
+            <div class="w-11 h-11 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center text-xl sm:text-2xl flex-shrink-0 shadow-sm group-hover:scale-105 transition-transform" style="background:${catInfo.bg}">
+              ${emoji}
             </div>
 
-            <!-- Bookmark icon button on every opportunity card -->
+            <!-- Info Column -->
+            <div class="flex-1 min-w-0">
+              <div class="flex items-center gap-2 flex-wrap mb-1">
+                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold ${catInfo.badge}">
+                  ${emoji} ${esc(cat)}
+                </span>
+                <span class="text-xs font-semibold dark:text-slate-400 text-slate-500 truncate max-w-[200px] sm:max-w-none">
+                  ${esc(opp.host_organization)}
+                </span>
+              </div>
+
+              <h3 class="text-sm sm:text-base font-bold dark:text-white text-slate-900 leading-snug group-hover:text-indigo-400 dark:group-hover:text-indigo-300 transition-colors line-clamp-1 sm:line-clamp-2">
+                ${esc(opp.title)}
+              </h3>
+
+              <!-- Domain tags & pitch snippet -->
+              <div class="flex items-center gap-1.5 flex-wrap mt-1">
+                ${tags.map(t => `<span class="text-[11px] px-2 py-0.5 rounded-md dark:bg-slate-800/80 bg-slate-100 dark:text-slate-400 text-slate-600 border dark:border-slate-700/60 border-slate-200 font-medium">${esc(t)}</span>`).join('')}
+                ${opp.one_line_pitch ? `<span class="hidden xl:inline-block text-xs dark:text-slate-500 text-slate-400 truncate max-w-sm ml-1">• ${esc(opp.one_line_pitch)}</span>` : ''}
+              </div>
+            </div>
+          </div>
+
+          <!-- Middle section: Compensation badge, Location pill, Deadline countdown -->
+          <div class="flex items-center gap-2 flex-wrap sm:flex-nowrap flex-shrink-0 pt-2 lg:pt-0 border-t lg:border-t-0 dark:border-slate-800/60 border-slate-100">
+            <!-- Compensation Badge -->
+            <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-bold ${compBadge}">
+              ${compIcon}${esc(comp)}
+            </span>
+
+            <!-- Location Pill -->
+            ${opp.location_type ? `
+              <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-xl text-xs font-semibold ${locBadge}">
+                ${locIcon} ${esc(opp.location_type)}
+              </span>
+            ` : ''}
+
+            <!-- Deadline Badge -->
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-xl text-xs font-semibold dark:bg-slate-800/90 bg-slate-100 border dark:border-slate-700/60 border-slate-200 ${dl.cls}">
+              <i data-lucide="${dl.icon}" class="w-3.5 h-3.5 flex-shrink-0"></i>
+              <span>${dl.text}</span>
+            </span>
+          </div>
+
+          <!-- Right section: Bookmark, Inspect Details, Apply button -->
+          <div class="flex items-center gap-2 flex-shrink-0 self-end lg:self-center">
+            <!-- Bookmark -->
             <button
               type="button"
-              class="bookmark-btn w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-200 flex-shrink-0 cursor-pointer ${isSaved ? 'dark:bg-amber-500/20 bg-amber-100 text-amber-500 border border-amber-500/30' : 'dark:bg-slate-800/80 bg-slate-100 dark:text-slate-400 text-slate-400 hover:text-amber-400 hover:dark:bg-slate-700 hover:bg-slate-200 border dark:border-slate-700/60 border-slate-200'}"
+              class="bookmark-btn w-9 h-9 rounded-xl flex items-center justify-center transition-all duration-200 cursor-pointer ${isSaved ? 'dark:bg-amber-500/20 bg-amber-100 text-amber-500 border border-amber-500/30' : 'dark:bg-slate-800/80 bg-slate-100 dark:text-slate-400 text-slate-500 hover:text-amber-400 hover:dark:bg-slate-700 border dark:border-slate-700/60 border-slate-200'}"
               data-id="${esc(opp.id)}"
-              title="${isSaved ? 'Remove from saved' : 'Save opportunity'}"
-              aria-label="${isSaved ? 'Remove from saved' : 'Save opportunity'}"
+              title="${isSaved ? 'Remove bookmark' : 'Save bookmark'}"
+              aria-label="Bookmark"
             >
               <i data-lucide="bookmark" class="w-4 h-4 ${isSaved ? 'fill-amber-400 text-amber-400' : ''}"></i>
             </button>
-          </div>
 
-          <!-- Badges row -->
-          <div class="flex flex-wrap gap-1.5">
-            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${catInfo.badge}">${emoji} ${esc(cat)}</span>
-            <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${compBadge}">${compIcon}${esc(comp)}</span>
-            ${opp.location_type ? `<span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold ${locBadge}">${locIcon} ${esc(opp.location_type)}</span>` : ''}
-          </div>
+            <!-- Inspect Details Button -->
+            <button
+              type="button"
+              class="inspect-btn inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-800/90 bg-slate-100 dark:text-slate-200 text-slate-700 hover:dark:bg-slate-700 hover:bg-slate-200 border dark:border-slate-700/70 border-slate-200 hover:border-indigo-500/50 transition-all cursor-pointer"
+              data-id="${esc(opp.id)}"
+              title="Inspect full details"
+            >
+              <i data-lucide="eye" class="w-3.5 h-3.5 text-indigo-400"></i>
+              <span class="hidden sm:inline">Inspect</span>
+            </button>
 
-          <!-- Pitch -->
-          ${opp.one_line_pitch ? `<p class="text-xs dark:text-slate-400 text-slate-500 leading-relaxed line-clamp-2">${esc(opp.one_line_pitch)}</p>` : ''}
+            <!-- Apply Button -->
+            <a
+              href="${esc(opp.apply_url)}"
+              target="_blank"
+              rel="noopener"
+              class="apply-btn inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-95 shadow-md shadow-indigo-500/20 hover:shadow-indigo-500/30 hover:-translate-y-px transition-all"
+              id="apply-${esc(opp.id)}"
+            >
+              <span>Apply</span>
+              <i data-lucide="arrow-up-right" class="w-3.5 h-3.5"></i>
+            </a>
 
-          <!-- Tags -->
-          ${tags.length ? `<div class="flex flex-wrap gap-1">${tags.map(t => `<span class="text-xs px-2 py-0.5 rounded-md dark:bg-slate-800 bg-slate-100 dark:text-slate-400 text-slate-500 border dark:border-slate-700 border-slate-200 font-medium">${esc(t)}</span>`).join('')}</div>` : ''}
-
-          <!-- Footer: deadline + actions -->
-          <div class="mt-auto pt-3.5 border-t dark:border-slate-800 border-slate-100 flex items-center justify-between gap-2 flex-wrap">
-            <div class="flex items-center gap-1.5 text-xs ${dl.cls}">
-              <i data-lucide="${dl.icon}" class="w-3.5 h-3.5 flex-shrink-0"></i>
-              <span>${dl.text}</span>
-            </div>
-            <div class="flex items-center gap-1.5">
-              <!-- Add Deadline to Google Calendar quick link -->
-              <a
-                href="${calUrl}"
-                target="_blank"
-                rel="noopener"
-                class="inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold dark:bg-slate-800 bg-slate-100 dark:text-slate-300 text-slate-600 hover:dark:bg-slate-700 hover:bg-slate-200 border dark:border-slate-700 border-slate-200 transition-colors"
-                title="Add deadline to Google Calendar"
-                aria-label="Add deadline to Google Calendar"
-              >
-                <i data-lucide="calendar-plus" class="w-3.5 h-3.5 text-indigo-400"></i>
-                <span class="hidden sm:inline">Add to Cal</span>
-              </a>
-
+            ${isAdminModeActive() ? `
               <button
-                class="ask-advisor-btn text-xs font-semibold px-2.5 py-1.5 rounded-lg dark:bg-indigo-500/10 bg-indigo-50 dark:text-indigo-400 text-indigo-600 border dark:border-indigo-500/20 border-indigo-200 hover:dark:bg-indigo-500/20 hover:bg-indigo-100 transition-colors"
+                type="button"
+                class="delete-opp-btn w-9 h-9 rounded-xl flex items-center justify-center dark:bg-rose-500/10 bg-rose-50 dark:text-rose-400 text-rose-600 hover:dark:bg-rose-500/20 border dark:border-rose-500/30 border-rose-200 transition-colors cursor-pointer"
+                data-id="${esc(opp.id)}"
                 data-title="${esc(opp.title)}"
-                data-org="${esc(opp.host_organization)}"
-                aria-label="Ask advisor about ${esc(opp.title)}"
-              >💬 Ask</button>
-
-              <a
-                href="${esc(opp.apply_url)}"
-                target="_blank"
-                rel="noopener"
-                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 hover:-translate-y-px transition-all"
-                id="apply-${esc(opp.id)}"
-              >Apply <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>
-
-              ${isAdminModeActive() ? `
-                <button
-                  type="button"
-                  class="delete-opp-btn inline-flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-xs font-semibold dark:bg-rose-500/10 bg-rose-50 dark:text-rose-400 text-rose-600 hover:dark:bg-rose-500/20 hover:bg-rose-100 border dark:border-rose-500/30 border-rose-200 transition-colors cursor-pointer"
-                  data-id="${esc(opp.id)}"
-                  data-title="${esc(opp.title)}"
-                  title="Remove opportunity from live portal"
-                  aria-label="Remove opportunity"
-                >
-                  <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-400"></i>
-                  <span class="hidden sm:inline">Remove</span>
-                </button>
-              ` : ''}
-            </div>
+                title="Remove opportunity"
+              >
+                <i data-lucide="trash-2" class="w-3.5 h-3.5 text-rose-400"></i>
+              </button>
+            ` : ''}
           </div>
-
         </article>`;
     }
 
@@ -747,30 +1067,25 @@
     function showSkeletons() {
       const grid = document.getElementById('cards-grid');
       if (!grid) return;
-      grid.innerHTML = `
-        <div class="skeleton h-72 rounded-2xl"></div>
-        <div class="skeleton h-72 rounded-2xl"></div>
-        <div class="skeleton h-72 rounded-2xl"></div>
-        <div class="skeleton h-72 rounded-2xl hidden md:block"></div>
-        <div class="skeleton h-72 rounded-2xl hidden lg:block"></div>
-        <div class="skeleton h-72 rounded-2xl hidden lg:block"></div>
-      `;
+      grid.innerHTML = Array.from({ length: 8 }).map(() => `
+        <div class="skeleton h-20 rounded-2xl w-full"></div>
+      `).join('');
     }
 
     // ── Client-side Sort of Current Page Results ─────────────────────────────
     function getSortedData() {
       let data = [...currentOpportunities];
       if (sortBy === 'deadline') {
-        data.sort((a,b) => {
+        data.sort((a, b) => {
           const da = a.deadline === 'Rolling' ? 9999 : daysUntil(a.deadline) ?? 9999;
           const db = b.deadline === 'Rolling' ? 9999 : daysUntil(b.deadline) ?? 9999;
           return da - db;
         });
       } else if (sortBy === 'title') {
-        data.sort((a,b) => (a.title||'').localeCompare(b.title||''));
+        data.sort((a, b) => (a.title || '').localeCompare(b.title || ''));
       } else if (sortBy === 'compensation') {
-        const order = { 'Fully Funded':0, 'Paid Stipend':1, 'Cash Prize':2, 'Unpaid':3, 'N/A':4 };
-        data.sort((a,b) => (order[a.compensation]??5) - (order[b.compensation]??5));
+        const order = { 'Fully Funded': 0, 'Paid Stipend': 1, 'Cash Prize': 2, 'Unpaid': 3, 'N/A': 4 };
+        data.sort((a, b) => (order[a.compensation] ?? 5) - (order[b.compensation] ?? 5));
       }
       return data;
     }
@@ -782,10 +1097,10 @@
     // ── Pagination Bar Renderer ──────────────────────────────────────────────
     function renderPagination() {
       const container = document.getElementById('pagination-container');
-      const nav       = document.getElementById('pagination-nav');
+      const nav = document.getElementById('pagination-nav');
       const pgCurrent = document.getElementById('pg-current');
-      const pgTotal   = document.getElementById('pg-total');
-      const pgCount   = document.getElementById('pg-count');
+      const pgTotal = document.getElementById('pg-total');
+      const pgCount = document.getElementById('pg-count');
 
       if (!container || !nav) return;
 
@@ -892,7 +1207,7 @@
 
     // ── Render Cards Grid ────────────────────────────────────────────────────
     function render() {
-      const grid    = document.getElementById('cards-grid');
+      const grid = document.getElementById('cards-grid');
       const countEl = document.getElementById('results-count');
       const resetBtn = document.getElementById('reset-btn');
 
@@ -929,6 +1244,41 @@
       grid.innerHTML = sortedData.map((opp, i) => renderCard(opp, i)).join('');
       lucide.createIcons();
 
+      // Helper to find opportunity by ID from current page or offline cache
+      function findOpportunityById(id) {
+        return currentOpportunities.find(o => o && o.id === id) || (getSavedMap() || {})[id] || null;
+      }
+
+      // Attach Row click listener (opens Details Modal)
+      grid.querySelectorAll('.opp-row').forEach(row => {
+        row.addEventListener('click', (e) => {
+          // If clicked directly on an interactive action element, ignore
+          if (e.target.closest('button') || e.target.closest('a')) return;
+          const id = row.dataset.id;
+          const opp = findOpportunityById(id);
+          if (opp) openDetailsModal(opp);
+        });
+        row.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            if (e.target.closest('button') || e.target.closest('a')) return;
+            e.preventDefault();
+            const id = row.dataset.id;
+            const opp = findOpportunityById(id);
+            if (opp) openDetailsModal(opp);
+          }
+        });
+      });
+
+      // Attach Inspect Details click listeners
+      grid.querySelectorAll('.inspect-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const id = btn.dataset.id;
+          const opp = findOpportunityById(id);
+          if (opp) openDetailsModal(opp);
+        });
+      });
+
       // Attach Bookmark click listeners
       grid.querySelectorAll('.bookmark-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -938,15 +1288,10 @@
         });
       });
 
-      // Attach Ask Advisor listeners
-      grid.querySelectorAll('.ask-advisor-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          const title = btn.dataset.title;
-          const org   = btn.dataset.org;
-          const prompt = `Tell me how to make my application stand out for ${title} at ${org}.`;
-          if (window.askAdvisor) {
-            window.askAdvisor(prompt);
-          }
+      // Stop propagation on Apply buttons so row click doesn't also trigger
+      grid.querySelectorAll('.apply-btn').forEach(link => {
+        link.addEventListener('click', (e) => {
+          e.stopPropagation();
         });
       });
 
@@ -1296,350 +1641,350 @@
         });
       }
 
-    // ── Admin Command Center Logic ───────────────────────────────────────────
-    const ADMIN_STORAGE_KEY = 'opportunity_scout_admin_key';
+      // ── Admin Command Center Logic ───────────────────────────────────────────
+      const ADMIN_STORAGE_KEY = 'opportunity_scout_admin_key';
 
-    function getAdminKey() {
-      return sessionStorage.getItem(ADMIN_STORAGE_KEY) || 'admin123';
-    }
-
-    function setAdminKey(key) {
-      sessionStorage.setItem(ADMIN_STORAGE_KEY, key);
-      updateAdminStatusUI();
-      render();
-    }
-
-    function isAdminModeActive() {
-      return Boolean(getAdminKey());
-    }
-
-    function updateAdminStatusUI() {
-      const isUnlocked = isAdminModeActive();
-      const badge = document.getElementById('admin-status-badge');
-      const indicator = document.getElementById('admin-badge-indicator');
-      if (badge) {
-        badge.textContent = isUnlocked ? 'Unlocked' : 'Locked';
-        badge.className = isUnlocked
-          ? 'px-2 py-0.5 rounded-full text-[11px] font-bold dark:bg-emerald-400/20 bg-emerald-100 text-emerald-500 dark:text-emerald-300'
-          : 'px-2 py-0.5 rounded-full text-[11px] font-bold dark:bg-amber-400/20 bg-amber-100 text-amber-500 dark:text-amber-400';
+      function getAdminKey() {
+        return sessionStorage.getItem(ADMIN_STORAGE_KEY) || 'admin123';
       }
-      if (indicator) {
-        indicator.className = isUnlocked ? 'w-2 h-2 rounded-full bg-emerald-400' : 'w-2 h-2 rounded-full bg-slate-400';
-      }
-    }
 
-    function openAdminModal() {
-      const modal = document.getElementById('admin-modal');
-      const backdrop = document.getElementById('admin-modal-backdrop');
-      const passkeyInput = document.getElementById('admin-passkey-input');
-      if (passkeyInput) passkeyInput.value = getAdminKey();
-      updateAdminStatusUI();
-
-      if (backdrop) {
-        backdrop.classList.remove('opacity-0', 'pointer-events-none');
-        backdrop.classList.add('opacity-100');
-      }
-      if (modal) {
-        modal.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
-        modal.classList.add('opacity-100', 'scale-100');
-      }
-      lucide.createIcons();
-    }
-
-    function closeAdminModal() {
-      const modal = document.getElementById('admin-modal');
-      const backdrop = document.getElementById('admin-modal-backdrop');
-      if (backdrop) {
-        backdrop.classList.remove('opacity-100');
-        backdrop.classList.add('opacity-0', 'pointer-events-none');
-      }
-      if (modal) {
-        modal.classList.remove('opacity-100', 'scale-100');
-        modal.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
-      }
-    }
-
-    async function handleDeleteOpportunity(id, title) {
-      if (!confirm(`Are you sure you want to remove "${title}" from the live database?\n\nThis will remove it from the portal, /tmp cache, and GitHub repository.`)) {
-        return;
-      }
-      const adminKey = getAdminKey();
-      try {
-        const res = await fetch(`/api/opportunities/${encodeURIComponent(id)}`, {
-          method: 'DELETE',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-admin-key': adminKey,
-          },
-          body: JSON.stringify({ admin_key: adminKey })
-        });
-        const data = await res.json();
-        if (!res.ok) {
-          alert(`Error deleting opportunity: ${data.error || 'Request failed'}`);
-          return;
-        }
-        allOpportunities = allOpportunities.filter(o => o.id !== id);
-        updateStats();
+      function setAdminKey(key) {
+        sessionStorage.setItem(ADMIN_STORAGE_KEY, key);
+        updateAdminStatusUI();
         render();
-        showToast(`Removed "${title.slice(0, 25)}..." 🗑️`);
-      } catch (err) {
-        alert(`Network error: ${err.message}`);
-      }
-    }
-
-    async function handleScoutAndCurate() {
-      const input = document.getElementById('scout-topic-input');
-      const topic = (input ? input.value : '').trim();
-      if (!topic) {
-        showToast('Please enter a target topic to hunt for.');
-        if (input) input.focus();
-        return;
       }
 
-      const btn = document.getElementById('btn-scout-curate');
-      const consoleBox = document.getElementById('scout-console-box');
-      const consoleLines = document.getElementById('scout-console-lines');
-      const consoleTimer = document.getElementById('console-timer');
+      function isAdminModeActive() {
+        return Boolean(getAdminKey());
+      }
 
-      if (btn) btn.disabled = true;
-      if (consoleBox) consoleBox.classList.remove('hidden');
-      if (consoleLines) consoleLines.innerHTML = '';
-
-      const startTime = Date.now();
-      const timerInterval = setInterval(() => {
-        if (consoleTimer) {
-          consoleTimer.textContent = ((Date.now() - startTime) / 1000).toFixed(1) + 's';
+      function updateAdminStatusUI() {
+        const isUnlocked = isAdminModeActive();
+        const badge = document.getElementById('admin-status-badge');
+        const indicator = document.getElementById('admin-badge-indicator');
+        if (badge) {
+          badge.textContent = isUnlocked ? 'Unlocked' : 'Locked';
+          badge.className = isUnlocked
+            ? 'px-2 py-0.5 rounded-full text-[11px] font-bold dark:bg-emerald-400/20 bg-emerald-100 text-emerald-500 dark:text-emerald-300'
+            : 'px-2 py-0.5 rounded-full text-[11px] font-bold dark:bg-amber-400/20 bg-amber-100 text-amber-500 dark:text-amber-400';
         }
-      }, 100);
-
-      function logLine(prefix, msg, color = 'text-indigo-400') {
-        if (!consoleLines) return;
-        const line = document.createElement('div');
-        line.className = 'flex items-start gap-1.5 leading-relaxed text-[11px]';
-        line.innerHTML = `<span class="${color} font-bold flex-shrink-0">[${prefix}]</span> <span class="dark:text-slate-200 text-slate-300">${esc(msg)}</span>`;
-        consoleLines.appendChild(line);
-        consoleLines.scrollTop = consoleLines.scrollHeight;
+        if (indicator) {
+          indicator.className = isUnlocked ? 'w-2 h-2 rounded-full bg-emerald-400' : 'w-2 h-2 rounded-full bg-slate-400';
+        }
       }
 
-      logLine('Agent 1: Scout', `Scanning web feeds & research boards for: "${topic}"...`, 'text-blue-400');
+      function openAdminModal() {
+        const modal = document.getElementById('admin-modal');
+        const backdrop = document.getElementById('admin-modal-backdrop');
+        const passkeyInput = document.getElementById('admin-passkey-input');
+        if (passkeyInput) passkeyInput.value = getAdminKey();
+        updateAdminStatusUI();
 
-      const t1 = setTimeout(() => {
-        logLine('Agent 2: Gatekeeper', 'Auditing discovered leads for active deadlines & scam-free URLs...', 'text-amber-400');
-      }, 1800);
-
-      const t2 = setTimeout(() => {
-        logLine('Agent 3: Curator', 'Normalizing academic levels, funding tags, and application links...', 'text-purple-400');
-      }, 3800);
-
-      const t3 = setTimeout(() => {
-        logLine('Agent 5: Broadcaster', 'Publishing announcement alert to portal feed...', 'text-emerald-400');
-      }, 5500);
-
-      try {
-        const res = await fetch('/api/agents/scout-and-curate', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-admin-key': getAdminKey(),
-          },
-          body: JSON.stringify({
-            topic: topic,
-            admin_key: getAdminKey(),
-          })
-        });
-
-        clearTimeout(t1);
-        clearTimeout(t2);
-        clearTimeout(t3);
-        clearInterval(timerInterval);
-
-        const data = await res.json();
-
-        if (!res.ok) {
-          logLine('Error', data.error || 'Pipeline execution failed', 'text-rose-400');
-          showToast(`Agent error: ${data.error || 'Failed'}`);
-          return;
+        if (backdrop) {
+          backdrop.classList.remove('opacity-0', 'pointer-events-none');
+          backdrop.classList.add('opacity-100');
         }
-
-        logLine('Cloud Storage', `Synced to memory, /tmp, GitHub, and Supabase!`, 'text-teal-400');
-        logLine('Complete', `✨ Added ${data.added} new opportunities! (Total: ${data.total})${data.supabase_synced ? ' [Supabase ✓]' : ''}`, 'text-emerald-400');
-
-        showToast(`Discovered & added ${data.added} opportunities! 🚀`);
-
-        // Refresh portal grid immediately (force-busted from API)
-        await fetchOpportunitiesData(true);
-        if (input) input.value = '';
-
-      } catch (err) {
-        clearTimeout(t1);
-        clearTimeout(t2);
-        clearTimeout(t3);
-        clearInterval(timerInterval);
-        logLine('Network Error', err.message, 'text-rose-400');
-        showToast(`Failed: ${err.message}`);
-      } finally {
-        if (btn) btn.disabled = false;
+        if (modal) {
+          modal.classList.remove('opacity-0', 'pointer-events-none', 'scale-95');
+          modal.classList.add('opacity-100', 'scale-100');
+        }
         lucide.createIcons();
       }
-    }
 
-    async function handleTriggerGithubWorkflow() {
-      const btn = document.getElementById('btn-trigger-github-workflow');
-      if (btn) btn.disabled = true;
-
-      try {
-        const res = await fetch('/api/agents/trigger-github-workflow', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'x-admin-key': getAdminKey(),
-          },
-          body: JSON.stringify({
-            admin_key: getAdminKey(),
-            ref: 'main',
-          })
-        });
-        const data = await res.json();
-        if (res.ok && data.status === 'success') {
-          showToast('⚡ GitHub Actions daily pipeline dispatched successfully!');
-        } else {
-          showToast(data.message || data.error || 'Failed to trigger workflow');
+      function closeAdminModal() {
+        const modal = document.getElementById('admin-modal');
+        const backdrop = document.getElementById('admin-modal-backdrop');
+        if (backdrop) {
+          backdrop.classList.remove('opacity-100');
+          backdrop.classList.add('opacity-0', 'pointer-events-none');
         }
-      } catch (err) {
-        showToast(`Error: ${err.message}`);
-      } finally {
-        if (btn) btn.disabled = false;
-      }
-    }
-
-    function checkHealthStatus() {
-      return fetch('/api/health?t=' + Date.now(), { cache: 'no-store' })
-        .then(r => r.json())
-        .then(data => {
-          const pill = document.getElementById('connection-pill');
-          const dot = document.getElementById('connection-indicator-dot');
-          const countEl = document.getElementById('header-count');
-          if (!pill || !countEl) return;
-          const count = (typeof data.total_opportunities === 'number' && data.total_opportunities > 0)
-            ? data.total_opportunities
-            : allOpportunities.length;
-
-          if (data.supabase_connected || data.storage_source === 'supabase') {
-            pill.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-emerald-500/10 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-200 text-xs font-semibold dark:text-emerald-300 text-emerald-700 flex-shrink-0 transition-colors';
-            if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-[blink_2s_ease-in-out_infinite]';
-            countEl.textContent = `🟢 Supabase Connected (${count} Opportunities)`;
-          } else {
-            pill.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-amber-500/10 bg-amber-50 border dark:border-amber-500/30 border-amber-200 text-xs font-semibold dark:text-amber-300 text-amber-700 flex-shrink-0 transition-colors';
-            if (dot) dot.className = 'w-2 h-2 rounded-full bg-amber-400';
-            countEl.textContent = `🟠 Local JSON Fallback (${count} Opportunities)`;
-          }
-        })
-        .catch(() => {
-          const countEl = document.getElementById('header-count');
-          if (countEl) countEl.textContent = `🟠 Local JSON Fallback (${allOpportunities.length} Opportunities)`;
-        });
-    }
-
-    async function fetchOpportunitiesData(targetPage = 1, forceRefresh = false, showSkeleton = true) {
-      if (showSkeleton) {
-        showSkeletons();
-      }
-
-      if (currentFetchController) {
-        currentFetchController.abort();
-      }
-      currentFetchController = new AbortController();
-
-      currentPage = targetPage;
-
-      // Construct server-side query params
-      const params = new URLSearchParams();
-      params.set('page', currentPage);
-      params.set('limit', PAGE_SIZE);
-      params.set('t', Date.now());
-
-      if (searchQuery && searchQuery.trim()) {
-        params.set('search', searchQuery.trim());
-      }
-      if (activeCategory && activeCategory !== 'all') {
-        params.set('category', activeCategory);
-      }
-      if (activeLevel && activeLevel !== 'all') {
-        params.set('academic_level', activeLevel);
-      }
-      if (activeLocation && activeLocation !== 'all') {
-        params.set('location_type', activeLocation);
-      }
-      if (activeComp && activeComp !== 'all') {
-        params.set('compensation', activeComp);
-      }
-
-      const url = `${OPPORTUNITIES_API_URL}?${params.toString()}`;
-
-      try {
-        const res = await fetch(url, {
-          cache: 'no-store',
-          headers: { 'Cache-Control': 'no-cache' },
-          signal: currentFetchController.signal,
-        });
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        const data = await res.json();
-
-        let items = [];
-        if (Array.isArray(data)) {
-          items = data;
-          totalOpportunitiesCount = items.length;
-          totalPages = Math.max(1, Math.ceil(totalOpportunitiesCount / PAGE_SIZE));
-        } else if (data && Array.isArray(data.data)) {
-          items = data.data;
-          totalOpportunitiesCount = typeof data.total === 'number' ? data.total : items.length;
-          totalPages = data.total_pages || Math.max(1, Math.ceil(totalOpportunitiesCount / PAGE_SIZE));
-          currentPage = data.page || currentPage;
+        if (modal) {
+          modal.classList.remove('opacity-100', 'scale-100');
+          modal.classList.add('opacity-0', 'pointer-events-none', 'scale-95');
         }
+      }
 
-        currentOpportunities = items.filter(o => o.is_active !== false);
-
-        // Update overall stats chips when on page 1 without filters
-        if (!hasActiveFilters() && currentPage === 1) {
-          allOpportunities = currentOpportunities;
-          updateStats();
+      async function handleDeleteOpportunity(id, title) {
+        if (!confirm(`Are you sure you want to remove "${title}" from the live database?\n\nThis will remove it from the portal, /tmp cache, and GitHub repository.`)) {
+          return;
         }
-
-        render();
-        checkHealthStatus();
-        if (forceRefresh) showToast(`✅ Refreshed live data (${totalOpportunitiesCount} opportunities in DB)!`);
-      } catch (err) {
-        if (err.name === 'AbortError') return;
-        console.warn('Live API fetch error, attempting fallback:', err);
-        // Fallback to static /opportunities.json
+        const adminKey = getAdminKey();
         try {
-          const fbRes = await fetch(`/opportunities.json?t=${Date.now()}`, { cache: 'no-store' });
-          const fbData = await fbRes.json();
-          const fbList = (Array.isArray(fbData) ? fbData : (fbData.data || [])).filter(o => o.is_active !== false);
-          allOpportunities = fbList;
-
-          let filtered = [...fbList];
-          if (activeCategory !== 'all') filtered = filtered.filter(o => (o.category || '').toLowerCase() === activeCategory.toLowerCase());
-          if (activeLevel !== 'all') filtered = filtered.filter(o => Array.isArray(o.academic_level) && o.academic_level.includes(activeLevel));
-          if (activeLocation !== 'all') filtered = filtered.filter(o => o.location_type === activeLocation);
-          if (activeComp !== 'all') filtered = filtered.filter(o => o.compensation === activeComp);
-          if (searchQuery) {
-            const q = searchQuery.toLowerCase();
-            filtered = filtered.filter(o => (o.title||'').toLowerCase().includes(q) || (o.host_organization||'').toLowerCase().includes(q) || (o.one_line_pitch||'').toLowerCase().includes(q));
+          const res = await fetch(`/api/opportunities/${encodeURIComponent(id)}`, {
+            method: 'DELETE',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-admin-key': adminKey,
+            },
+            body: JSON.stringify({ admin_key: adminKey })
+          });
+          const data = await res.json();
+          if (!res.ok) {
+            alert(`Error deleting opportunity: ${data.error || 'Request failed'}`);
+            return;
           }
-          totalOpportunitiesCount = filtered.length;
-          totalPages = Math.max(1, Math.ceil(totalOpportunitiesCount / PAGE_SIZE));
-          const start = (currentPage - 1) * PAGE_SIZE;
-          currentOpportunities = filtered.slice(start, start + PAGE_SIZE);
-
+          allOpportunities = allOpportunities.filter(o => o.id !== id);
           updateStats();
           render();
+          showToast(`Removed "${title.slice(0, 25)}..." 🗑️`);
+        } catch (err) {
+          alert(`Network error: ${err.message}`);
+        }
+      }
+
+      async function handleScoutAndCurate() {
+        const input = document.getElementById('scout-topic-input');
+        const topic = (input ? input.value : '').trim();
+        if (!topic) {
+          showToast('Please enter a target topic to hunt for.');
+          if (input) input.focus();
+          return;
+        }
+
+        const btn = document.getElementById('btn-scout-curate');
+        const consoleBox = document.getElementById('scout-console-box');
+        const consoleLines = document.getElementById('scout-console-lines');
+        const consoleTimer = document.getElementById('console-timer');
+
+        if (btn) btn.disabled = true;
+        if (consoleBox) consoleBox.classList.remove('hidden');
+        if (consoleLines) consoleLines.innerHTML = '';
+
+        const startTime = Date.now();
+        const timerInterval = setInterval(() => {
+          if (consoleTimer) {
+            consoleTimer.textContent = ((Date.now() - startTime) / 1000).toFixed(1) + 's';
+          }
+        }, 100);
+
+        function logLine(prefix, msg, color = 'text-indigo-400') {
+          if (!consoleLines) return;
+          const line = document.createElement('div');
+          line.className = 'flex items-start gap-1.5 leading-relaxed text-[11px]';
+          line.innerHTML = `<span class="${color} font-bold flex-shrink-0">[${prefix}]</span> <span class="dark:text-slate-200 text-slate-300">${esc(msg)}</span>`;
+          consoleLines.appendChild(line);
+          consoleLines.scrollTop = consoleLines.scrollHeight;
+        }
+
+        logLine('Agent 1: Scout', `Scanning web feeds & research boards for: "${topic}"...`, 'text-blue-400');
+
+        const t1 = setTimeout(() => {
+          logLine('Agent 2: Gatekeeper', 'Auditing discovered leads for active deadlines & scam-free URLs...', 'text-amber-400');
+        }, 1800);
+
+        const t2 = setTimeout(() => {
+          logLine('Agent 3: Curator', 'Normalizing academic levels, funding tags, and application links...', 'text-purple-400');
+        }, 3800);
+
+        const t3 = setTimeout(() => {
+          logLine('Agent 5: Broadcaster', 'Publishing announcement alert to portal feed...', 'text-emerald-400');
+        }, 5500);
+
+        try {
+          const res = await fetch('/api/agents/scout-and-curate', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-admin-key': getAdminKey(),
+            },
+            body: JSON.stringify({
+              topic: topic,
+              admin_key: getAdminKey(),
+            })
+          });
+
+          clearTimeout(t1);
+          clearTimeout(t2);
+          clearTimeout(t3);
+          clearInterval(timerInterval);
+
+          const data = await res.json();
+
+          if (!res.ok) {
+            logLine('Error', data.error || 'Pipeline execution failed', 'text-rose-400');
+            showToast(`Agent error: ${data.error || 'Failed'}`);
+            return;
+          }
+
+          logLine('Cloud Storage', `Synced to memory, /tmp, GitHub, and Supabase!`, 'text-teal-400');
+          logLine('Complete', `✨ Added ${data.added} new opportunities! (Total: ${data.total})${data.supabase_synced ? ' [Supabase ✓]' : ''}`, 'text-emerald-400');
+
+          showToast(`Discovered & added ${data.added} opportunities! 🚀`);
+
+          // Refresh portal grid immediately (force-busted from API)
+          await fetchOpportunitiesData(true);
+          if (input) input.value = '';
+
+        } catch (err) {
+          clearTimeout(t1);
+          clearTimeout(t2);
+          clearTimeout(t3);
+          clearInterval(timerInterval);
+          logLine('Network Error', err.message, 'text-rose-400');
+          showToast(`Failed: ${err.message}`);
+        } finally {
+          if (btn) btn.disabled = false;
+          lucide.createIcons();
+        }
+      }
+
+      async function handleTriggerGithubWorkflow() {
+        const btn = document.getElementById('btn-trigger-github-workflow');
+        if (btn) btn.disabled = true;
+
+        try {
+          const res = await fetch('/api/agents/trigger-github-workflow', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-admin-key': getAdminKey(),
+            },
+            body: JSON.stringify({
+              admin_key: getAdminKey(),
+              ref: 'main',
+            })
+          });
+          const data = await res.json();
+          if (res.ok && data.status === 'success') {
+            showToast('⚡ GitHub Actions daily pipeline dispatched successfully!');
+          } else {
+            showToast(data.message || data.error || 'Failed to trigger workflow');
+          }
+        } catch (err) {
+          showToast(`Error: ${err.message}`);
+        } finally {
+          if (btn) btn.disabled = false;
+        }
+      }
+
+      function checkHealthStatus() {
+        return fetch('/api/health?t=' + Date.now(), { cache: 'no-store' })
+          .then(r => r.json())
+          .then(data => {
+            const pill = document.getElementById('connection-pill');
+            const dot = document.getElementById('connection-indicator-dot');
+            const countEl = document.getElementById('header-count');
+            if (!pill || !countEl) return;
+            const count = (typeof data.total_opportunities === 'number' && data.total_opportunities > 0)
+              ? data.total_opportunities
+              : allOpportunities.length;
+
+            if (data.supabase_connected || data.storage_source === 'supabase') {
+              pill.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-emerald-500/10 bg-emerald-50 border dark:border-emerald-500/30 border-emerald-200 text-xs font-semibold dark:text-emerald-300 text-emerald-700 flex-shrink-0 transition-colors';
+              if (dot) dot.className = 'w-2 h-2 rounded-full bg-emerald-400 animate-[blink_2s_ease-in-out_infinite]';
+              countEl.textContent = `🟢 Supabase Connected (${count} Opportunities)`;
+            } else {
+              pill.className = 'hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-full dark:bg-amber-500/10 bg-amber-50 border dark:border-amber-500/30 border-amber-200 text-xs font-semibold dark:text-amber-300 text-amber-700 flex-shrink-0 transition-colors';
+              if (dot) dot.className = 'w-2 h-2 rounded-full bg-amber-400';
+              countEl.textContent = `🟠 Local JSON Fallback (${count} Opportunities)`;
+            }
+          })
+          .catch(() => {
+            const countEl = document.getElementById('header-count');
+            if (countEl) countEl.textContent = `🟠 Local JSON Fallback (${allOpportunities.length} Opportunities)`;
+          });
+      }
+
+      async function fetchOpportunitiesData(targetPage = 1, forceRefresh = false, showSkeleton = true) {
+        if (showSkeleton) {
+          showSkeletons();
+        }
+
+        if (currentFetchController) {
+          currentFetchController.abort();
+        }
+        currentFetchController = new AbortController();
+
+        currentPage = targetPage;
+
+        // Construct server-side query params
+        const params = new URLSearchParams();
+        params.set('page', currentPage);
+        params.set('limit', PAGE_SIZE);
+        params.set('t', Date.now());
+
+        if (searchQuery && searchQuery.trim()) {
+          params.set('search', searchQuery.trim());
+        }
+        if (activeCategory && activeCategory !== 'all') {
+          params.set('category', activeCategory);
+        }
+        if (activeLevel && activeLevel !== 'all') {
+          params.set('academic_level', activeLevel);
+        }
+        if (activeLocation && activeLocation !== 'all') {
+          params.set('location_type', activeLocation);
+        }
+        if (activeComp && activeComp !== 'all') {
+          params.set('compensation', activeComp);
+        }
+
+        const url = `${OPPORTUNITIES_API_URL}?${params.toString()}`;
+
+        try {
+          const res = await fetch(url, {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' },
+            signal: currentFetchController.signal,
+          });
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          const data = await res.json();
+
+          let items = [];
+          if (Array.isArray(data)) {
+            items = data;
+            totalOpportunitiesCount = items.length;
+            totalPages = Math.max(1, Math.ceil(totalOpportunitiesCount / PAGE_SIZE));
+          } else if (data && Array.isArray(data.data)) {
+            items = data.data;
+            totalOpportunitiesCount = typeof data.total === 'number' ? data.total : items.length;
+            totalPages = data.total_pages || Math.max(1, Math.ceil(totalOpportunitiesCount / PAGE_SIZE));
+            currentPage = data.page || currentPage;
+          }
+
+          currentOpportunities = items.filter(o => o.is_active !== false);
+
+          // Update overall stats chips when on page 1 without filters
+          if (!hasActiveFilters() && currentPage === 1) {
+            allOpportunities = currentOpportunities;
+            updateStats();
+          }
+
+          render();
           checkHealthStatus();
-        } catch (fbErr) {
-          console.error('All fetch attempts failed:', fbErr);
-          const grid = document.getElementById('cards-grid');
-          if (grid) {
-            grid.innerHTML = `
+          if (forceRefresh) showToast(`✅ Refreshed live data (${totalOpportunitiesCount} opportunities in DB)!`);
+        } catch (err) {
+          if (err.name === 'AbortError') return;
+          console.warn('Live API fetch error, attempting fallback:', err);
+          // Fallback to static /opportunities.json
+          try {
+            const fbRes = await fetch(`/opportunities.json?t=${Date.now()}`, { cache: 'no-store' });
+            const fbData = await fbRes.json();
+            const fbList = (Array.isArray(fbData) ? fbData : (fbData.data || [])).filter(o => o.is_active !== false);
+            allOpportunities = fbList;
+
+            let filtered = [...fbList];
+            if (activeCategory !== 'all') filtered = filtered.filter(o => (o.category || '').toLowerCase() === activeCategory.toLowerCase());
+            if (activeLevel !== 'all') filtered = filtered.filter(o => Array.isArray(o.academic_level) && o.academic_level.includes(activeLevel));
+            if (activeLocation !== 'all') filtered = filtered.filter(o => o.location_type === activeLocation);
+            if (activeComp !== 'all') filtered = filtered.filter(o => o.compensation === activeComp);
+            if (searchQuery) {
+              const q = searchQuery.toLowerCase();
+              filtered = filtered.filter(o => (o.title || '').toLowerCase().includes(q) || (o.host_organization || '').toLowerCase().includes(q) || (o.one_line_pitch || '').toLowerCase().includes(q));
+            }
+            totalOpportunitiesCount = filtered.length;
+            totalPages = Math.max(1, Math.ceil(totalOpportunitiesCount / PAGE_SIZE));
+            const start = (currentPage - 1) * PAGE_SIZE;
+            currentOpportunities = filtered.slice(start, start + PAGE_SIZE);
+
+            updateStats();
+            render();
+            checkHealthStatus();
+          } catch (fbErr) {
+            console.error('All fetch attempts failed:', fbErr);
+            const grid = document.getElementById('cards-grid');
+            if (grid) {
+              grid.innerHTML = `
               <div class="col-span-full text-center py-20 px-6">
                 <div class="text-6xl mb-5">⚠️</div>
                 <div class="text-xl font-bold dark:text-white text-slate-900 mb-3">Unable to connect to opportunities server</div>
@@ -1648,142 +1993,137 @@
                   🔄 Retry
                 </button>
               </div>`;
+            }
+            checkHealthStatus();
           }
-          checkHealthStatus();
         }
       }
-    }
 
-    // ── Bootstrap Listeners ──────────────────────────────────────────────────
-    document.addEventListener('DOMContentLoaded', () => {
-      fetchOpportunitiesData();
-      updateAdminStatusUI();
+      // ── Bootstrap Listeners ──────────────────────────────────────────────────
+      document.addEventListener('DOMContentLoaded', () => {
+        fetchOpportunitiesData();
+        updateAdminStatusUI();
 
-      // 🔄 Refresh Live Data button
-      const refreshBtn = document.getElementById('refresh-live-data-btn');
-      if (refreshBtn) {
-        refreshBtn.addEventListener('click', async () => {
-          const icon = document.getElementById('refresh-icon');
-          if (icon) icon.classList.add('animate-spin');
-          refreshBtn.disabled = true;
-          await fetchOpportunitiesData(true);
-          refreshBtn.disabled = false;
-          if (icon) icon.classList.remove('animate-spin');
+        // 🔄 Refresh Live Data button
+        const refreshBtn = document.getElementById('refresh-live-data-btn');
+        if (refreshBtn) {
+          refreshBtn.addEventListener('click', async () => {
+            const icon = document.getElementById('refresh-icon');
+            if (icon) icon.classList.add('animate-spin');
+            refreshBtn.disabled = true;
+            await fetchOpportunitiesData(true);
+            refreshBtn.disabled = false;
+            if (icon) icon.classList.remove('animate-spin');
+          });
+        }
+
+        // 🎯 Match My Resume modal
+        const matchResumeToggle = document.getElementById('match-resume-toggle');
+        if (matchResumeToggle) matchResumeToggle.addEventListener('click', openResumeModal);
+
+        // ➕ Submit Opportunity modal
+        const submitOppToggle = document.getElementById('submit-opp-toggle');
+        if (submitOppToggle) submitOppToggle.addEventListener('click', openSubmitModal);
+
+        // Admin command modal triggers
+        const adminToggle = document.getElementById('admin-command-toggle');
+        if (adminToggle) adminToggle.addEventListener('click', openAdminModal);
+
+        const closeAdminBtn = document.getElementById('close-admin-modal-btn');
+        if (closeAdminBtn) closeAdminBtn.addEventListener('click', closeAdminModal);
+
+        const closeAdminBtn2 = document.getElementById('btn-close-command-center');
+        if (closeAdminBtn2) closeAdminBtn2.addEventListener('click', closeAdminModal);
+
+        const adminBackdrop = document.getElementById('admin-modal-backdrop');
+        if (adminBackdrop) adminBackdrop.addEventListener('click', closeAdminModal);
+
+        // Passkey save
+        const saveKeyBtn = document.getElementById('save-admin-key-btn');
+        if (saveKeyBtn) {
+          saveKeyBtn.addEventListener('click', () => {
+            const input = document.getElementById('admin-passkey-input');
+            const val = (input ? input.value : '').trim() || 'admin123';
+            setAdminKey(val);
+            showToast('Admin passkey verified & saved! 🛡️');
+          });
+        }
+
+        // Scout & Curate
+        const scoutBtn = document.getElementById('btn-scout-curate');
+        if (scoutBtn) scoutBtn.addEventListener('click', handleScoutAndCurate);
+
+        const topicInput = document.getElementById('scout-topic-input');
+        if (topicInput) {
+          topicInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') handleScoutAndCurate();
+          });
+        }
+
+        // Preset chips
+        document.querySelectorAll('.preset-chip').forEach(chip => {
+          chip.addEventListener('click', () => {
+            const topic = chip.dataset.topic;
+            if (topicInput) {
+              topicInput.value = topic;
+              topicInput.focus();
+            }
+          });
         });
-      }
 
-      // 🎯 Match My Resume modal
-      const matchResumeToggle = document.getElementById('match-resume-toggle');
-      if (matchResumeToggle) matchResumeToggle.addEventListener('click', openResumeModal);
+        // Workflow dispatch
+        const workflowBtn = document.getElementById('btn-trigger-github-workflow');
+        if (workflowBtn) workflowBtn.addEventListener('click', handleTriggerGithubWorkflow);
 
-      // ➕ Submit Opportunity modal
-      const submitOppToggle = document.getElementById('submit-opp-toggle');
-      if (submitOppToggle) submitOppToggle.addEventListener('click', openSubmitModal);
-
-      // Admin command modal triggers
-      const adminToggle = document.getElementById('admin-command-toggle');
-      if (adminToggle) adminToggle.addEventListener('click', openAdminModal);
-
-      const closeAdminBtn = document.getElementById('close-admin-modal-btn');
-      if (closeAdminBtn) closeAdminBtn.addEventListener('click', closeAdminModal);
-
-      const closeAdminBtn2 = document.getElementById('btn-close-command-center');
-      if (closeAdminBtn2) closeAdminBtn2.addEventListener('click', closeAdminModal);
-
-      const adminBackdrop = document.getElementById('admin-modal-backdrop');
-      if (adminBackdrop) adminBackdrop.addEventListener('click', closeAdminModal);
-
-      // Passkey save
-      const saveKeyBtn = document.getElementById('save-admin-key-btn');
-      if (saveKeyBtn) {
-        saveKeyBtn.addEventListener('click', () => {
-          const input = document.getElementById('admin-passkey-input');
-          const val = (input ? input.value : '').trim() || 'admin123';
-          setAdminKey(val);
-          showToast('Admin passkey verified & saved! 🛡️');
-        });
-      }
-
-      // Scout & Curate
-      const scoutBtn = document.getElementById('btn-scout-curate');
-      if (scoutBtn) scoutBtn.addEventListener('click', handleScoutAndCurate);
-
-      const topicInput = document.getElementById('scout-topic-input');
-      if (topicInput) {
-        topicInput.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter') handleScoutAndCurate();
-        });
-      }
-
-      // Preset chips
-      document.querySelectorAll('.preset-chip').forEach(chip => {
-        chip.addEventListener('click', () => {
-          const topic = chip.dataset.topic;
-          if (topicInput) {
-            topicInput.value = topic;
-            topicInput.focus();
-          }
+        // Escape key to close modal
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape') closeAdminModal();
         });
       });
-
-      // Workflow dispatch
-      const workflowBtn = document.getElementById('btn-trigger-github-workflow');
-      if (workflowBtn) workflowBtn.addEventListener('click', handleTriggerGithubWorkflow);
-
-      // Escape key to close modal
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') closeAdminModal();
-      });
-    });
   </script>
 
   <!-- ══════════════════ SAVED OPPORTUNITIES DRAWER ══════════════════ -->
-  <div id="drawer-backdrop" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[9990] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+  <div id="drawer-backdrop"
+    class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-[9990] opacity-0 pointer-events-none transition-opacity duration-300">
+  </div>
 
-  <aside
-    id="saved-drawer"
+  <aside id="saved-drawer"
     class="fixed top-0 right-0 bottom-0 w-full sm:w-[500px] z-[9995] dark:bg-slate-950 bg-white border-l dark:border-slate-800 border-slate-200 shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Saved Opportunities Drawer"
-  >
+    role="dialog" aria-modal="true" aria-label="Saved Opportunities Drawer">
     <!-- Drawer Header -->
-    <div class="p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-900/60 bg-slate-50/90">
+    <div
+      class="p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-900/60 bg-slate-50/90">
       <div class="flex items-center gap-3">
-        <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg">
+        <div
+          class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 text-lg">
           <i data-lucide="bookmark" class="w-5 h-5 fill-amber-400 text-amber-400"></i>
         </div>
         <div>
           <div class="flex items-center gap-2">
             <h3 class="text-base font-bold dark:text-white text-slate-900">Saved Opportunities</h3>
-            <span id="drawer-count-badge" class="px-2 py-0.5 rounded-full text-xs font-bold dark:bg-amber-400/20 bg-amber-100 text-amber-500 dark:text-amber-300">0</span>
+            <span id="drawer-count-badge"
+              class="px-2 py-0.5 rounded-full text-xs font-bold dark:bg-amber-400/20 bg-amber-100 text-amber-500 dark:text-amber-300">0</span>
           </div>
           <p class="text-xs dark:text-slate-400 text-slate-500">Stored locally in your browser storage</p>
         </div>
       </div>
-      <button
-        id="close-drawer-btn"
-        aria-label="Close saved drawer"
-        class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
-      >
+      <button id="close-drawer-btn" aria-label="Close saved drawer"
+        class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">
         <i data-lucide="x" class="w-4 h-4"></i>
       </button>
     </div>
 
     <!-- Drawer Action Toolbar -->
-    <div class="px-5 py-3 border-b dark:border-slate-800/80 border-slate-200/80 dark:bg-slate-900/40 bg-slate-50 flex items-center justify-between gap-3 flex-wrap">
-      <button
-        id="export-saved-csv-btn"
+    <div
+      class="px-5 py-3 border-b dark:border-slate-800/80 border-slate-200/80 dark:bg-slate-900/40 bg-slate-50 flex items-center justify-between gap-3 flex-wrap">
+      <button id="export-saved-csv-btn"
         class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-indigo-600 to-violet-600 hover:opacity-90 transition-opacity shadow-sm disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
-        aria-label="Export Saved to CSV"
-      >
+        aria-label="Export Saved to CSV">
         <i data-lucide="download" class="w-3.5 h-3.5"></i>
         <span>Export Saved to CSV</span>
       </button>
-      <button
-        id="clear-all-saved-btn"
-        class="text-xs font-medium dark:text-slate-400 text-slate-500 hover:text-red-400 transition-colors cursor-pointer"
-      >
+      <button id="clear-all-saved-btn"
+        class="text-xs font-medium dark:text-slate-400 text-slate-500 hover:text-red-400 transition-colors cursor-pointer">
         Clear All Saved
       </button>
     </div>
@@ -1794,44 +2134,44 @@
     </div>
 
     <!-- Drawer Footer -->
-    <div class="p-4 border-t dark:border-slate-800 border-slate-200 dark:bg-slate-900/40 bg-slate-50 text-center text-xs dark:text-slate-400 text-slate-500">
+    <div
+      class="p-4 border-t dark:border-slate-800 border-slate-200 dark:bg-slate-900/40 bg-slate-50 text-center text-xs dark:text-slate-400 text-slate-500">
       💡 Tip: Click <strong>"Add Deadline to Google Calendar"</strong> on any card to never miss a submission cutoff.
     </div>
   </aside>
 
   <!-- ══════════════════ AGENT COMMAND CENTER MODAL ══════════════════ -->
-  <div id="admin-modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] opacity-0 pointer-events-none transition-opacity duration-300"></div>
+  <div id="admin-modal-backdrop"
+    class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] opacity-0 pointer-events-none transition-opacity duration-300">
+  </div>
 
-  <div
-    id="admin-modal"
+  <div id="admin-modal"
     class="fixed inset-0 z-[9995] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 transform scale-95"
-    role="dialog"
-    aria-modal="true"
-    aria-label="Agent Command Center"
-  >
-    <div class="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
+    role="dialog" aria-modal="true" aria-label="Agent Command Center">
+    <div
+      class="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
 
       <!-- Modal Header -->
-      <div class="p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
+      <div
+        class="p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
             <i data-lucide="cpu" class="w-5 h-5"></i>
           </div>
           <div>
             <div class="flex items-center gap-2">
               <h3 class="text-base font-bold dark:text-white text-slate-900">Agent Command Center</h3>
-              <span id="admin-status-badge" class="px-2 py-0.5 rounded-full text-[11px] font-bold dark:bg-emerald-400/20 bg-emerald-100 text-emerald-500 dark:text-emerald-300">
+              <span id="admin-status-badge"
+                class="px-2 py-0.5 rounded-full text-[11px] font-bold dark:bg-emerald-400/20 bg-emerald-100 text-emerald-500 dark:text-emerald-300">
                 Unlocked
               </span>
             </div>
             <p class="text-xs dark:text-slate-400 text-slate-500">Autonomous Orchestrator for Agents 1, 2, 3, and 5</p>
           </div>
         </div>
-        <button
-          id="close-admin-modal-btn"
-          aria-label="Close command center"
-          class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer"
-        >
+        <button id="close-admin-modal-btn" aria-label="Close command center"
+          class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:text-slate-900 dark:hover:text-white transition-colors cursor-pointer">
           <i data-lucide="x" class="w-4 h-4"></i>
         </button>
       </div>
@@ -1842,82 +2182,86 @@
         <!-- 1. Admin Passkey Settings Bar -->
         <div class="p-4 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200">
           <div class="flex items-center justify-between mb-2">
-            <label for="admin-passkey-input" class="text-xs font-bold uppercase tracking-wider dark:text-slate-300 text-slate-700 flex items-center gap-1.5">
+            <label for="admin-passkey-input"
+              class="text-xs font-bold uppercase tracking-wider dark:text-slate-300 text-slate-700 flex items-center gap-1.5">
               <i data-lucide="shield-check" class="w-4 h-4 text-indigo-400"></i>
               Admin Security Passkey
             </label>
-            <span class="text-[11px] dark:text-slate-400 text-slate-500">Default: <code class="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-800">admin123</code></span>
+            <span class="text-[11px] dark:text-slate-400 text-slate-500">Default: <code
+                class="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-800">admin123</code></span>
           </div>
           <div class="flex gap-2">
             <div class="relative flex-1">
-              <input
-                type="password"
-                id="admin-passkey-input"
-                placeholder="Enter passkey..."
-                class="w-full px-3.5 py-2 rounded-xl text-xs dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 outline-none focus:border-indigo-500 font-mono"
-              />
+              <input type="password" id="admin-passkey-input" placeholder="Enter passkey..."
+                class="w-full px-3.5 py-2 rounded-xl text-xs dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 outline-none focus:border-indigo-500 font-mono" />
             </div>
-            <button
-              id="save-admin-key-btn"
-              class="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 transition-colors cursor-pointer flex-shrink-0"
-            >
+            <button id="save-admin-key-btn"
+              class="px-4 py-2 rounded-xl text-xs font-semibold text-white bg-indigo-600 hover:bg-indigo-500 transition-colors cursor-pointer flex-shrink-0">
               Verify &amp; Save
             </button>
           </div>
         </div>
 
         <!-- 2. Instant Topic Hunter (Agent 1 -> 2 -> 3 -> 5) -->
-        <div class="p-4 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200 space-y-3">
+        <div
+          class="p-4 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200 space-y-3">
           <div>
             <div class="flex items-center justify-between mb-1">
               <h4 class="text-sm font-bold dark:text-white text-slate-900 flex items-center gap-1.5">
                 <i data-lucide="sparkles" class="w-4 h-4 text-violet-400"></i>
                 Instant Topic Hunter (Agents 1 ➔ 2 ➔ 3 ➔ 5)
               </h4>
-              <span class="text-[11px] dark:text-slate-400 text-slate-500 font-medium">Scout → Gatekeeper → Curator → Broadcaster</span>
+              <span class="text-[11px] dark:text-slate-400 text-slate-500 font-medium">Scout → Gatekeeper → Curator →
+                Broadcaster</span>
             </div>
             <p class="text-xs dark:text-slate-400 text-slate-500">
-              Enter any student opportunity topic, field, or region to autonomously discover, audit, normalize, and publish to the live database.
+              Enter any student opportunity topic, field, or region to autonomously discover, audit, normalize, and
+              publish to the live database.
             </p>
           </div>
 
           <!-- Quick Preset Chips -->
           <div class="flex flex-wrap gap-1.5 pt-1">
             <span class="text-[11px] dark:text-slate-400 text-slate-500 mr-1 self-center">Presets:</span>
-            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer" data-topic="Summer 2027 AI &amp; Quant Internships in Canada">
+            <button type="button"
+              class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer"
+              data-topic="Summer 2027 AI &amp; Quant Internships in Canada">
               🇨🇦 AI &amp; Quant (Canada)
             </button>
-            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer" data-topic="Undergrad Quantum Computing &amp; Physics Research Fellowships 2026">
+            <button type="button"
+              class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer"
+              data-topic="Undergrad Quantum Computing &amp; Physics Research Fellowships 2026">
               ⚛️ Quantum Fellowships
             </button>
-            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer" data-topic="Global Women in STEM &amp; Engineering Scholarships 2026">
+            <button type="button"
+              class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer"
+              data-topic="Global Women in STEM &amp; Engineering Scholarships 2026">
               👩‍💻 Women in STEM
             </button>
-            <button type="button" class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer" data-topic="Open Source Developer Grants &amp; Fellowships 2026">
+            <button type="button"
+              class="preset-chip text-[11px] px-2.5 py-1 rounded-lg dark:bg-slate-800 bg-slate-200 dark:hover:bg-indigo-900/40 hover:bg-indigo-50 dark:text-slate-300 text-slate-700 border dark:border-slate-700 border-slate-300 transition-colors cursor-pointer"
+              data-topic="Open Source Developer Grants &amp; Fellowships 2026">
               🌐 Open Source Grants
             </button>
           </div>
 
           <!-- Target Input & Run Button -->
           <div class="flex flex-col sm:flex-row gap-2 pt-1">
-            <input
-              type="text"
-              id="scout-topic-input"
+            <input type="text" id="scout-topic-input"
               placeholder="e.g. Summer 2027 AI &amp; Quant Internships in Canada"
-              class="flex-1 px-3.5 py-2.5 rounded-xl text-xs dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 outline-none focus:border-indigo-500"
-            />
-            <button
-              id="btn-scout-curate"
-              class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:opacity-95 shadow-md shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
-            >
+              class="flex-1 px-3.5 py-2.5 rounded-xl text-xs dark:bg-slate-900 bg-white border dark:border-slate-700 border-slate-300 dark:text-white text-slate-900 outline-none focus:border-indigo-500" />
+            <button id="btn-scout-curate"
+              class="px-5 py-2.5 rounded-xl text-xs font-bold text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:opacity-95 shadow-md shadow-indigo-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer flex-shrink-0 disabled:opacity-50 disabled:cursor-not-allowed">
               <i data-lucide="play" class="w-3.5 h-3.5 fill-white"></i>
               <span>🚀 Hunt &amp; Curate Now</span>
             </button>
           </div>
 
           <!-- Live Animated Status Console -->
-          <div id="scout-console-box" class="hidden rounded-xl dark:bg-slate-950 bg-slate-900 p-3.5 border dark:border-slate-800 border-slate-800 text-xs font-mono space-y-1.5 shadow-inner">
-            <div class="flex items-center justify-between text-[11px] text-slate-400 border-b border-slate-800 pb-1.5 mb-2">
+          <div id="scout-console-box"
+            class="hidden rounded-xl dark:bg-slate-950 bg-slate-900 p-3.5 border dark:border-slate-800 border-slate-800 text-xs font-mono space-y-1.5 shadow-inner">
+            <div
+              class="flex items-center justify-between text-[11px] text-slate-400 border-b border-slate-800 pb-1.5 mb-2">
               <span class="flex items-center gap-1.5">
                 <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
                 Agent Execution Console
@@ -1931,7 +2275,8 @@
         </div>
 
         <!-- 3. Cloud Full-Sweep (GitHub Background Sweep) -->
-        <div class="p-4 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div
+          class="p-4 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div class="space-y-0.5">
             <h4 class="text-sm font-bold dark:text-white text-slate-900 flex items-center gap-1.5">
               <i data-lucide="git-pull-request" class="w-4 h-4 text-emerald-400"></i>
@@ -1941,22 +2286,24 @@
               Kicks off the heavy 30-minute background workflow on GitHub Actions across all categories.
             </p>
           </div>
-          <button
-            id="btn-trigger-github-workflow"
-            class="px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center gap-2 cursor-pointer flex-shrink-0 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
-          >
+          <button id="btn-trigger-github-workflow"
+            class="px-4 py-2.5 rounded-xl text-xs font-semibold text-white bg-slate-800 hover:bg-slate-700 border border-slate-700 flex items-center gap-2 cursor-pointer flex-shrink-0 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed">
             <i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
             <span>⚡ Trigger Full Sweep</span>
           </button>
         </div>
 
         <!-- 4. Card Removal Instructions & Status -->
-        <div class="p-4 rounded-xl dark:bg-indigo-950/20 bg-indigo-50/50 border dark:border-indigo-500/20 border-indigo-200/60 flex items-start gap-3">
+        <div
+          class="p-4 rounded-xl dark:bg-indigo-950/20 bg-indigo-50/50 border dark:border-indigo-500/20 border-indigo-200/60 flex items-start gap-3">
           <div class="text-lg">🗑️</div>
           <div class="text-xs dark:text-slate-300 text-slate-600 space-y-1">
             <div class="font-bold dark:text-white text-slate-900">1-Click Card Management Mode</div>
             <div>
-              While Admin Mode is unlocked, every opportunity card on the portal displays a red <strong class="text-rose-500">"🗑️ Remove"</strong> button. Clicking it removes the item immediately and syncs across local memory, <code class="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-800">/tmp</code>, and GitHub repository.
+              While Admin Mode is unlocked, every opportunity card on the portal displays a red <strong
+                class="text-rose-500">"🗑️ Remove"</strong> button. Clicking it removes the item immediately and syncs
+              across local memory, <code class="px-1 py-0.5 rounded bg-slate-200 dark:bg-slate-800">/tmp</code>, and
+              GitHub repository.
             </div>
           </div>
         </div>
@@ -1964,15 +2311,14 @@
       </div>
 
       <!-- Modal Footer -->
-      <div class="p-4 border-t dark:border-slate-800 border-slate-200 dark:bg-slate-950/70 bg-slate-50/90 flex items-center justify-between text-xs dark:text-slate-400 text-slate-500 flex-shrink-0">
+      <div
+        class="p-4 border-t dark:border-slate-800 border-slate-200 dark:bg-slate-950/70 bg-slate-50/90 flex items-center justify-between text-xs dark:text-slate-400 text-slate-500 flex-shrink-0">
         <span class="flex items-center gap-1.5">
           <span class="w-2 h-2 rounded-full bg-indigo-400"></span>
           Universal Visual Command Center v2.0
         </span>
-        <button
-          id="btn-close-command-center"
-          class="px-4 py-1.5 rounded-lg text-xs font-semibold dark:bg-slate-800 bg-slate-200 dark:hover:bg-slate-700 hover:bg-slate-300 text-slate-800 dark:text-slate-200 transition-colors cursor-pointer"
-        >
+        <button id="btn-close-command-center"
+          class="px-4 py-1.5 rounded-lg text-xs font-semibold dark:bg-slate-800 bg-slate-200 dark:hover:bg-slate-700 hover:bg-slate-300 text-slate-800 dark:text-slate-200 transition-colors cursor-pointer">
           Close
         </button>
       </div>
@@ -1981,58 +2327,204 @@
   </div>
 
   <!-- Toast Notification Container -->
-  <div id="toast-container" class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[99999] pointer-events-none flex flex-col items-center gap-2"></div>
+  <div id="toast-container"
+    class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[99999] pointer-events-none flex flex-col items-center gap-2">
+  </div>
 
   <!-- Embed 24/7 AI Advisor Widget -->
   <script src="/widget.js" data-api-url="/api/chat"></script>
 
-  <!-- ══════════════════ RESUME MATCHER MODAL (Agent 6) ══════════════════ -->
-  <div id="resume-modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] opacity-0 pointer-events-none transition-opacity duration-300"></div>
-  <div id="resume-modal" class="fixed inset-0 z-[9995] flex items-center justify-center p-3 sm:p-4 opacity-0 pointer-events-none transition-all duration-300 transform scale-95" role="dialog" aria-modal="true">
-    <div class="relative w-full max-w-4xl max-h-[92vh] flex flex-col rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
+    <!-- ══════════════════ OPPORTUNITY DETAILS MODAL ══════════════════ -->
+  <div id="details-modal-backdrop"
+    class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9980] opacity-0 pointer-events-none transition-opacity duration-300">
+  </div>
+  <div id="details-modal"
+    class="fixed inset-0 z-[9985] flex items-center justify-center p-3 sm:p-5 opacity-0 pointer-events-none transition-all duration-300 transform scale-95"
+    role="dialog" aria-modal="true" aria-labelledby="modal-opp-title">
+    <div
+      class="relative w-full max-w-3xl max-h-[90vh] flex flex-col rounded-3xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
+
       <!-- Modal Header -->
-      <div class="p-4 sm:p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
+      <div
+        class="p-5 sm:p-6 border-b dark:border-slate-800 border-slate-200 flex items-start justify-between gap-4 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
+        <div class="flex items-start gap-3.5 min-w-0">
+          <div id="modal-opp-icon"
+            class="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl flex-shrink-0 shadow-md">
+            🎓
+          </div>
+          <div class="min-w-0 flex-1">
+            <div class="flex items-center gap-2 flex-wrap mb-1.5">
+              <span id="modal-opp-cat-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold"></span>
+              <span id="modal-opp-org" class="text-xs font-semibold dark:text-slate-400 text-slate-500"></span>
+            </div>
+            <h2 id="modal-opp-title" class="text-lg sm:text-xl font-black dark:text-white text-slate-900 leading-snug"></h2>
+          </div>
+        </div>
+        <button id="close-details-modal-btn" aria-label="Close modal"
+          class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:dark:text-white transition-colors cursor-pointer flex-shrink-0">
+          <i data-lucide="x" class="w-4 h-4"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="flex-1 overflow-y-auto p-5 sm:p-6 space-y-5">
+
+        <!-- One-line Pitch Callout -->
+        <div id="modal-opp-pitch-container" class="p-4 rounded-2xl dark:bg-indigo-950/40 bg-indigo-50/80 border dark:border-indigo-500/30 border-indigo-200 flex items-start gap-3">
+          <span class="text-xl flex-shrink-0">💡</span>
+          <p id="modal-opp-pitch" class="text-sm font-medium dark:text-indigo-200 text-indigo-950 leading-relaxed"></p>
+        </div>
+
+        <!-- 4-Grid Metadata Badges -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+          <!-- Compensation -->
+          <div class="p-3.5 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200">
+            <div class="text-[11px] font-semibold uppercase tracking-wider dark:text-slate-500 text-slate-400 mb-1 flex items-center gap-1">
+              <span>💰 Compensation</span>
+            </div>
+            <div id="modal-opp-comp" class="text-xs sm:text-sm font-bold dark:text-emerald-400 text-emerald-600"></div>
+          </div>
+
+          <!-- Location -->
+          <div class="p-3.5 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200">
+            <div class="text-[11px] font-semibold uppercase tracking-wider dark:text-slate-500 text-slate-400 mb-1 flex items-center gap-1">
+              <span>📍 Location</span>
+            </div>
+            <div id="modal-opp-location" class="text-xs sm:text-sm font-bold dark:text-slate-200 text-slate-800"></div>
+          </div>
+
+          <!-- Academic Level -->
+          <div class="p-3.5 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200">
+            <div class="text-[11px] font-semibold uppercase tracking-wider dark:text-slate-500 text-slate-400 mb-1 flex items-center gap-1">
+              <span>🎓 Eligibility</span>
+            </div>
+            <div id="modal-opp-level" class="text-xs sm:text-sm font-bold dark:text-slate-200 text-slate-800"></div>
+          </div>
+
+          <!-- Deadline -->
+          <div class="p-3.5 rounded-xl dark:bg-slate-950/60 bg-slate-50 border dark:border-slate-800 border-slate-200">
+            <div class="text-[11px] font-semibold uppercase tracking-wider dark:text-slate-500 text-slate-400 mb-1 flex items-center gap-1">
+              <span>⏰ Deadline</span>
+            </div>
+            <div id="modal-opp-deadline" class="text-xs sm:text-sm font-bold"></div>
+          </div>
+        </div>
+
+        <!-- Domain Tags -->
+        <div id="modal-opp-tags-wrapper">
+          <div class="text-xs font-semibold dark:text-slate-400 text-slate-500 mb-2">Domain &amp; Field Tags:</div>
+          <div id="modal-opp-tags" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        <!-- Description / Detailed Insights -->
+        <div>
+          <div class="text-xs font-semibold dark:text-slate-400 text-slate-500 mb-2">Program Overview:</div>
+          <div id="modal-opp-desc" class="text-xs sm:text-sm dark:text-slate-300 text-slate-700 leading-relaxed dark:bg-slate-950/40 bg-slate-50/70 p-4 rounded-xl border dark:border-slate-800/80 border-slate-200">
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer Action Bar -->
+      <div class="p-4 sm:p-5 border-t dark:border-slate-800 border-slate-200 dark:bg-slate-950/90 bg-slate-50 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-2 flex-wrap">
+          <!-- 💬 Ask AI Advisor -->
+          <button id="modal-ask-advisor-btn"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold dark:bg-indigo-500/10 bg-indigo-50 dark:text-indigo-400 text-indigo-600 border dark:border-indigo-500/20 border-indigo-200 hover:dark:bg-indigo-500/20 hover:bg-indigo-100 transition-colors cursor-pointer">
+            <span>💬 Ask AI Advisor</span>
+          </button>
+
+          <!-- 🎯 Match Resume -->
+          <button id="modal-match-resume-btn"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold dark:bg-violet-500/10 bg-violet-50 dark:text-violet-400 text-violet-600 border dark:border-violet-500/20 border-violet-200 hover:dark:bg-violet-500/20 hover:bg-violet-100 transition-colors cursor-pointer">
+            <span>🎯 Match Resume</span>
+          </button>
+
+          <!-- 📅 Add to Cal -->
+          <a id="modal-cal-link" href="#" target="_blank" rel="noopener"
+            class="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold dark:bg-slate-800 bg-slate-100 dark:text-slate-300 text-slate-700 hover:dark:bg-slate-700 hover:bg-slate-200 border dark:border-slate-700 border-slate-200 transition-colors">
+            <i data-lucide="calendar-plus" class="w-3.5 h-3.5 text-indigo-400"></i>
+            <span>Add to Cal</span>
+          </a>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <!-- Apply on Official Site -->
+          <a id="modal-apply-btn" href="#" target="_blank" rel="noopener"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-bold text-white bg-gradient-to-r from-indigo-600 via-indigo-500 to-violet-600 hover:opacity-95 shadow-lg shadow-indigo-500/25 transition-all">
+            <span>Apply on Official Site</span>
+            <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+<!-- ══════════════════ RESUME MATCHER MODAL (Agent 6) ══════════════════ -->
+  <div id="resume-modal-backdrop"
+    class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] opacity-0 pointer-events-none transition-opacity duration-300">
+  </div>
+  <div id="resume-modal"
+    class="fixed inset-0 z-[9995] flex items-center justify-center p-3 sm:p-4 opacity-0 pointer-events-none transition-all duration-300 transform scale-95"
+    role="dialog" aria-modal="true">
+    <div
+      class="relative w-full max-w-4xl max-h-[92vh] flex flex-col rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
+      <!-- Modal Header -->
+      <div
+        class="p-4 sm:p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center text-white text-lg shadow-md shadow-violet-500/20">🎯</div>
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-fuchsia-600 flex items-center justify-center text-white text-lg shadow-md shadow-violet-500/20">
+            🎯</div>
           <div>
             <h3 class="text-base font-bold dark:text-white text-slate-900 flex items-center gap-2">
               Agent 6: Resume Matcher &amp; Application Coach
-              <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-violet-500/20 text-violet-400 border border-violet-500/30">6,000+ Deep Scan</span>
+              <span
+                class="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-violet-500/20 text-violet-400 border border-violet-500/30">6,000+
+                Deep Scan</span>
             </h3>
-            <p class="text-xs dark:text-slate-400 text-slate-500">Upload your PDF/TXT resume or paste text — two-stage Supabase pre-filter + AI ranks your Top 5 best matches</p>
+            <p class="text-xs dark:text-slate-400 text-slate-500">Upload your PDF/TXT resume or paste text — two-stage
+              Supabase pre-filter + AI ranks your Top 5 best matches</p>
           </div>
         </div>
-        <button id="close-resume-modal-btn" aria-label="Close" class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:dark:text-white transition-colors cursor-pointer"><i data-lucide="x" class="w-4 h-4"></i></button>
+        <button id="close-resume-modal-btn" aria-label="Close"
+          class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:dark:text-white transition-colors cursor-pointer"><i
+            data-lucide="x" class="w-4 h-4"></i></button>
       </div>
 
       <!-- Modal Body -->
       <div class="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4 sm:space-y-5">
 
         <!-- Drag & Drop PDF / TXT Zone -->
-        <div
-          id="resume-dropzone"
-          class="relative border-2 border-dashed dark:border-slate-700 border-slate-300 hover:border-violet-500 dark:hover:border-violet-500 rounded-2xl p-5 sm:p-6 text-center cursor-pointer transition-all duration-200 dark:bg-slate-950/50 bg-slate-50/70 group"
-        >
+        <div id="resume-dropzone"
+          class="relative border-2 border-dashed dark:border-slate-700 border-slate-300 hover:border-violet-500 dark:hover:border-violet-500 rounded-2xl p-5 sm:p-6 text-center cursor-pointer transition-all duration-200 dark:bg-slate-950/50 bg-slate-50/70 group">
           <input type="file" id="resume-file-input" accept=".pdf,.txt,.md" class="hidden" />
           <div class="flex flex-col items-center justify-center gap-2">
-            <div class="w-12 h-12 rounded-2xl dark:bg-violet-950/60 bg-violet-100 flex items-center justify-center text-violet-500 dark:text-violet-400 group-hover:scale-110 group-hover:bg-violet-500 group-hover:text-white transition-all shadow-sm">
+            <div
+              class="w-12 h-12 rounded-2xl dark:bg-violet-950/60 bg-violet-100 flex items-center justify-center text-violet-500 dark:text-violet-400 group-hover:scale-110 group-hover:bg-violet-500 group-hover:text-white transition-all shadow-sm">
               <i data-lucide="file-up" class="w-6 h-6"></i>
             </div>
             <div class="text-sm font-semibold dark:text-slate-200 text-slate-800">
-              Drag &amp; drop your resume here (<span class="text-violet-500 dark:text-violet-400">.pdf, .txt, .md</span>) or <span class="text-violet-600 dark:text-violet-400 underline underline-offset-2">browse files</span>
+              Drag &amp; drop your resume here (<span class="text-violet-500 dark:text-violet-400">.pdf, .txt,
+                .md</span>) or <span class="text-violet-600 dark:text-violet-400 underline underline-offset-2">browse
+                files</span>
             </div>
             <p class="text-xs dark:text-slate-400 text-slate-500">
               Parsed 100% in your browser via Mozilla PDF.js — fast, private, zero document leakage.
             </p>
           </div>
-          <div id="resume-file-status" class="hidden mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-emerald-950/70 bg-emerald-100 text-emerald-600 dark:text-emerald-300 border dark:border-emerald-500/30 border-emerald-300 shadow-sm animate-fade-up"></div>
+          <div id="resume-file-status"
+            class="hidden mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-emerald-950/70 bg-emerald-100 text-emerald-600 dark:text-emerald-300 border dark:border-emerald-500/30 border-emerald-300 shadow-sm animate-fade-up">
+          </div>
         </div>
 
         <!-- 3 Filter Selectors: Category, Academic Level, Location Type -->
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div>
             <label class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-1.5">Target Domain:</label>
-            <select id="resume-target-category" class="w-full px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none cursor-pointer focus:border-violet-500">
+            <select id="resume-target-category"
+              class="w-full px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none cursor-pointer focus:border-violet-500">
               <option value="All">🌐 All Categories (1,000+/domain)</option>
               <option value="Internship">💼 Internship</option>
               <option value="Research">🔬 Research</option>
@@ -2044,7 +2536,8 @@
           </div>
           <div>
             <label class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-1.5">Academic Level:</label>
-            <select id="resume-academic-level" class="w-full px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none cursor-pointer focus:border-violet-500">
+            <select id="resume-academic-level"
+              class="w-full px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none cursor-pointer focus:border-violet-500">
               <option value="All">🎓 All Academic Levels</option>
               <option value="High School">High School</option>
               <option value="Undergraduate">Undergraduate</option>
@@ -2053,8 +2546,10 @@
             </select>
           </div>
           <div>
-            <label class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-1.5">Location Preference:</label>
-            <select id="resume-location-type" class="w-full px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none cursor-pointer focus:border-violet-500">
+            <label class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-1.5">Location
+              Preference:</label>
+            <select id="resume-location-type"
+              class="w-full px-3 py-2 rounded-xl text-xs font-semibold dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none cursor-pointer focus:border-violet-500">
               <option value="All">🌍 All Locations</option>
               <option value="Remote">🌐 Remote</option>
               <option value="Hybrid">🏢 Hybrid</option>
@@ -2066,7 +2561,8 @@
         <!-- Resume Textarea (Extracted or Manual Paste) -->
         <div>
           <div class="flex items-center justify-between mb-1.5">
-            <label for="resume-textarea" class="block text-xs font-semibold dark:text-slate-300 text-slate-700">Resume / Skills Text <span class="text-violet-400 font-normal">(editable, up to 15,000 chars)</span></label>
+            <label for="resume-textarea" class="block text-xs font-semibold dark:text-slate-300 text-slate-700">Resume /
+              Skills Text <span class="text-violet-400 font-normal">(editable, up to 15,000 chars)</span></label>
             <span id="resume-char-count" class="text-xs dark:text-slate-500 text-slate-400">0 / 15000</span>
           </div>
           <textarea id="resume-textarea" rows="6" placeholder="Paste your resume or drop a .pdf/.txt above...
@@ -2074,12 +2570,15 @@ Example:
 Name: Alex Chen | CS Junior, UCLA | GPA 3.8
 Skills: Python, PyTorch, React, SQL, Git, AWS
 Projects: Autonomous vision drone; Distributed raft kv-store
-Experience: Research Assistant at UCLA Vision Lab" class="w-full px-4 py-3 rounded-xl text-xs sm:text-sm dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none focus:border-violet-500 resize-y font-mono placeholder:text-slate-500 placeholder:font-sans leading-relaxed"></textarea>
+Experience: Research Assistant at UCLA Vision Lab"
+            class="w-full px-4 py-3 rounded-xl text-xs sm:text-sm dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none focus:border-violet-500 resize-y font-mono placeholder:text-slate-500 placeholder:font-sans leading-relaxed"></textarea>
         </div>
 
         <!-- Action Button -->
-        <button id="btn-analyze-resume" class="w-full py-3.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-violet-600 via-fuchsia-500 to-violet-600 hover:opacity-95 shadow-lg shadow-violet-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-          <i data-lucide="sparkles" class="w-4 h-4"></i><span id="analyze-btn-text">✨ Scan Database &amp; Rank Top 5 Matches</span>
+        <button id="btn-analyze-resume"
+          class="w-full py-3.5 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-violet-600 via-fuchsia-500 to-violet-600 hover:opacity-95 shadow-lg shadow-violet-500/25 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+          <i data-lucide="sparkles" class="w-4 h-4"></i><span id="analyze-btn-text">✨ Scan Database &amp; Rank Top 5
+            Matches</span>
         </button>
 
         <!-- Upgraded Results Container -->
@@ -2089,37 +2588,56 @@ Experience: Research Assistant at UCLA Vision Lab" class="w-full px-4 py-3 round
   </div>
 
   <!-- ══════════════════ SUBMIT OPPORTUNITY MODAL (Agent 7) ══════════════════ -->
-  <div id="submit-modal-backdrop" class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] opacity-0 pointer-events-none transition-opacity duration-300"></div>
-  <div id="submit-modal" class="fixed inset-0 z-[9995] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 transform scale-95" role="dialog" aria-modal="true">
-    <div class="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
-      <div class="p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
+  <div id="submit-modal-backdrop"
+    class="fixed inset-0 bg-slate-950/80 backdrop-blur-md z-[9990] opacity-0 pointer-events-none transition-opacity duration-300">
+  </div>
+  <div id="submit-modal"
+    class="fixed inset-0 z-[9995] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300 transform scale-95"
+    role="dialog" aria-modal="true">
+    <div
+      class="relative w-full max-w-2xl max-h-[90vh] flex flex-col rounded-2xl dark:bg-slate-900 bg-white border dark:border-slate-800 border-slate-200 shadow-2xl overflow-hidden">
+      <div
+        class="p-5 border-b dark:border-slate-800 border-slate-200 flex items-center justify-between gap-3 dark:bg-slate-950/70 bg-slate-50/90 flex-shrink-0">
         <div class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white text-lg">➕</div>
+          <div
+            class="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-500 to-orange-600 flex items-center justify-center text-white text-lg">
+            ➕</div>
           <div>
             <h3 class="text-base font-bold dark:text-white text-slate-900">Agent 7: Community Submitter</h3>
-            <p class="text-xs dark:text-slate-400 text-slate-500">Submit a URL or description — AI verifies then adds it to the live database</p>
+            <p class="text-xs dark:text-slate-400 text-slate-500">Submit a URL or description — AI verifies then adds it
+              to the live database</p>
           </div>
         </div>
-        <button id="close-submit-modal-btn" aria-label="Close" class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:dark:text-white transition-colors cursor-pointer"><i data-lucide="x" class="w-4 h-4"></i></button>
+        <button id="close-submit-modal-btn" aria-label="Close"
+          class="w-9 h-9 rounded-xl dark:bg-slate-800 bg-slate-100 flex items-center justify-center dark:text-slate-400 text-slate-500 hover:dark:text-white transition-colors cursor-pointer"><i
+            data-lucide="x" class="w-4 h-4"></i></button>
       </div>
       <div class="flex-1 overflow-y-auto p-5 space-y-5">
-        <div class="p-4 rounded-xl dark:bg-amber-950/20 bg-amber-50 border dark:border-amber-500/20 border-amber-200 text-xs dark:text-amber-200 text-amber-800 flex gap-3">
+        <div
+          class="p-4 rounded-xl dark:bg-amber-950/20 bg-amber-50 border dark:border-amber-500/20 border-amber-200 text-xs dark:text-amber-200 text-amber-800 flex gap-3">
           <span class="text-lg flex-shrink-0">🤖</span>
-          <div><strong>How it works:</strong> Paste a URL, program name, or description. Agent 7 uses Gemini + Google Search to verify it's real, active, and scam-free — then adds it instantly.</div>
+          <div><strong>How it works:</strong> Paste a URL, program name, or description. Agent 7 uses Gemini + Google
+            Search to verify it's real, active, and scam-free — then adds it instantly.</div>
         </div>
         <div>
-          <label for="submit-textarea" class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-2">Opportunity URL or Description <span class="text-amber-400">(up to 3,000 chars)</span></label>
+          <label for="submit-textarea"
+            class="block text-xs font-semibold dark:text-slate-300 text-slate-700 mb-2">Opportunity URL or Description
+            <span class="text-amber-400">(up to 3,000 chars)</span></label>
           <textarea id="submit-textarea" rows="6" placeholder="Examples:
 • https://research.google/programs/explorecsresearch/
 • MIT Summer Research Program for undergrads, March 2027 deadline
-• MLH Fellowship — 12-week remote fellowship, $5,000 stipend" class="w-full px-4 py-3 rounded-xl text-sm dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none focus:border-amber-500 resize-y font-mono placeholder:text-slate-500 placeholder:font-sans leading-relaxed"></textarea>
+• MLH Fellowship — 12-week remote fellowship, $5,000 stipend"
+            class="w-full px-4 py-3 rounded-xl text-sm dark:bg-slate-950 bg-slate-50 border dark:border-slate-700 border-slate-200 dark:text-slate-200 text-slate-800 outline-none focus:border-amber-500 resize-y font-mono placeholder:text-slate-500 placeholder:font-sans leading-relaxed"></textarea>
           <div class="flex justify-between mt-1">
-            <span class="text-xs dark:text-slate-500 text-slate-400">Agent 7 verifies via Google Search before adding.</span>
+            <span class="text-xs dark:text-slate-500 text-slate-400">Agent 7 verifies via Google Search before
+              adding.</span>
             <span id="submit-char-count" class="text-xs dark:text-slate-500 text-slate-400">0 / 3000</span>
           </div>
         </div>
-        <button id="btn-submit-opportunity" class="w-full py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:opacity-95 shadow-lg shadow-amber-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-          <i data-lucide="shield-check" class="w-4 h-4"></i><span id="submit-btn-text">🔍 Verify &amp; Add to Live Database</span>
+        <button id="btn-submit-opportunity"
+          class="w-full py-3 rounded-xl text-sm font-bold text-white bg-gradient-to-r from-amber-500 via-orange-500 to-amber-600 hover:opacity-95 shadow-lg shadow-amber-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+          <i data-lucide="shield-check" class="w-4 h-4"></i><span id="submit-btn-text">🔍 Verify &amp; Add to Live
+            Database</span>
         </button>
         <div id="submit-result" class="hidden"></div>
       </div>
@@ -2128,157 +2646,157 @@ Experience: Research Assistant at UCLA Vision Lab" class="w-full px-4 py-3 round
 
   <!-- ══════════════════ AGENTS 6 & 7 JAVASCRIPT ══════════════════ -->
   <script>
-    function openAnyModal(mId, bId) {
-      const m = document.getElementById(mId), b = document.getElementById(bId);
-      if (b) { b.classList.remove('opacity-0','pointer-events-none'); b.classList.add('opacity-100'); }
-      if (m) { m.classList.remove('opacity-0','pointer-events-none','scale-95'); m.classList.add('opacity-100','scale-100'); }
-      if (window.lucide) lucide.createIcons();
-    }
-    function closeAnyModal(mId, bId) {
-      const m = document.getElementById(mId), b = document.getElementById(bId);
-      if (b) { b.classList.remove('opacity-100'); b.classList.add('opacity-0','pointer-events-none'); }
-      if (m) { m.classList.remove('opacity-100','scale-100'); m.classList.add('opacity-0','pointer-events-none','scale-95'); }
-    }
-    function openResumeModal()  { openAnyModal('resume-modal','resume-modal-backdrop'); }
-    function closeResumeModal() { closeAnyModal('resume-modal','resume-modal-backdrop'); }
-    function openSubmitModal()  { openAnyModal('submit-modal','submit-modal-backdrop'); }
-    function closeSubmitModal() { closeAnyModal('submit-modal','submit-modal-backdrop'); }
-
-    // Client-Side PDF Parser using Mozilla PDF.js
-    async function parsePdfFile(file) {
-      const arrayBuffer = await file.arrayBuffer();
-      if (!window.pdfjsLib) {
-        throw new Error('PDF.js is still initializing. Please try again in a moment.');
-      }
-      const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-      const pdf = await loadingTask.promise;
-      let fullText = '';
-      for (let i = 1; i <= pdf.numPages; i++) {
-        const page = await pdf.getPage(i);
-        const textContent = await page.getTextContent();
-        const pageStr = textContent.items.map(item => item.str).join(' ');
-        fullText += pageStr + '\n\n';
-      }
-      return fullText.trim();
-    }
-
-    // Handle Dropped or Selected Resume File (.pdf, .txt, .md)
-    async function handleResumeFile(file) {
-      if (!file) return;
-      const ext = file.name.split('.').pop().toLowerCase();
-      const statusBadge = document.getElementById('resume-file-status');
-      const textarea = document.getElementById('resume-textarea');
-      const charCount = document.getElementById('resume-char-count');
-
-      if (statusBadge) {
-        statusBadge.classList.remove('hidden');
-        statusBadge.className = 'mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-violet-950/70 bg-violet-100 text-violet-600 dark:text-violet-300 border dark:border-violet-500/30 border-violet-300 shadow-sm animate-pulse';
-        statusBadge.innerHTML = `<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Parsing ${esc(file.name)} in browser…`;
+      function openAnyModal(mId, bId) {
+        const m = document.getElementById(mId), b = document.getElementById(bId);
+        if (b) { b.classList.remove('opacity-0', 'pointer-events-none'); b.classList.add('opacity-100'); }
+        if (m) { m.classList.remove('opacity-0', 'pointer-events-none', 'scale-95'); m.classList.add('opacity-100', 'scale-100'); }
         if (window.lucide) lucide.createIcons();
       }
+      function closeAnyModal(mId, bId) {
+        const m = document.getElementById(mId), b = document.getElementById(bId);
+        if (b) { b.classList.remove('opacity-100'); b.classList.add('opacity-0', 'pointer-events-none'); }
+        if (m) { m.classList.remove('opacity-100', 'scale-100'); m.classList.add('opacity-0', 'pointer-events-none', 'scale-95'); }
+      }
+      function openResumeModal() { openAnyModal('resume-modal', 'resume-modal-backdrop'); }
+      function closeResumeModal() { closeAnyModal('resume-modal', 'resume-modal-backdrop'); }
+      function openSubmitModal() { openAnyModal('submit-modal', 'submit-modal-backdrop'); }
+      function closeSubmitModal() { closeAnyModal('submit-modal', 'submit-modal-backdrop'); }
 
-      try {
-        let extractedText = '';
-        if (ext === 'pdf') {
-          extractedText = await parsePdfFile(file);
-        } else if (['txt', 'md', 'markdown', 'text'].includes(ext)) {
-          extractedText = await file.text();
-        } else {
-          showToast('Please upload a .pdf, .txt, or .md file.');
-          if (statusBadge) statusBadge.classList.add('hidden');
-          return;
+      // Client-Side PDF Parser using Mozilla PDF.js
+      async function parsePdfFile(file) {
+        const arrayBuffer = await file.arrayBuffer();
+        if (!window.pdfjsLib) {
+          throw new Error('PDF.js is still initializing. Please try again in a moment.');
         }
-
-        if (!extractedText.trim()) {
-          showToast('Could not extract readable text from this file.');
-          if (statusBadge) statusBadge.classList.add('hidden');
-          return;
+        const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+        const pdf = await loadingTask.promise;
+        let fullText = '';
+        for (let i = 1; i <= pdf.numPages; i++) {
+          const page = await pdf.getPage(i);
+          const textContent = await page.getTextContent();
+          const pageStr = textContent.items.map(item => item.str).join(' ');
+          fullText += pageStr + '\n\n';
         }
+        return fullText.trim();
+      }
 
-        if (textarea) textarea.value = extractedText;
-        if (charCount) charCount.textContent = `${extractedText.length} / 15000`;
+      // Handle Dropped or Selected Resume File (.pdf, .txt, .md)
+      async function handleResumeFile(file) {
+        if (!file) return;
+        const ext = file.name.split('.').pop().toLowerCase();
+        const statusBadge = document.getElementById('resume-file-status');
+        const textarea = document.getElementById('resume-textarea');
+        const charCount = document.getElementById('resume-char-count');
 
-        const wordCount = extractedText.split(/\s+/).filter(Boolean).length;
         if (statusBadge) {
-          statusBadge.className = 'mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-emerald-950/70 bg-emerald-100 text-emerald-600 dark:text-emerald-300 border dark:border-emerald-500/30 border-emerald-300 shadow-sm animate-fade-up';
-          statusBadge.innerHTML = `<span>✅ Extracted ${wordCount.toLocaleString()} words from ${esc(file.name)}</span>`;
+          statusBadge.classList.remove('hidden');
+          statusBadge.className = 'mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-violet-950/70 bg-violet-100 text-violet-600 dark:text-violet-300 border dark:border-violet-500/30 border-violet-300 shadow-sm animate-pulse';
+          statusBadge.innerHTML = `<i data-lucide="loader-2" class="w-3.5 h-3.5 animate-spin"></i> Parsing ${esc(file.name)} in browser…`;
+          if (window.lucide) lucide.createIcons();
         }
-        showToast(`✅ Extracted ${wordCount.toLocaleString()} words from ${file.name}`);
+
+        try {
+          let extractedText = '';
+          if (ext === 'pdf') {
+            extractedText = await parsePdfFile(file);
+          } else if (['txt', 'md', 'markdown', 'text'].includes(ext)) {
+            extractedText = await file.text();
+          } else {
+            showToast('Please upload a .pdf, .txt, or .md file.');
+            if (statusBadge) statusBadge.classList.add('hidden');
+            return;
+          }
+
+          if (!extractedText.trim()) {
+            showToast('Could not extract readable text from this file.');
+            if (statusBadge) statusBadge.classList.add('hidden');
+            return;
+          }
+
+          if (textarea) textarea.value = extractedText;
+          if (charCount) charCount.textContent = `${extractedText.length} / 15000`;
+
+          const wordCount = extractedText.split(/\s+/).filter(Boolean).length;
+          if (statusBadge) {
+            statusBadge.className = 'mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-emerald-950/70 bg-emerald-100 text-emerald-600 dark:text-emerald-300 border dark:border-emerald-500/30 border-emerald-300 shadow-sm animate-fade-up';
+            statusBadge.innerHTML = `<span>✅ Extracted ${wordCount.toLocaleString()} words from ${esc(file.name)}</span>`;
+          }
+          showToast(`✅ Extracted ${wordCount.toLocaleString()} words from ${file.name}`);
+          if (window.lucide) lucide.createIcons();
+        } catch (err) {
+          console.error('File parsing error:', err);
+          showToast(`File error: ${err.message}`);
+          if (statusBadge) {
+            statusBadge.className = 'mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-rose-950/70 bg-rose-100 text-rose-600 dark:text-rose-300 border dark:border-rose-500/30 border-rose-300 shadow-sm';
+            statusBadge.innerHTML = `<span>⚠️ Could not parse file (${esc(err.message)})</span>`;
+          }
+        }
+      }
+
+      async function handleAnalyzeResume() {
+        const textarea = document.getElementById('resume-textarea');
+        const catSelect = document.getElementById('resume-target-category');
+        const lvlSelect = document.getElementById('resume-academic-level');
+        const locSelect = document.getElementById('resume-location-type');
+        const resultsDiv = document.getElementById('resume-results');
+        const btn = document.getElementById('btn-analyze-resume');
+        const btnText = document.getElementById('analyze-btn-text');
+        const resumeText = (textarea?.value || '').trim();
+
+        if (!resumeText) {
+          showToast('Please upload a resume or paste your profile first.');
+          return;
+        }
+
+        const targetCategory = catSelect?.value || 'All';
+        const academicLevel = lvlSelect?.value || 'All';
+        const locationType = locSelect?.value || 'All';
+
+        btn.disabled = true;
+        if (btnText) btnText.innerHTML = '<span class="inline-flex items-center gap-2"><i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Scanning 6,000+ Opportunities…</span>';
         if (window.lucide) lucide.createIcons();
-      } catch (err) {
-        console.error('File parsing error:', err);
-        showToast(`File error: ${err.message}`);
-        if (statusBadge) {
-          statusBadge.className = 'mt-3 inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold dark:bg-rose-950/70 bg-rose-100 text-rose-600 dark:text-rose-300 border dark:border-rose-500/30 border-rose-300 shadow-sm';
-          statusBadge.innerHTML = `<span>⚠️ Could not parse file (${esc(err.message)})</span>`;
-        }
-      }
-    }
+        if (resultsDiv) resultsDiv.classList.add('hidden');
 
-    async function handleAnalyzeResume() {
-      const textarea   = document.getElementById('resume-textarea');
-      const catSelect  = document.getElementById('resume-target-category');
-      const lvlSelect  = document.getElementById('resume-academic-level');
-      const locSelect  = document.getElementById('resume-location-type');
-      const resultsDiv = document.getElementById('resume-results');
-      const btn        = document.getElementById('btn-analyze-resume');
-      const btnText    = document.getElementById('analyze-btn-text');
-      const resumeText = (textarea?.value || '').trim();
+        try {
+          const res = await fetch('/api/agents/match-resume', {
+            method: 'POST',
+            cache: 'no-store',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              resume_text: resumeText,
+              target_category: targetCategory,
+              academic_level: academicLevel,
+              location_type: locationType
+            })
+          });
 
-      if (!resumeText) {
-        showToast('Please upload a resume or paste your profile first.');
-        return;
-      }
+          const data = await res.json();
+          if (!res.ok) {
+            showToast(`Error: ${data.error || 'Matching failed'}`);
+            return;
+          }
 
-      const targetCategory = catSelect?.value || 'All';
-      const academicLevel  = lvlSelect?.value || 'All';
-      const locationType   = locSelect?.value || 'All';
+          const matches = data.matches || [];
+          const detectedSkills = data.detected_skills || [];
+          const scannedTotal = data.scanned_total || 0;
+          const shortlistedCount = data.shortlisted_count || matches.length;
 
-      btn.disabled = true;
-      if (btnText) btnText.innerHTML = '<span class="inline-flex items-center gap-2"><i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i> Scanning 6,000+ Opportunities…</span>';
-      if (window.lucide) lucide.createIcons();
-      if (resultsDiv) resultsDiv.classList.add('hidden');
+          const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
 
-      try {
-        const res = await fetch('/api/agents/match-resume', {
-          method: 'POST',
-          cache: 'no-store',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            resume_text: resumeText,
-            target_category: targetCategory,
-            academic_level: academicLevel,
-            location_type: locationType
-          })
-        });
+          const cardsHtml = matches.length ? matches.map((m, i) => {
+            const score = m.match_score || 85;
+            const isHigh = score >= 90;
+            const isMid = score >= 75 && score < 90;
 
-        const data = await res.json();
-        if (!res.ok) {
-          showToast(`Error: ${data.error || 'Matching failed'}`);
-          return;
-        }
+            const scoreBadgeClass = isHigh
+              ? 'dark:bg-emerald-950/80 bg-emerald-50 dark:text-emerald-300 text-emerald-700 border-emerald-500/40 shadow-emerald-500/20'
+              : isMid
+                ? 'dark:bg-cyan-950/80 bg-cyan-50 dark:text-cyan-300 text-cyan-700 border-cyan-500/40 shadow-cyan-500/20'
+                : 'dark:bg-violet-950/80 bg-violet-50 dark:text-violet-300 text-violet-700 border-violet-500/40 shadow-violet-500/20';
 
-        const matches = data.matches || [];
-        const detectedSkills = data.detected_skills || [];
-        const scannedTotal = data.scanned_total || 0;
-        const shortlistedCount = data.shortlisted_count || matches.length;
+            const matchedSkillsList = Array.isArray(m.matched_skills) ? m.matched_skills : [];
 
-        const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
-
-        const cardsHtml = matches.length ? matches.map((m, i) => {
-          const score = m.match_score || 85;
-          const isHigh = score >= 90;
-          const isMid = score >= 75 && score < 90;
-
-          const scoreBadgeClass = isHigh
-            ? 'dark:bg-emerald-950/80 bg-emerald-50 dark:text-emerald-300 text-emerald-700 border-emerald-500/40 shadow-emerald-500/20'
-            : isMid
-            ? 'dark:bg-cyan-950/80 bg-cyan-50 dark:text-cyan-300 text-cyan-700 border-cyan-500/40 shadow-cyan-500/20'
-            : 'dark:bg-violet-950/80 bg-violet-50 dark:text-violet-300 text-violet-700 border-violet-500/40 shadow-violet-500/20';
-
-          const matchedSkillsList = Array.isArray(m.matched_skills) ? m.matched_skills : [];
-
-          return `
+            return `
             <div class="rounded-2xl dark:bg-slate-950/70 bg-slate-50 border dark:border-slate-800 border-slate-200 p-5 space-y-4 shadow-sm hover:border-violet-500/50 transition-all">
               <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                 <div class="min-w-0 flex-1">
@@ -2345,15 +2863,15 @@ Experience: Research Assistant at UCLA Vision Lab" class="w-full px-4 py-3 round
               </div>
             </div>
           `;
-        }).join('') : `
+          }).join('') : `
           <div class="text-center py-10 dark:text-slate-400 text-slate-500">
             No strong matches found. Try selecting "All Categories" or expanding your resume text.
           </div>
         `;
 
-        if (resultsDiv) {
-          resultsDiv.classList.remove('hidden');
-          resultsDiv.innerHTML = `
+          if (resultsDiv) {
+            resultsDiv.classList.remove('hidden');
+            resultsDiv.innerHTML = `
             <!-- Scan Summary Banner -->
             <div class="p-4 rounded-2xl dark:bg-gradient-to-r dark:from-violet-950/60 dark:to-indigo-950/60 bg-gradient-to-r from-violet-50 to-indigo-50 border dark:border-violet-500/30 border-violet-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-sm">
               <div class="flex items-center gap-3">
@@ -2392,92 +2910,115 @@ Experience: Research Assistant at UCLA Vision Lab" class="w-full px-4 py-3 round
             </div>
           `;
 
-          if (window.lucide) lucide.createIcons();
+            if (window.lucide) lucide.createIcons();
 
-          resultsDiv.querySelectorAll('.copy-hook-btn').forEach(b => {
-            b.addEventListener('click', () => {
-              const hook = b.dataset.hook || '';
-              navigator.clipboard.writeText(hook).then(() => {
-                b.innerHTML = '<span>✅ Copied!</span>';
-                setTimeout(() => { b.innerHTML = '<span>📋 Copy Pitch</span>'; }, 2000);
-                showToast('Application pitch copied to clipboard! 📋');
-              }).catch(() => showToast('Copy failed.'));
+            resultsDiv.querySelectorAll('.copy-hook-btn').forEach(b => {
+              b.addEventListener('click', () => {
+                const hook = b.dataset.hook || '';
+                navigator.clipboard.writeText(hook).then(() => {
+                  b.innerHTML = '<span>✅ Copied!</span>';
+                  setTimeout(() => { b.innerHTML = '<span>📋 Copy Pitch</span>'; }, 2000);
+                  showToast('Application pitch copied to clipboard! 📋');
+                }).catch(() => showToast('Copy failed.'));
+              });
             });
-          });
+          }
+        } catch (err) {
+          showToast(`Error: ${err.message}`);
+        } finally {
+          btn.disabled = false;
+          if (btnText) btnText.innerHTML = '<span>✨ Scan Database &amp; Rank Top 5 Matches</span>';
+          if (window.lucide) lucide.createIcons();
         }
-      } catch (err) {
-        showToast(`Error: ${err.message}`);
-      } finally {
-        btn.disabled = false;
-        if (btnText) btnText.innerHTML = '<span>✨ Scan Database &amp; Rank Top 5 Matches</span>';
-        if (window.lucide) lucide.createIcons();
       }
-    }
 
-    async function handleSubmitOpportunity() {
-      const textarea = document.getElementById('submit-textarea');
-      const resultDiv = document.getElementById('submit-result');
-      const btn      = document.getElementById('btn-submit-opportunity');
-      const btnText  = document.getElementById('submit-btn-text');
-      const urlOrDetails = (textarea?.value || '').trim();
-      if (!urlOrDetails) { showToast('Please enter a URL or description.'); return; }
-      btn.disabled = true;
-      if (btnText) btnText.textContent = 'Verifying with AI…';
-      if (resultDiv) resultDiv.classList.add('hidden');
-      try {
-        const res  = await fetch('/api/agents/submit-opportunity', { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url_or_details: urlOrDetails }) });
-        const data = await res.json();
-        if (res.status === 422) {
-          if (resultDiv) { resultDiv.classList.remove('hidden'); resultDiv.innerHTML = `<div class="p-4 rounded-xl dark:bg-rose-950/30 bg-rose-50 border dark:border-rose-500/20 border-rose-200"><div class="font-bold dark:text-rose-400 text-rose-600 mb-1">🚫 Submission Rejected</div><div class="text-xs dark:text-slate-300 text-slate-600">${esc(data.reason||'Did not pass verification.')}</div></div>`; }
-          showToast('Rejected — see reason below.'); return;
-        }
-        if (!res.ok) { showToast(`Error: ${data.error||'Submission failed'}`); return; }
-        const opp = data.opportunity || {};
-        if (resultDiv) { resultDiv.classList.remove('hidden'); resultDiv.innerHTML = `<div class="p-4 rounded-xl dark:bg-emerald-950/20 bg-emerald-50 border dark:border-emerald-500/20 border-emerald-200 space-y-2"><div class="font-bold dark:text-emerald-400 text-emerald-600">✅ Verified &amp; Added!</div><div class="text-xs dark:text-slate-300 text-slate-700"><strong>${esc(opp.title||'')}</strong> by ${esc(opp.host_organization||'')} has been added.</div>${opp.apply_url?`<a href="${esc(opp.apply_url)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-xs font-semibold dark:text-indigo-300 text-indigo-600 hover:underline">View <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>`:''}</div>`; lucide.createIcons(); }
-        showToast('✅ Opportunity verified and added! 🎉');
-        if (textarea) textarea.value = '';
-        await fetchOpportunitiesData(true);
-      } catch (err) { showToast(`Error: ${err.message}`); }
-      finally { btn.disabled=false; if(btnText) btnText.textContent='🔍 Verify & Add to Live Database'; lucide.createIcons(); }
-    }
+      async function handleSubmitOpportunity() {
+        const textarea = document.getElementById('submit-textarea');
+        const resultDiv = document.getElementById('submit-result');
+        const btn = document.getElementById('btn-submit-opportunity');
+        const btnText = document.getElementById('submit-btn-text');
+        const urlOrDetails = (textarea?.value || '').trim();
+        if (!urlOrDetails) { showToast('Please enter a URL or description.'); return; }
+        btn.disabled = true;
+        if (btnText) btnText.textContent = 'Verifying with AI…';
+        if (resultDiv) resultDiv.classList.add('hidden');
+        try {
+          const res = await fetch('/api/agents/submit-opportunity', { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url_or_details: urlOrDetails }) });
+          const data = await res.json();
+          if (res.status === 422) {
+            if (resultDiv) { resultDiv.classList.remove('hidden'); resultDiv.innerHTML = `<div class="p-4 rounded-xl dark:bg-rose-950/30 bg-rose-50 border dark:border-rose-500/20 border-rose-200"><div class="font-bold dark:text-rose-400 text-rose-600 mb-1">🚫 Submission Rejected</div><div class="text-xs dark:text-slate-300 text-slate-600">${esc(data.reason || 'Did not pass verification.')}</div></div>`; }
+            showToast('Rejected — see reason below.'); return;
+          }
+          if (!res.ok) { showToast(`Error: ${data.error || 'Submission failed'}`); return; }
+          const opp = data.opportunity || {};
+          if (resultDiv) { resultDiv.classList.remove('hidden'); resultDiv.innerHTML = `<div class="p-4 rounded-xl dark:bg-emerald-950/20 bg-emerald-50 border dark:border-emerald-500/20 border-emerald-200 space-y-2"><div class="font-bold dark:text-emerald-400 text-emerald-600">✅ Verified &amp; Added!</div><div class="text-xs dark:text-slate-300 text-slate-700"><strong>${esc(opp.title || '')}</strong> by ${esc(opp.host_organization || '')} has been added.</div>${opp.apply_url ? `<a href="${esc(opp.apply_url)}" target="_blank" rel="noopener" class="inline-flex items-center gap-1 text-xs font-semibold dark:text-indigo-300 text-indigo-600 hover:underline">View <i data-lucide="arrow-up-right" class="w-3 h-3"></i></a>` : ''}</div>`; lucide.createIcons(); }
+          showToast('✅ Opportunity verified and added! 🎉');
+          if (textarea) textarea.value = '';
+          await fetchOpportunitiesData(true);
+        } catch (err) { showToast(`Error: ${err.message}`); }
+        finally { btn.disabled = false; if (btnText) btnText.textContent = '🔍 Verify & Add to Live Database'; lucide.createIcons(); }
+      }
 
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('close-resume-modal-btn')?.addEventListener('click', closeResumeModal);
-      document.getElementById('resume-modal-backdrop')?.addEventListener('click', closeResumeModal);
-      document.getElementById('close-submit-modal-btn')?.addEventListener('click', closeSubmitModal);
-      document.getElementById('submit-modal-backdrop')?.addEventListener('click', closeSubmitModal);
-      document.getElementById('btn-analyze-resume')?.addEventListener('click', handleAnalyzeResume);
-      document.getElementById('btn-submit-opportunity')?.addEventListener('click', handleSubmitOpportunity);
-      const rta = document.getElementById('resume-textarea'), rcc = document.getElementById('resume-char-count');
-      if (rta && rcc) rta.addEventListener('input', () => { rcc.textContent = `${rta.value.length} / 15000`; });
-      const dropzone = document.getElementById('resume-dropzone');
-      const fileInput = document.getElementById('resume-file-input');
-      dropzone?.addEventListener('click', (e) => { if (e.target !== fileInput) fileInput?.click(); });
-      fileInput?.addEventListener('change', function() { if (this.files && this.files[0]) handleResumeFile(this.files[0]); });
-      ['dragenter', 'dragover'].forEach(ev => {
-        dropzone?.addEventListener(ev, (e) => {
-          e.preventDefault(); e.stopPropagation();
-          dropzone.classList.add('border-violet-500', 'dark:border-violet-400', 'bg-violet-500/10');
+      document.addEventListener('DOMContentLoaded', () => {
+        // Details modal listeners
+        document.getElementById('close-details-modal-btn')?.addEventListener('click', closeDetailsModal);
+        document.getElementById('details-modal-backdrop')?.addEventListener('click', closeDetailsModal);
+        document.getElementById('modal-ask-advisor-btn')?.addEventListener('click', () => {
+          if (!currentModalOpp) return;
+          const prompt = `Tell me how to make my application stand out for ${currentModalOpp.title} at ${currentModalOpp.host_organization}.`;
+          closeDetailsModal();
+          if (window.askAdvisor) {
+            window.askAdvisor(prompt);
+          }
         });
-      });
-      ['dragleave', 'dragend'].forEach(ev => {
-        dropzone?.addEventListener(ev, (e) => {
+        document.getElementById('modal-match-resume-btn')?.addEventListener('click', () => {
+          if (!currentModalOpp) return;
+          const cat = currentModalOpp.category;
+          closeDetailsModal();
+          openResumeModal();
+          const catSelect = document.getElementById('resume-target-category');
+          if (catSelect && cat) {
+            catSelect.value = cat;
+          }
+        });
+
+        document.getElementById('close-resume-modal-btn')?.addEventListener('click', closeResumeModal);
+        document.getElementById('resume-modal-backdrop')?.addEventListener('click', closeResumeModal);
+        document.getElementById('close-submit-modal-btn')?.addEventListener('click', closeSubmitModal);
+        document.getElementById('submit-modal-backdrop')?.addEventListener('click', closeSubmitModal);
+        document.getElementById('btn-analyze-resume')?.addEventListener('click', handleAnalyzeResume);
+        document.getElementById('btn-submit-opportunity')?.addEventListener('click', handleSubmitOpportunity);
+        const rta = document.getElementById('resume-textarea'), rcc = document.getElementById('resume-char-count');
+        if (rta && rcc) rta.addEventListener('input', () => { rcc.textContent = `${rta.value.length} / 15000`; });
+        const dropzone = document.getElementById('resume-dropzone');
+        const fileInput = document.getElementById('resume-file-input');
+        dropzone?.addEventListener('click', (e) => { if (e.target !== fileInput) fileInput?.click(); });
+        fileInput?.addEventListener('change', function () { if (this.files && this.files[0]) handleResumeFile(this.files[0]); });
+        ['dragenter', 'dragover'].forEach(ev => {
+          dropzone?.addEventListener(ev, (e) => {
+            e.preventDefault(); e.stopPropagation();
+            dropzone.classList.add('border-violet-500', 'dark:border-violet-400', 'bg-violet-500/10');
+          });
+        });
+        ['dragleave', 'dragend'].forEach(ev => {
+          dropzone?.addEventListener(ev, (e) => {
+            e.preventDefault(); e.stopPropagation();
+            dropzone.classList.remove('border-violet-500', 'dark:border-violet-400', 'bg-violet-500/10');
+          });
+        });
+        dropzone?.addEventListener('drop', (e) => {
           e.preventDefault(); e.stopPropagation();
           dropzone.classList.remove('border-violet-500', 'dark:border-violet-400', 'bg-violet-500/10');
+          if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+            handleResumeFile(e.dataTransfer.files[0]);
+          }
         });
+        const sta = document.getElementById('submit-textarea'), scc = document.getElementById('submit-char-count');
+        if (sta && scc) sta.addEventListener('input', () => { scc.textContent = `${sta.value.length} / 3000`; });
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeDetailsModal(); closeResumeModal(); closeSubmitModal(); } });
       });
-      dropzone?.addEventListener('drop', (e) => {
-        e.preventDefault(); e.stopPropagation();
-        dropzone.classList.remove('border-violet-500', 'dark:border-violet-400', 'bg-violet-500/10');
-        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
-          handleResumeFile(e.dataTransfer.files[0]);
-        }
-      });
-      const sta = document.getElementById('submit-textarea'), scc = document.getElementById('submit-char-count');
-      if (sta && scc) sta.addEventListener('input', () => { scc.textContent = `${sta.value.length} / 3000`; });
-      document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeResumeModal(); closeSubmitModal(); } });
-    });
   </script>
 
 </body>
+
 </html>
