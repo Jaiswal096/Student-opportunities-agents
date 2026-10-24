@@ -75,20 +75,34 @@ def fetch_from_supabase(limit: int = 1500) -> Optional[list]:
 
 
 def upsert_to_supabase(records: List[dict]) -> int:
-    """Upsert a list of opportunity dicts into Supabase. Returns count."""
+    """Upsert a list of opportunity dicts into Supabase. Resilient to schema variations."""
     sb = get_supabase_client()
     if not sb or not records:
         return 0
-    try:
-        now_iso = datetime.now(timezone.utc).isoformat()
-        for r in records:
-            r.setdefault("is_active", True)
-            r["updated_at"] = now_iso
-        result = sb.table("opportunities").upsert(records, on_conflict="id").execute()
-        return len(result.data) if result.data else len(records)
-    except Exception as e:
-        logger.error(f"Supabase upsert error: {e}")
-        return 0
+    import re
+    now_iso = datetime.now(timezone.utc).isoformat()
+    working = [dict(r) for r in records]
+    for r in working:
+        r.setdefault("is_active", True)
+        r["updated_at"] = now_iso
+        if "stipend_amount" in r and "compensation" not in r:
+            r["compensation"] = r.get("stipend_amount")
+
+    for _ in range(8):
+        try:
+            result = sb.table("opportunities").upsert(working, on_conflict="id").execute()
+            return len(result.data) if result.data else len(working)
+        except Exception as e:
+            err_str = str(e)
+            m = re.search(r"Could not find the '([^']+)' column", err_str)
+            if m:
+                col = m.group(1)
+                for r in working:
+                    r.pop(col, None)
+                continue
+            logger.warning(f"Supabase upsert warning: {e}")
+            break
+    return 0
 
 
 def fetch_broadcasts_from_supabase() -> Optional[list]:

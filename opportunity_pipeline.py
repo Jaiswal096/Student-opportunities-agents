@@ -60,27 +60,34 @@ def upsert_opportunities_to_supabase(opportunities: List[dict]) -> int:
     if not opportunities:
         return 0
 
+    import re
     now_iso = datetime.now(timezone.utc).isoformat()
-    records = []
+    working = []
     for opp in opportunities:
         r = dict(opp)
-        # Ensure required fields
         r.setdefault("is_active", True)
         r["updated_at"] = now_iso
-        # Serialize list fields to JSON strings for Postgres if needed
-        for field in ("academic_level", "tags"):
-            if isinstance(r.get(field), list):
-                r[field] = r[field]  # supabase-py handles list → array
-        records.append(r)
+        if "stipend_amount" in r and "compensation" not in r:
+            r["compensation"] = r.get("stipend_amount")
+        working.append(r)
 
-    try:
-        result = sb.table("opportunities").upsert(records, on_conflict="id").execute()
-        count = len(result.data) if result.data else len(records)
-        logger.info(f"Supabase upsert: {count} opportunities synced.")
-        return count
-    except Exception as e:
-        logger.error(f"Supabase upsert error: {e}")
-        return 0
+    for _ in range(8):
+        try:
+            result = sb.table("opportunities").upsert(working, on_conflict="id").execute()
+            count = len(result.data) if result.data else len(working)
+            logger.info(f"Supabase upsert: {count} opportunities synced.")
+            return count
+        except Exception as e:
+            err_str = str(e)
+            m = re.search(r"Could not find the '([^']+)' column", err_str)
+            if m:
+                col = m.group(1)
+                for r in working:
+                    r.pop(col, None)
+                continue
+            logger.warning(f"Supabase upsert warning: {e}")
+            break
+    return 0
 
 
 def migrate_json_to_supabase():
