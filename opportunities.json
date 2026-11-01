@@ -2000,7 +2000,7 @@
       "Graduate"
     ],
     "one_line_pitch": "Up to $90,000 over two years for immigrants and children of immigrants pursuing graduate education in the US.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-macarthur-fellows-program",
@@ -4086,7 +4086,7 @@
       "Tuition Free"
     ],
     "one_line_pitch": "Monthly stipend of 934 euros, travel allowance, and health insurance for full master's degrees in Germany.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-erasmus-mundus-masters",
