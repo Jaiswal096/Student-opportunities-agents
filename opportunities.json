@@ -1264,7 +1264,7 @@
       "Stipend"
     ],
     "one_line_pitch": "Distinguished leadership program offering American leaders seminars and professional placements in Europe.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-german-chancellor-fellowship",
@@ -3858,7 +3858,7 @@
       "Mentorship"
     ],
     "one_line_pitch": "$10,000 financial award, Creative Cloud subscription, and internship interview opportunity at Adobe.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-amazon-future-engineer",
@@ -4200,7 +4200,7 @@
       "Mathematics"
     ],
     "one_line_pitch": "Full funding for one year of master's study in STEM fields at Churchill College, Cambridge.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "sch-george-mitchell-scholarship",
