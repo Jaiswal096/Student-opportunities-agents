@@ -982,7 +982,7 @@
       "Public Interest"
     ],
     "one_line_pitch": "Grants up to $50,000 for open-source AI and internet infrastructure projects prioritizing transparency.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "grt-outreachy-open-source",
@@ -7929,7 +7929,7 @@
       "Social Good"
     ],
     "one_line_pitch": "Global hackathon with Prize: $<span data-currency-value>0</span> hosted on Devpost.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "devpost-larphacks",
@@ -8255,7 +8255,7 @@
       "Copilot",
       "Hackathon"
     ],
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "opp-006",
