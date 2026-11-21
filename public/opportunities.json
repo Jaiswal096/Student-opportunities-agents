@@ -1725,7 +1725,7 @@
       "$45,000"
     ],
     "one_line_pitch": "Provides full tuition coverage and a $45,000 living stipend for PhD students in math, CS, and physics.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "fel-far-ai-research-fellowship",
@@ -6622,7 +6622,7 @@
       "Hackathon"
     ],
     "one_line_pitch": "Global hackathon with Prize: $<span data-currency-value>900</span> hosted on Devpost.",
-    "is_active": true
+    "is_active": false
   },
   {
     "id": "devpost-developerweek-new-york-2027-hackathon",
